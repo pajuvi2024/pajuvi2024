@@ -1,0 +1,46 @@
+.centrar{
+    text-align: center;
+}
+ion-alert.custom-alert {
+    --backdrop-opacity: 0.7;
+  }
+  
+  .custom-alert .alert-button-group {
+    padding: 8px;
+  }
+  
+  button.alert-button.alert-button-confirm {
+    background-color: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+  }
+  
+  .md button.alert-button.alert-button-confirm {
+    border-radius: 4px;
+  }
+  
+  .ios .custom-alert button.alert-button {
+    border: 0.55px solid rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.2);
+  }
+  
+  .ios button.alert-button.alert-button-cancel {
+    border-right: 0;
+    border-bottom-left-radius: 13px;
+    border-top-left-radius: 13px;
+  }
+  
+  .ios button.alert-button.alert-button-confirm {
+    border-bottom-right-radius: 13px;
+    border-top-right-radius: 13px;
+  }
+
+  
+ 
+  .custom-header ion-title {
+    color: white; /* Cambia "red" al color deseado, por ejemplo: #ff0000 para rojo */
+  }
+  #map {
+    height: 300px; /* Altura deseada del mapa */
+    width: 100%; /* Ancho completo del contenedor */
+    margin-bottom: 20px; /* Espacio inferior para separar otros elementos */
+  }
+  

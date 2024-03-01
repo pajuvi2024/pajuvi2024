@@ -1,0 +1,31 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Esto centra el botón verticalmente */
+  }
+  
+  ion-button.custom-button {
+    --background: rgba(169, 169, 169, 0.218); /* Color de fondo semi-transparente gris */
+    color: rgb(0, 0, 0); /* Color del texto del botón (gris) */
+    border-radius: 10px; /* Borde redondeado */
+    font-size: 24px; /* Tamaño del texto aumentado */
+    padding: 80% 90%; /* Aumento del espacio interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cursor al pasar */
+    transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+    text-align: center; /* Centra el texto horizontalmente */
+  }
+  
+  
+  .centrar{
+    text-align: center;
+  }
+  .cardText{
+    position: relative;
+    text-align: center;
+    top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  

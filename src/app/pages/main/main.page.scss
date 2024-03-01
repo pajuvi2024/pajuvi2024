@@ -1,0 +1,136 @@
+.segment-spacing {
+  margin-bottom: 20px; // Espacio adicional debajo del segmento
+}
+
+.content-grid {
+  --ion-grid-padding: 10px; // Ajusta el padding del grid para asegurar que los elementos no toquen los bordes de la pantalla
+  --ion-grid-column-padding: 10px; // Ajusta el padding de las columnas
+}
+
+.toggle-spacing {
+  margin-bottom: 20px; // Espacio adicional debajo del toggle
+}
+
+.text-box-container {
+  margin-bottom: 20px; // Espacio adicional debajo del contenedor de texto
+  .text-box {
+    word-wrap: break-word; // Asegura que el texto no se desborde de su contenedor
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.622);
+    color: black;
+    max-width: 100%; // Asegura que el contenedor de texto no exceda el ancho de la pantalla
+  }
+}
+
+.video-container {
+  position: relative;
+  width: 100%; // Utiliza el 100% del ancho disponible, pero no más
+  padding-bottom: 56.25%; // Aspect ratio de 16:9
+  height: 0;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.url-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%; // Asegura que la entrada de texto no exceda el ancho de la pantalla
+  input[type="text"] {
+    width: 90%; // Usa un porcentaje del ancho para asegurar el ajuste dentro de la pantalla
+    margin-bottom: 10px;
+    color: black; // Texto en negro
+    background-color: white; // Fondo en blanco
+    border: 1px solid #ccc; // Borde sutil para el input
+    padding: 5px 10px; // Padding adecuado para el input
+  }
+}
+
+.image {
+  width: 100%;
+  height: 87.5vh; // Ajusta la altura según sea necesario
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  letter-spacing: 5px;
+  font-size: 3rem;
+  background-position: center;
+  background-size: cover;
+  background-image: linear-gradient(to right,  transparent, rgba(180, 182, 184, 0.409)), url("../../../assets/fotos/fondo.jpg");
+}
+
+.custom-button {
+  background-color: white;
+  color: blue;
+  border: 2px solid #00BFFF; /* Azul tipo fluorescente */
+  padding: 10px 20px; /* Aumenta el espacio alrededor del texto */
+  font-family: 'Trebuchet MS'; /* Fuente más moderna */
+  font-size: 14px;
+  border-radius: 5px;
+  font-weight: bold; /* Hace que el texto sea en negrita */
+  box-shadow: 0 0 8px #00BFFF; /* Efecto de brillo */
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #e0e0e0; /* Color de fondo más oscuro para mayor contraste */
+    box-shadow: 0 0 20px 5px #00BFFF; /* Sombra más intensa y con mayor desenfoque */
+    transform: scale(1.05); /* Ligeramente más grande al pasar el mouse */
+  }
+  &:focus {
+    outline: none; /* Mantén esto para evitar el contorno predeterminado */
+    background-color: #d0d0d0; /* Color de fondo diferente al enfocar */
+    box-shadow: 0 0 20px 8px #1E90FF; /* Sombra más grande y más pronunciada */
+    transform: scale(0.98); /* Ligeramente más pequeño al hacer clic para simular un efecto de pulsación */
+  }
+}
+  
+  .ion-segment-button {
+    --background: linear-gradient(to bottom, #00BFFF, #FFFFFF); // Degradado del celeste al blanco
+    --background-checked: linear-gradient(to bottom, #00BFFF, #FFFFFF); // Mantiene el degradado incluso cuando el botón está activo/seleccionado
+    --color-checked: blue; // Color del texto cuando el botón está activo/seleccionado
+    --color: blue; // Color del texto
+    border: none; // Elimina el borde predeterminado
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); // Añade una sombra para el efecto 3D
+    font-weight: bold; // Texto en negrita
+    font-family: 'Trebuchet MS', sans-serif; // Fuente Trebuchet MS
+    margin: 0 10px; // Añade un poco de espacio entre los botones
+    transition: transform 0.3s, box-shadow 0.3s; // Transición suave para efectos de hover y click
+    font-size: 12px; // Tamaño de la letra más pequeño
+  
+    &:hover {
+      transform: translateY(-2px); // Mueve ligeramente el botón hacia arriba al pasar el mouse
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3); // Sombra más pronunciada al pasar el mouse
+    }
+  
+    &:active {
+      transform: translateY(1px); // Mueve ligeramente el botón hacia abajo al hacer click
+      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); // Sombra menos pronunciada al hacer click
+    }
+  }
+  .centrar {
+    text-align: center;
+    padding-top: 10px;
+  }
+  .custom-header ion-title {
+    color: white; /* Cambia "red" al color deseado, por ejemplo: #ff0000 para rojo */
+  }
+  .centrar2{
+    position: relative;
+    text-align: center;
+    padding-right: 40px;
+    padding-left: 20px;
+    color: black;
+  }
+  .logo3{
+    position: absolute;
+    top: 25%;
+    left: 3%;
+  }

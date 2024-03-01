@@ -1,0 +1,81 @@
+<div class="ion-page" id="main-content">
+  <ion-header class="custom-header">
+    <ion-toolbar class="centrar" >
+      <div class="logo3">
+        <img src="../../../assets/fotos/logo3.png" alt="">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <!-- Segmentos para navegación -->
+    <ion-segment [(ngModel)]="paginaActual" (ionChange)="cambiarPagina($event)" class="segment-spacing">
+      <ion-segment-button value="buscar" [routerLink]="['/buscar']">
+        <ion-icon name="search-outline"></ion-icon>
+        <ion-label><br>Buscar</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="productos" [routerLink]="['/productos']">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+        <ion-label><br>Productos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="servicios" [routerLink]="['/servicios']">
+        <ion-icon name="construct-outline"></ion-icon>
+        <ion-label><br>Servicios</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    
+    
+      <ion-grid>
+          
+          <h5 class="centrar">Lista de Productos</h5>
+          
+            <ion-list class="centrar">
+              <ion-button color="white" class="btn" size="small" style="padding-left: 5px;" (click)="presentAlertConfirm()" [disabled]="agregarDeshabilitado">
+                <ion-icon name="add-circle-outline" style="font-size: 30px; color: black;"></ion-icon>
+              </ion-button>
+            <ion-list>     
+               
+                    <!-- Mostrar productos estáticos -->
+                <ion-item *ngFor="let producto of productos; let i = index">
+                  <ion-label> N°{{ producto.nombre }}</ion-label>               
+                  <ion-button color="white" class="btn" size="small" style="padding-left: 5px;" (click)="confirmarEliminarProducto(producto.id)">
+                    <ion-icon name="trash-outline" style="font-size: 20px; color: black;"></ion-icon>                   
+                  </ion-button>                  
+                </ion-item>         
+              </ion-list>
+              
+            </ion-list>  
+       
+        <div class="centrar">
+          <h5><i>Debes registrar el nombre de un producto en cada ingreso más una breve descripción que ayude a encontrar lo que
+              ofreces, puede ser de 1 a 5 productos</i></h5>
+        </div>
+
+      </ion-grid>
+    
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar color="dark" style="justify-content: space-between;">
+      <ion-buttons slot="start">
+        <ion-button (click)="navigateTo('/main')">
+          <ion-icon color="" name="home-outline" style="font-size: 30px;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <ion-buttons slot="primary">
+          <ion-button (click)="navigateTo('/buscar')">
+            <ion-icon color="" name="search-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="navigateTo('/perfil')">
+          <ion-icon color="" name="person-outline" style="font-size: 30px;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>

@@ -1,0 +1,110 @@
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+
+      <ion-toolbar class="centrar2" >
+        <div class="logo3">
+          <img src="../../../assets/fotos/logo3.png" alt="">
+        </div>
+      </ion-toolbar>
+
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/login']" (click)="signOut()">
+          <ion-icon style="font-size: 30px;" name="log-out"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+   
+    </ion-toolbar>
+  </ion-header>
+  <ion-header>
+    
+  </ion-header>
+
+
+  <ion-content>
+
+    <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+  
+  
+
+  <ion-card *ngIf="info" class="profile-card">
+
+    <div class="image-container">
+      <img [src]="selectedFileUrl" class="rounded-image" alt="Imagen cargada" *ngIf="selectedFileUrl">
+      <br>
+      <button (click)="uploadImage()" expand="block" class="upload-button" style="background-color: white;">
+        <ion-icon name="cloud-upload-outline" style="font-size: 30px; color: black;"></ion-icon>
+      </button>
+    </div>
+    
+
+    <!-- Formulario para cargar una imagen -->
+    <div class="form-container ion-text-center"> 
+      <!-- El icono como un enlace para activar el input file -->
+      <label class="file-input-label" (click)="selectImage()">
+        <ion-icon style="font-size: 30px; color: black;"background-color="white" name="duplicate-outline"></ion-icon>
+      </label>
+      <!-- El input file está oculto -->
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none;">
+    </div>
+
+    <ion-list class="user-info">
+      <ion-item>
+        <ion-label>Nombre: {{info.name}} {{info.lastName}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Edad: {{info.age}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Telefono: {{info.numContact}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Correo: {{info.email}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  
+
+
+  <ion-col class="center-col">
+    <div id="container2" class="triple-space">
+      <button ion-button [routerLink]="['/pago']" class="btn">
+        <ion-icon slot="start" name="card"></ion-icon><br>Nuestros planes
+      </button>
+      
+    </div>
+  </ion-col>
+
+  
+  </ion-content>
+  <ion-footer>
+    <ion-footer>
+      <ion-footer>
+        <ion-toolbar color="dark" style="justify-content: space-between;">
+          <ion-buttons slot="start">
+            <ion-button (click)="navigateTo('/main')">
+              <ion-icon color="" name="home-outline" style="font-size: 30px;"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+    
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <ion-buttons slot="primary">
+            <ion-button (click)="navigateTo('/buscar')">
+              <ion-icon color="" name="search-outline" style="font-size: 30px;"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
+    
+        <ion-buttons slot="end">
+          <ion-button (click)="navigateTo('/perfil')">
+            <ion-icon color="" name="person-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+    </ion-footer>
+  </ion-footer>
+</div>

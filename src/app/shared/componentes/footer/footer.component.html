@@ -1,0 +1,23 @@
+<ion-footer [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="black" style="justify-content: space-between;">
+        <ion-buttons slot="start">
+            <ion-button (click)="navigateTo('/main')">
+                <ion-icon color="black" name="home-outline" style="font-size: 30px;"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <ion-buttons slot="primary">
+                <ion-button (click)="navigateTo('/buscar')">
+                    <ion-icon color="black" name="search-outline" style="font-size: 30px;"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="navigateTo('/perfil')">
+                <ion-icon color="black" name="person-outline" style="font-size: 30px;"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

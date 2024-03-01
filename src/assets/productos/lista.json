@@ -1,0 +1,25 @@
+{
+    "data": [
+    {
+       "name": "Plan Inicial",
+       "state": "9 sesiones",
+       "description": " 9 sesiones  ",
+       "image": "mancuernas.jpg",
+       "valor": 0.01
+    },
+    {
+        "name": "Plan Medio",
+        "state": "12 sesiones",
+        "description": "12 sesiones ",
+        "image": "rusa.jpg",
+        "valor":  0.02
+     },
+     {
+        "name": "Plan Full",
+        "state": "30 sesiones",
+        "description": " 30 sesiones ",
+        "image": "pesa.jpg",
+        "valor": 0.03
+     }
+]
+}

@@ -1,0 +1,91 @@
+
+  
+<div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar color="primary">        
+          <ion-buttons slot="start">
+            <ion-back-button defaultHref="/main"></ion-back-button>
+          </ion-buttons>
+          <ion-title class="centrar">Planes</ion-title>
+        </ion-toolbar>
+        
+      </ion-header>
+      <ion-content>
+
+      
+
+        <div id="paypal-button-container"></div> 
+        
+
+      <div class="image"> 
+
+      
+     
+          <ion-grid class="content">
+
+         <div class="centrar">
+        <img class="logo" src="assets/fotos/logo2.png" alt="Logo de la aplicación" width="200">
+      </div> 
+     
+       
+        <ion-card >                  
+        <ion-list class="cardTransp" >
+          <ion-item id="Lista" *ngFor="let producto of productos">
+            <ion-thumbnail slot="start">
+            <img src="../../assets/icon/{{producto.image}}">
+            </ion-thumbnail>    
+          
+            <ion-label >
+            <h2 >{{producto.name}}</h2>          
+            <p>{{producto.description}}</p>
+            <h2 > ${{producto.valor}}</h2>
+            <ion-button (click)="createPayPalOrder(producto.valor)">Comprar</ion-button>          
+            </ion-label>        
+          </ion-item>           
+        </ion-list>   
+      </ion-card>  
+      
+       </ion-grid>
+    
+          
+          
+      <div class="image2">
+        <img id="img" src="../../assets/productos/lista.json" alt="" width="200">  
+      </div>
+    
+  <div class="text-center">
+        <h6>
+          <i>
+            Todos nuestros productos tienen una duración de 30 días.
+          </i>
+        </h6> 
+      </div>
+    </div>
+  
+  </ion-content>
+  <ion-footer [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="black" style="justify-content: space-between;">
+        <ion-buttons slot="start">
+            <ion-button (click)="navigateTo('/main')">
+                <ion-icon color="black" name="home-outline" style="font-size: 30px;"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <ion-buttons slot="primary">
+                <ion-button (click)="navigateTo('/buscar')">
+                    <ion-icon color="black" name="search-outline" style="font-size: 30px;"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="navigateTo('/perfil')">
+                <ion-icon color="black" name="person-outline" style="font-size: 30px;"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>
+
+</div>
+

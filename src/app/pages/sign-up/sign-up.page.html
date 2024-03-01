@@ -1,0 +1,163 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="centrar">Formulario creción de cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="custom-content ion-padding" scrollY="false" scrollX="false" [fullscreen]="true">
+  <div class="d-flex-center">
+    <ion-card>
+      <div class="centrar">
+        <img src="../../../assets/fotos/logo2.png" alt="Logo de la aplicación">              
+      </div>
+      
+      <form [formGroup]="registroForm" (ngSubmit)="registrarme2()">
+        <ion-row>
+          <ion-col>         
+            <ion-item>      
+              <ion-input formControlName="name" label="Nombre" labelPlacement="stacked" placeholder="Ingrese nombre"></ion-input>
+              
+            </ion-item>
+            <div *ngIf="registroForm.get('name').invalid && (registroForm.get('name').dirty || registroForm.get('name').touched)">
+              <div *ngIf="registroForm.get('name').errors?.['required']">El nombre es requerido.</div>
+              <div *ngIf="registroForm.get('name').hasError('minlength')">al menos 4 caracteres.</div>
+            </div>
+          </ion-col>
+  
+          <ion-col>         
+            <ion-item>            
+              <ion-input formControlName="lastName" label="Apellido" labelPlacement="stacked" placeholder="Ingrese apellido"></ion-input>
+              <div *ngIf="registroForm.get('lastName').invalid && (registroForm.get('lastName').dirty || registroForm.get('lastName').touched)">
+                <div *ngIf="registroForm.get('lastName').hasError('minlength')"> al menos 4 caracteres.</div>
+                <div *ngIf="registroForm.get('lastName').errors?.['required']">El apellido es requerido.</div>
+              </div>
+            </ion-item>
+          </ion-col>      
+        </ion-row>
+  
+        <ion-row>
+          <ion-col>         
+            <ion-item>
+              <ion-input formControlName="rut" type="text" label="Rut" labelPlacement="stacked" placeholder="Ingrese rut con -"></ion-input>
+              <div *ngIf="registroForm.get('rut').invalid && (registroForm.get('rut').dirty || registroForm.get('rut').touched)">
+                <div *ngIf="registroForm.get('rut').hasError('required')">El rut es requerido.</div>
+                <div *ngIf="registroForm.get('rut').hasError('pattern')">El rut debe estar en el formato correcto.</div>
+                <div *ngIf="registroForm.get('rut').hasError('invalidRut')">El rut ingresado es inválido.</div>
+              </div>
+            </ion-item>
+            
+          </ion-col> 
+          
+                  
+          <ion-col>         
+            <ion-item>            
+              <ion-input formControlName="age" type="number" label="Edad" labelPlacement="stacked" placeholder="Ingrese edad"></ion-input>
+              <div *ngIf="registroForm.get('age').invalid && (registroForm.get('age').dirty || registroForm.get('age').touched)">
+                <div *ngIf="registroForm.get('age').hasError('required')">La edad es requerida.</div>
+                <div *ngIf="registroForm.get('age').hasError('max')">La edad no puede superar los 99 años.</div>
+              </div>
+            </ion-item>
+          </ion-col>                  
+        </ion-row>
+  
+        <ion-row>
+          <ion-col>             
+            <ion-item>              
+              <ion-input formControlName="numContact" type="number" label="Teléfono" labelPlacement="stacked" placeholder="Ingrese Teléfono"></ion-input>
+              <div *ngIf="registroForm.get('numContact').invalid && (registroForm.get('numContact').dirty || registroForm.get('numContact').touched)">
+                <div *ngIf="registroForm.get('numContact').hasError('required')">El teléfono es requerido.</div>
+                <div *ngIf="registroForm.get('numContact').hasError('invalidPhoneNumber')">Al menos 9 dígitos.</div>
+              </div>
+            </ion-item>
+          </ion-col>
+        
+          <ion-col>             
+            <ion-item>              
+              <ion-input formControlName="confirmaNumContact" type="number" label="Confirmar Teléfono" labelPlacement="stacked" placeholder="Ingrese Teléfono"></ion-input>
+              <div *ngIf="registroForm.get('confirmaNumContact').invalid && (registroForm.get('confirmaNumContact').dirty || registroForm.get('confirmaNumContact').touched)">
+                <div *ngIf="registroForm.get('confirmaNumContact').hasError('required')">Confirmar teléfono es requerido.</div>                
+                <div *ngIf="registroForm.hasError('mismatchedPhoneNumber', 'confirmaNumContact')">Teléfono no coincide.</div>
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        
+  
+        <ion-row>
+          <ion-col>             
+            <ion-item>              
+              <ion-input formControlName="ocupacion" label="Ocupación" labelPlacement="stacked" placeholder="Ingrese Ocupación"></ion-input>
+            </ion-item>            
+          </ion-col>
+        </ion-row> 
+  
+        <ion-col>             
+          <ion-item>              
+            <ion-input formControlName="email" type="email" label="Email" labelPlacement="stacked" placeholder="Ingrese Email"></ion-input>
+            <div *ngIf="registroForm.get('email').invalid && (registroForm.get('email').dirty || registroForm.get('email').touched)">
+              <div *ngIf="registroForm.get('email').errors?.['required']">El correo electrónico es requerido.</div>
+              <div *ngIf="registroForm.get('email').errors?.['email']">El correo electrónico no es válido.</div>
+            </div>
+          </ion-item>
+        </ion-col>
+        
+        <ion-col>             
+          <ion-item>              
+            <ion-input formControlName="confirmaEmail" type="email" label="Confirma Email" labelPlacement="stacked" placeholder="Ingrese Email"></ion-input>
+            <div *ngIf="registroForm.get('confirmaEmail').invalid && (registroForm.get('confirmaEmail').dirty || registroForm.get('confirmaEmail').touched)">
+              <div *ngIf="registroForm.get('confirmaEmail').errors?.['required']">La confirmación de correo electrónico es requerida.</div>
+              <div *ngIf="registroForm.hasError('emailsNotMatching')">Los correos electrónicos no coinciden.</div>
+            </div>
+          </ion-item>
+        </ion-col>
+        
+        <ion-row>
+          <ion-col>             
+            <ion-item>              
+              <ion-input formControlName="password" type="password" label="Contraseña" labelPlacement="stacked" placeholder="Ingrese Contraseña"></ion-input>
+            </ion-item>
+          </ion-col>
+          
+          <ion-col>             
+            <ion-item>              
+              <ion-input formControlName="confirmaPassword" type="password" label="Confirma contraseña" labelPlacement="stacked" placeholder="Ingrese contraseña"></ion-input>
+              <div *ngIf="registroForm.get('confirmaPassword').invalid && (registroForm.get('confirmaPassword').dirty || registroForm.get('confirmaPassword').touched)">
+                <div *ngIf="registroForm.get('confirmaPassword').errors?.['required']">La confirmación de contraseña es requerida.</div>
+                <div *ngIf="registroForm.hasError('passwordsNotMatching')">Las contraseñas no coinciden.</div>
+              </div>
+            </ion-item>
+          </ion-col>          
+        </ion-row> 
+
+    
+          <ion-col>             
+            <ion-item>
+              <ion-input formControlName="direccion" type="adress" label="Dirección" labelPlacement="stacked" placeholder="ejemplo: calle 35, ciudad, chile"></ion-input>
+            </ion-item>           
+          </ion-col>
+          <ion-button expand="block" type="button" (click)="validarDireccion()" [disabled]="!registroForm.get('direccion').value || registroForm.get('direccion').invalid">Validar dirección</ion-button>
+          <div *ngIf="registroForm.get('direccion').touched && registroForm.get('direccion').invalid">
+                <ion-text color="danger">Por favor, ingrese una dirección válida.</ion-text>
+              </div>
+
+      
+        <ion-col>             
+          <ion-item>              
+            <h6>*Ingresar dirección donde se ofrecera los productos o servicios*</h6>           
+          </ion-item>
+        </ion-col>
+        <div class="centrar">
+          <ion-button (click)="presentAlertConfirm()" [disabled]="!registroForm.valid">Registrarse</ion-button>
+        </div>
+        
+      </form>
+  
+    </ion-card>
+  </div>
+  
+  <div class="centrar">
+    <ion-button routerLink="/login">
+      Volver
+    </ion-button>
+  </div>
+</ion-content>

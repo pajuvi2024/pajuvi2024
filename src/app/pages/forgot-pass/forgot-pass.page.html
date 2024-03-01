@@ -1,0 +1,47 @@
+
+  <ion-header>
+    <ion-toolbar  color="light">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/login"></ion-back-button>
+      </ion-buttons>
+      <ion-title class="centrar">Recuperar Contraseña</ion-title>
+    </ion-toolbar>
+  </ion-header>
+ 
+
+
+
+  <ion-content [fullscreen]="true">
+    <div class="image">
+    <div class="d-flex-center">
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+
+      <img src="assets/fotos/logo.png" alt="Logo de la aplicación">
+
+      <app-custom-input 
+      icon="mail-sharp" 
+      autocomplete="email" 
+      [control]="form.controls.email" 
+      type="email"
+      label="Correo"></app-custom-input>
+      
+      <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+
+        <div *ngIf="form.controls.email.errors?.['required']">Ingrese su correo</div>
+        <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo electronico valido</div>
+      
+      </div>
+  
+
+      <ion-button expand="block"  class="submit" node="ios" type="submit" [disabled]="form.invalid">
+        Recuperar 
+      </ion-button>
+    </form>
+  </div>
+</div>
+</ion-content>
+<ion-footer  [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="img-container" color="light">
+      
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Geocoding
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+    <ion-item>
+      <ion-label position="floating">Calle</ion-label>
+      <ion-input formControlName="calle" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Número de calle</ion-label>
+      <ion-input formControlName="numeroCalle" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Ciudad</ion-label>
+      <ion-input formControlName="ciudad" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">País</ion-label>
+      <ion-input formControlName="pais" type="text"></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit" [disabled]="!direccionForm.valid">Validar dirección</ion-button>
+  
+</ion-content>

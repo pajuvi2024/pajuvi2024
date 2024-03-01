@@ -1,0 +1,10 @@
+.img-container {
+    text-align: center;
+    position: absolute;
+  bottom: 0;
+  width: 100%;
+  min-height: 20px; /* Altura mínima del footer */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente el contenido del footer */
+  align-items: flex-end; /* Alinea el contenido del footer en la parte inferior */
+}

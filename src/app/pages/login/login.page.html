@@ -1,0 +1,100 @@
+<ion-header>
+  <h2 class="centrar">
+    Busca y  ofrece de todo
+  </h2>
+  
+</ion-header>
+
+<ion-content  >
+<div class="">
+
+
+  <div class="d-flex-center">
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()" >
+      
+      <div class="logo1">
+        <img src="assets/fotos/logo.png" alt="Logo de la aplicación">
+      </div>
+      
+
+      
+        <app-custom-input 
+      icon="mail-sharp" 
+      autocomplete="email" 
+      [control]="form.controls.email" 
+      type="email"
+      label="Correo"></app-custom-input>
+      
+      <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+
+        <div *ngIf="form.controls.email.errors?.['required']">Ingrese su correo</div>
+        <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo electronico valido</div>
+      
+      </div>
+      
+      <app-custom-input 
+      icon="lock-closed-sharp"
+      autocomplete="password" 
+      [control]="form.controls.password" 
+      type="password" 
+      label="Contraseña">
+    </app-custom-input>
+
+    <div class="end">
+      <h6  routerLink="/forgot-pass" style="color: blue; ">¿Olvidaste tu contraseña?</h6>
+
+    </div>
+    
+    <div style="display: inline-block; width: 200px;">
+      <ion-button class="submit" expand="block" node="ios" type="submit" [disabled]="form.invalid">Ingresar</ion-button>
+    </div>
+    
+
+      <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+        <div *ngIf="form.controls.password.errors?.['required']" size="auto">Ingrese su contraseña</div>      
+      </div>
+
+      <div style="display: flex; align-items: center; margin: 10px;">
+        <div style="border-top: 1px solid #ccc; flex-grow: 1;"></div> <!-- Línea -->
+        <div style="margin: 0 10px;">o</div> <!-- "o" en el medio -->
+        <div style="border-top: 1px solid #ccc; flex-grow: 1;"></div> <!-- Línea -->
+      </div>
+    
+      <div class="end" style="display: flex; align-items: center; justify-content: center;">
+        <h6 style="margin-right: 10px;">¿No tienes una cuenta?</h6>
+        <div class="end">
+          <h6 routerLink="/sign-up" style="color: rgba(5, 9, 245, 0.927); cursor: pointer;">Registrar</h6>
+        </div>
+      </div>
+     
+    </form>
+  </div>
+</div>
+  
+</ion-content>
+<ion-footer class="centrar">  
+  <ion-toolbar  color="black" style="display: flex; justify-content: space-between; align-items: center;">
+    
+    <ion-button  color="black" href="https://www.whatsapp.com//">
+      <ion-icon name="logo-whatsapp" style="font-size: 30px; color: white;"></ion-icon>
+  </ion-button>
+
+    <ion-button color="black" href="https://www.instagram.com/vyc.tiendaonline/">
+        <ion-icon name="logo-instagram" style="font-size: 30px; color: white;"></ion-icon>
+    </ion-button>
+
+    <ion-button color="black" href="https://www.facebook.com/">
+        <ion-icon name="logo-facebook" style="font-size: 30px; color: white;"></ion-icon>
+    </ion-button>
+    
+    <ion-button color="black" href="https://www.twitter.com/" >
+      <ion-icon name="logo-twitter" style="width: 30px; height: 30px;"></ion-icon>
+    </ion-button>
+
+    <ion-button color="black" id="open-action-sheet">
+        <ion-icon name="share-social-outline" style="font-size: 30px; color: white;"></ion-icon>
+    </ion-button>    
+    <ion-action-sheet trigger="open-action-sheet" header="Compartir" [buttons]="actionSheetButtons"></ion-action-sheet>
+
+</ion-toolbar>  
+</ion-footer>

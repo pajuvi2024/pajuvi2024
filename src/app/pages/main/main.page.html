@@ -1,0 +1,71 @@
+<div class="ion-page" id="main-content">
+  <ion-header class="custom-header">
+    <ion-toolbar class="centrar2" >
+      <div class="logo3">
+        <img src="../../../assets/fotos/logo3.png" alt="">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <!-- Segmentos para navegación -->
+    <ion-segment [(ngModel)]="paginaActual" (ionChange)="cambiarPagina($event)" class="segment-spacing">
+      <ion-segment-button value="buscar" [routerLink]="['/buscar']">
+        <ion-icon name="search-outline"></ion-icon>
+        <ion-label><br>Buscar</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="productos" [routerLink]="['/productos']">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+        <ion-label><br>Productos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="servicios" [routerLink]="['/servicios']">
+        <ion-icon name="construct-outline"></ion-icon>
+        <ion-label><br>Servicios</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    
+
+    <ion-grid class="content-grid">
+
+
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" class="ion-text-center">
+          <h2 style="font-size: 16px;">Geolocalización</h2>
+          <ion-toggle labelPlacement="stacked" [enableOnOffLabels]="true"></ion-toggle>
+        </ion-col>
+        
+      </ion-row>
+      
+      
+
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" class="ion-text-center text-box-container">
+          <div class="text-box">Youtube Noticias BYODT</div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12">
+          <div class="video-container">
+            <iframe [src]="safeVideoUrl" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-video"></iframe>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" class="ion-text-center">
+          <div class="url-input-container">
+            <input type="text" [(ngModel)]="newVideoUrl" placeholder="Ingrese nueva URL de YouTube">
+            <div class="centrar">
+              <ion-button (click)="changeVideo()">CAMBIAR</ion-button>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+
+
+    </ion-grid>
+  </ion-content>
+  <app-footer></app-footer>
+</div>

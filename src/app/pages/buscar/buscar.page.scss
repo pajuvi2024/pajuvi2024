@@ -1,0 +1,137 @@
+.centrar {
+    text-align: center;
+    padding-top: 10px;
+  }
+  
+  .image-container{
+    width: 100%;
+    height: 87.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    letter-spacing: 5px;
+    font-size: 3rem;
+    background-position: center;
+    background-size: cover;
+    background-image: linear-gradient(to right,  transparent, rgba(180, 182, 184, 0.409) ),
+    
+  }
+  
+  .half-width {
+    width: 70%;
+    margin: auto; /* Para centrar horizontalmente */
+  }
+
+  .radio-label {
+    margin-left: 10px; /* Espacio entre el radio button y el nombre */
+  }
+
+  .logo {
+    position: relative;
+    top: 7%;
+    padding-bottom: 20%;
+   
+  }  
+  
+  ion-item {
+    margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+  }
+  
+  .btn {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.622);
+    color: black;
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+  }
+  .center-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #container2{
+    
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.622);    
+    padding: 1px 2px 1px 2px;
+    border-radius: 20px;
+    border: 1px solid black;
+    font-size: 20px;    
+    left: 10px;
+    right: 10px;
+    bottom: 1%;
+    top: 50%;   
+  }
+  .triple-space {
+    margin-bottom: 3%; // Puedes ajustar este valor según tu preferencia
+  }
+  .content{
+    position: relative;
+    top: -30%;
+  }
+  ion-segment-button {
+    --indicator-color: #000;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #000;
+    --color-checked: #000;
+    --indicator-height: 4px;
+  }
+  
+  /* iOS styles */
+  ion-segment-button.ios {
+    --color: #000;
+    --color-checked: #fff;
+    --border-radius: 20px;
+  }
+  .logo3{
+    position: absolute;
+    top: 25%;
+    left: 3%;
+  }
+
+
+  .custom-header ion-title {
+    color: white; /* Cambia "red" al color deseado, por ejemplo: #ff0000 para rojo */
+  }
+  
+  .button-container {
+    
+    align-items: center;
+  }
+  
+  .rounded-left {
+
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.622);    
+    padding: 1px 2px 1px 2px;
+    border-radius: 20px 20px 20px 20px;
+    border: 1px solid black;
+    font-size: 20px;    
+    left: 10px;
+    right: 10px;
+    bottom: 1%;
+    top: 50%;   
+  }
+  
+  .squared-right {
+    border-top-right-radius: 0; /* No redondear esquina superior derecha */
+    border-bottom-right-radius: 0; /* No redondear esquina inferior derecha */
+  }
+  
+  .radio-container ion-radio {
+    margin-right: 8px; /* Ajuste el espacio entre los radio buttons */
+  }
+  
+  .inline-radios {
+    display: flex;
+    align-items: center;
+  }
+  .centrar ion-icon {
+    margin-right: 10px;
+  }

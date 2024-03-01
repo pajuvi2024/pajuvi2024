@@ -1,0 +1,118 @@
+.centrar {
+  text-align: center;
+  top: 10%;
+}
+
+.image-container{
+  
+  width: 100%;
+  height: 87.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  letter-spacing: 5px;
+  font-size: 3rem;
+  background-position: center;
+  background-size: cover;
+  background-image: linear-gradient(to right,  transparent, rgba(180, 182, 184, 0.409) ),
+   url("../../../assets/fotos/fondo.jpg");
+}
+
+
+.logo{
+  text-align: center;
+  position: absolute;
+  top: 7%;
+  left: 25%;
+  
+}
+.content{
+  position: relative;
+  top: -10%;
+}
+
+ion-item {
+  margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+}
+
+.btn {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.622);
+  color: black;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  font-size: 20px;
+  margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+  
+  padding-right: 10px;
+}
+.center-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#container2{
+  position: relative;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.622);    
+  padding: 1px 2px 1px 2px;
+  border-radius: 20px;
+  border: 1px solid black;
+  font-size: 20px;    
+  left: 10px;
+  right: 10px;
+  bottom: 1%;
+  top: -50%;   
+
+}
+.triple-space {
+  margin-bottom: 7%; // Puedes ajustar este valor según tu preferencia
+}
+.triple-space2 {
+  margin-top: 20%; // Puedes ajustar este valor según tu preferencia
+}
+
+
+.centrar{
+  position: relative;
+  text-align: center;
+  
+  color: black;
+}
+
+.custom-card {
+  margin-top: 20px;
+}
+
+.custom-text {
+  position: relative;
+  text-align: center;
+  color: black;
+  text-align: left;
+  margin-top: 20px;
+}
+ion-segment-button {
+  --indicator-color: #000;
+}
+
+/* Material Design styles */
+ion-segment-button.md {
+  --color: #000;
+  --color-checked: #000;
+  --indicator-height: 4px;
+}
+
+/* iOS styles */
+ion-segment-button.ios {
+  --color: #000;
+  --color-checked: #fff;
+  --border-radius: 20px;
+}
+
+.logo3{
+  position: absolute;
+  top: 25%;
+  left: 3%;
+}
+
