@@ -15,66 +15,110 @@
     <ion-segment [(ngModel)]="paginaActual" (ionChange)="cambiarPagina($event)" class="segment-spacing">
       <ion-segment-button value="buscar" [routerLink]="['/buscar']">
         <ion-icon name="search-outline"></ion-icon>
-        <ion-label><br>Buscar</ion-label>
+        <ion-label style="font-size: 12px;">Ir <br> Buscar</ion-label>
       </ion-segment-button>
       <ion-segment-button value="productos" [routerLink]="['/productos']">
         <ion-icon name="bag-handle-outline"></ion-icon>
-        <ion-label><br>Productos</ion-label>
+        <ion-label style="font-size: 12px;">Mis <br>Productos</ion-label>
       </ion-segment-button>
       <ion-segment-button value="servicios" [routerLink]="['/servicios']">
         <ion-icon name="construct-outline"></ion-icon>
-        <ion-label><br>Servicios</ion-label>
+        <ion-label style="font-size: 12px;">Mis<br> Servicios</ion-label>
       </ion-segment-button>
     </ion-segment>
+    
       
       
 
     
       <div class="radio-container">
         <ion-item>
-          <ion-radio-group value="strawberries" class="inline-radios">
-            <ion-item>
-              <ion-radio slot="start" value="producto"></ion-radio>
+          <ion-radio-group [(ngModel)]="tipoBusqueda" class="inline-radios">
+            <ion-item lines="none">
               <ion-label>Productos</ion-label>
+              <ion-radio slot="start" value="producto"></ion-radio>
             </ion-item>
-            <ion-item>
-              <ion-radio slot="start" value="servicio"></ion-radio>
+            <ion-item lines="none">
               <ion-label>Servicios</ion-label>
+              <ion-radio slot="start" value="servicio"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-item>
         
-        <ion-item>
-          <ion-radio-group value="strawberries" class="inline-radios">
+
             <ion-item>
+              <ion-toolbar>
+                <ion-searchbar [(ngModel)]="terminoDeBusqueda" placeholder="¿Qué estás buscando?" (ionChange)="buscarProducto(terminoDeBusqueda)"></ion-searchbar>
+              </ion-toolbar>
+            </ion-item>
+
+
+        <ion-item>
+          <ion-radio-group [(ngModel)]="ubicacionSeleccionada" class="inline-radios">
+            <ion-item lines="none">
               <ion-radio slot="start" value="actual"></ion-radio>
               <ion-label>Ubicación Actual</ion-label>
             </ion-item>
-            <ion-item>
+            <ion-item lines="none">
               <ion-radio slot="start" value="especifica"></ion-radio>
               <ion-label>Ubicación Específica</ion-label>
             </ion-item>
-          </ion-radio-group>
+          </ion-radio-group>          
         </ion-item>
+        
+        
+        <ion-item>         
+          <ion-input placeholder="Ingrese dirección" [disabled]="ubicacionSeleccionada !== 'especifica'"></ion-input>
+        </ion-item>
+        
+        
       </div>
 
+      <div class="centra">
+        <ion-button  (click)="buscar()">
+        <ion-icon name="search-outline"></ion-icon>
+        Buscar
+      </ion-button>
+      </div>
+      
+      
+      
+              <!-- Mostrar los resultados de la búsqueda -->
+              <ion-list *ngIf="productosEncontrados && productosEncontrados.length > 0">
+                <ion-item *ngFor="let producto of productosEncontrados">
+                  <!-- Itera sobre cada producto y muestra su nombre y descripción -->
+                  <ion-label>
+                    <span>{{ producto.nombre }}</span>
+                    <span style="margin-left: 5px;"><br>{{ producto.descripcion }}</span>
+                  </ion-label>                
+                </ion-item>
+              </ion-list>
+        <!-- Manejo de casos donde no se encuentran resultados -->
+        <ion-card *ngIf="!productosEncontrados || productosEncontrados.length === 0">
+          <ion-card-content>
+            No se encontraron productos.
+          </ion-card-content>
+        </ion-card>
 
-
-            <ion-item >
-            <ion-toolbar>
-              <ion-searchbar placeholder="¿Qué estas  buscando?"></ion-searchbar>
-            </ion-toolbar>
-            
+        <ion-list *ngIf="serviciosEncontrados && serviciosEncontrados.length > 0">
+          <ion-item *ngFor="let servicio of serviciosEncontrados">
+            <!-- Itera sobre cada servicio y muestra su nombre y descripción -->
+            <ion-label>
+              <span>{{ servicio.nombre }}</span>
+              <span style="margin-left: 5px;"><br>{{ servicio.descripcion }}</span>
+            </ion-label>                
           </ion-item>
-              
-          
-          <div class="centrar">
-            <ion-button (click)="buscar()">
-              <ion-icon name="search-outline"></ion-icon>
-              Buscar
-            </ion-button>
-          </div>
-            
+        </ion-list>
+      
+        <!-- Manejo de casos donde no se encuentran resultados -->
+        <ion-card *ngIf="!serviciosEncontrados || serviciosEncontrados.length === 0">
+          <ion-card-content>
+            No se encontraron servicios.
+          </ion-card-content>
+        </ion-card>
+        
+
+
     <ion-card class="centrar">
       <h4>
         Sugerencias

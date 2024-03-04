@@ -12,17 +12,19 @@
     <ion-segment [(ngModel)]="paginaActual" (ionChange)="cambiarPagina($event)" class="segment-spacing">
       <ion-segment-button value="buscar" [routerLink]="['/buscar']">
         <ion-icon name="search-outline"></ion-icon>
-        <ion-label><br>Buscar</ion-label>
+        <ion-label style="font-size: 12px;">Ir <br> Buscar</ion-label>
       </ion-segment-button>
       <ion-segment-button value="productos" [routerLink]="['/productos']">
         <ion-icon name="bag-handle-outline"></ion-icon>
-        <ion-label><br>Productos</ion-label>
+        <ion-label style="font-size: 12px;">Mis <br>Productos</ion-label>
       </ion-segment-button>
       <ion-segment-button value="servicios" [routerLink]="['/servicios']">
         <ion-icon name="construct-outline"></ion-icon>
-        <ion-label><br>Servicios</ion-label>
+        <ion-label style="font-size: 12px;">Mis<br> Servicios</ion-label>
       </ion-segment-button>
     </ion-segment>
+    
+    
     
     
       <ion-grid>
@@ -37,7 +39,10 @@
                
                     <!-- Mostrar productos estáticos -->
                 <ion-item *ngFor="let producto of productos; let i = index">
-                  <ion-label> N°{{ producto.nombre }}</ion-label>               
+                  <div color="white" slot="start" style="font-size: 20px; color: black;">
+                    <ion-icon name="bag-handle-outline"></ion-icon>
+                  </div>
+                  <ion-label>{{ producto.nombre }}</ion-label>               
                   <ion-button color="white" class="btn" size="small" style="padding-left: 5px;" (click)="confirmarEliminarProducto(producto.id)">
                     <ion-icon name="trash-outline" style="font-size: 20px; color: black;"></ion-icon>                   
                   </ion-button>                  

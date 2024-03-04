@@ -11,17 +11,18 @@
     <ion-segment [(ngModel)]="paginaActual" (ionChange)="cambiarPagina($event)" class="segment-spacing">
       <ion-segment-button value="buscar" [routerLink]="['/buscar']">
         <ion-icon name="search-outline"></ion-icon>
-        <ion-label><br>Buscar</ion-label>
+        <ion-label style="font-size: 12px;">Ir <br> Buscar</ion-label>
       </ion-segment-button>
       <ion-segment-button value="productos" [routerLink]="['/productos']">
         <ion-icon name="bag-handle-outline"></ion-icon>
-        <ion-label><br>Productos</ion-label>
+        <ion-label style="font-size: 12px;">Mis <br>Productos</ion-label>
       </ion-segment-button>
       <ion-segment-button value="servicios" [routerLink]="['/servicios']">
         <ion-icon name="construct-outline"></ion-icon>
-        <ion-label><br>Servicios</ion-label>
+        <ion-label style="font-size: 12px;">Mis<br> Servicios</ion-label>
       </ion-segment-button>
     </ion-segment>
+    
 
 
 
@@ -42,7 +43,10 @@
           <ion-list>
             <!-- Mostrar servicios estáticos -->
             <ion-item *ngFor="let servicio of servicios; let i = index">
-              <ion-button color="white" slot="start" style="font-size: 20px; color: black;"><ion-icon name="construct-outline"></ion-icon></ion-button>
+              <div color="white" slot="start" style="font-size: 20px; color: black;">
+                <ion-icon name="construct-outline"></ion-icon>
+              </div>
+              
               <ion-label>{{ servicio.nombre }}</ion-label>
               <ion-button slot="end" color="white" style="font-size: 20px; color: black;" (click)="confirmarEliminarServicio(servicio.id)"><ion-icon name="trash-outline" style="font-size: 20px; color: black;"></ion-icon></ion-button>
             </ion-item>

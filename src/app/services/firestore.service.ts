@@ -53,6 +53,10 @@ updateDoc(path: string, id: string, data: any){
   return this.firestore.collection(path).doc(id).update(data)
 }
 
+buscarProductos(): Observable<any[]> {
+  // Aquí reemplaza la ruta de la colección por la que tienes en tu base de datos
+  return this.firestore.collection('/usuarios/').valueChanges();
+}
 
 
 

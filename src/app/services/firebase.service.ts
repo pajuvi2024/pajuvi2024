@@ -8,6 +8,10 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class FirebaseService {
+  buscarProductos // Actualizar el perfil del usuario en Firebase
+    () {
+    throw new Error('Method not implemented.');
+  }
 
   private inactivityTimer: any;
   private inactivityDuration: number = 600000; 
