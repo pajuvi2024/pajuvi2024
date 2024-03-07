@@ -1,9 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { FirestoreService } from 'src/app/services/firestore.service';
-import { FirebaseService } from 'src/app/services/firebase.service';
-import { UtilsService } from 'src/app/services/utils.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import firebase from 'firebase/compat/app';
@@ -12,7 +9,6 @@ import 'firebase/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import 'firebase/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { take } from 'rxjs/operators';
 import { ItemReorderEventDetail } from '@ionic/angular';
 
 
@@ -34,9 +30,6 @@ export class ProductosPage implements OnInit {
   paginaActual: string;
   constructor( 
     private toastController: ToastController,
-    private firestoreService: FirestoreService,
-    private firebaseService: FirebaseService,
-    private utilsService: UtilsService,
     private alertController: AlertController,
     private formBuilder: FormBuilder,
     private afAuth: AngularFireAuth, 

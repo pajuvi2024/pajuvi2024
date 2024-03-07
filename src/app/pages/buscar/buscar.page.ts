@@ -16,16 +16,28 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { take } from 'rxjs/operators';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 
 
 interface Producto {
+  uid: any;
   nombre: string;
   descripcion: string;
+  idUsuario: string; // Agrega esta propiedad si tus productos tienen un ID de usuario asociado
+  latitud: number; // Agrega esta propiedad si tus productos tienen una latitud
+  longitud: number; // Agrega esta propiedad si tus productos tienen una longitud
 }
+
 interface Servicio {
+  uid: any;
   nombre: string;
   descripcion: string;
+  idUsuario: string; // Agrega esta propiedad si tus servicios tienen un ID de usuario asociado
+  latitud: number; // Agrega esta propiedad si tus servicios tienen una latitud
+  longitud: number; // Agrega esta propiedad si tus servicios tienen una longitud
 }
+
 
 @Component({
   selector: 'app-buscar',
@@ -72,53 +84,72 @@ tipoBusqueda: string = 'producto';
 cambiarPagina(event) {
   this.paginaActual = event.detail.value;
 }
+
 buscarServicios() {
   this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
     .valueChanges().subscribe((servicios: Servicio[]) => {
+      console.log('Servicios encontrados:', servicios);
       this.serviciosEncontrados = servicios;
+      
+      servicios.forEach(servicio => {
+        // Obtener el UID del usuario del servicio
+        const uidUsuario = servicio.uid; // Ajusta según la estructura real de tu base de datos
+        console.log('UID del usuario:', uidUsuario);
+        
+        // Buscar el usuario usando el UID obtenido
+        this.firestore.collection('usuarios').doc(uidUsuario).valueChanges().subscribe((usuario: any) => {
+          console.log('Usuario encontrado:', usuario);
+          if (usuario && usuario.name && usuario.coordenadas && usuario.coordenadas.lat && usuario.coordenadas.lng) {
+            console.log('Nombre del usuario:', usuario.name);
+            console.log('Coordenadas del usuario:', usuario.coordenadas.lat, usuario.coordenadas.lng);
+          } else {
+            console.log('El usuario o sus propiedades son indefinidas');
+          }
+        });
+      });
     }, (error) => {
       console.error('Error al buscar servicios:', error);
-       //Puedes mostrar un mensaje de error al usuario si lo deseas
       this.mostrarMensajeError();
     });
 }
 
 buscarProductos() {
-  this.firestoreService.buscarProductos().subscribe((data: Producto[]) => {
-    this.productos = data;
-    this.productosEncontrados = data;
-  });
+  this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
+    .valueChanges().subscribe((productos: Producto[]) => {
+      console.log('Productos encontrados:', productos);
+      this.productosEncontrados = productos;
+      
+      productos.forEach(producto => {
+        // Obtener el UID del usuario del producto
+        const uidUsuario = producto.uid; // Ajusta según la estructura real de tu base de datos
+        console.log('UID del usuario:', uidUsuario);
+        
+        // Buscar el usuario usando el UID obtenido
+        this.firestore.collection('usuarios').doc(uidUsuario).valueChanges().subscribe((usuario: any) => {
+          console.log('Usuario encontrado:', usuario);
+          if (usuario && usuario.name && usuario.coordenadas && usuario.coordenadas.lat && usuario.coordenadas.lng) {
+            console.log('Nombre del usuario:', usuario.name);
+            console.log('Coordenadas del usuario:', usuario.coordenadas.lat, usuario.coordenadas.lng);
+          } else {
+            console.log('El usuario o sus propiedades son indefinidas');
+          }
+        });
+      });
+    }, (error) => {
+      console.error('Error al buscar productos:', error);
+      this.mostrarMensajeError();
+    });
 }
 
 
-buscarProducto(terminoDeBusqueda: string) {
-  // Realiza la búsqueda en la colección 'usuarios' en la base de datos de Firebase utilizando AngularFirestore
-  this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', terminoDeBusqueda)).valueChanges().subscribe((productos: Producto[]) => {
-    // La variable 'productos' contendrá los resultados de la búsqueda
-    console.log('Productos encontrados:', productos);
-    // Asigna los resultados a una variable para que puedan ser mostrados en la interfaz de usuario
-    this.productosEncontrados = productos;
-  }, (error) => {
-    // Maneja el error en caso de que ocurra durante la búsqueda
-    console.error('Error al buscar productos:', error);
-    // Puedes mostrar un mensaje de error al usuario si lo deseas
-    this.mostrarMensajeError();
-  });
-}
-buscarServicio(terminoDeBusqueda: string) {
-  // Realiza la búsqueda en la colección 'usuarios' en la base de datos de Firebase utilizando AngularFirestore
-  this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', terminoDeBusqueda)).valueChanges().subscribe((servicios: Servicio[]) => {
-    // La variable 'productos' contendrá los resultados de la búsqueda
-    console.log('Serviicios encontrados:', servicios);
-    // Asigna los resultados a una variable para que puedan ser mostrados en la interfaz de usuario
-    this.serviciosEncontrados = servicios;
-  }, (error) => {
-    // Maneja el error en caso de que ocurra durante la búsqueda
-    console.error('Error al buscar productos:', error);
-    // Puedes mostrar un mensaje de error al usuario si lo deseas
-    this.mostrarMensajeError();
-  });
-}
+
+
+
+
+
+
+
+
 
 mostrarMensajeError() {
   // Aquí puedes implementar la lógica para mostrar un mensaje de error al usuario

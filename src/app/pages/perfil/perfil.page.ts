@@ -13,14 +13,6 @@ import { Router } from '@angular/router';
 import { DataStorageService } from 'src/app/services/data-storage.service';
 
 
-
-
-
-
-
-
-
-
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -98,7 +90,7 @@ export class PerfilPage implements OnInit {
   }
 
   getInfoUser() {
-    const path = 'Usuario';
+    const path = 'usuarios';
     const id = this.uid;
     this.firestore.getDoc(path, id).subscribe(res => {
       if (res) {

@@ -120,7 +120,7 @@ export class SignUpPage implements OnInit {
   
         if (res) {
           console.log('Registro exitoso');
-          const path = 'Usuario';
+          const path = 'usuarios';
           const id = res.user.uid;
   
           // Actualizar el UID en los datos del usuario
