@@ -16,7 +16,7 @@ import { DataStorageService } from 'src/app/services/data-storage.service';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
-  styleUrls: ['./perfil.page.scss'],
+  styleUrls: ['./perfil.page.scss'], 
 })
 export class PerfilPage implements OnInit {
 
