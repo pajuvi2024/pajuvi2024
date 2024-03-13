@@ -1,13 +1,11 @@
 <div class="ion-page" id="main-content">
-     <ion-header class="custom-header">
-      <ion-toolbar class="centrar">
-        <div class="logo3">
-          <img src="../../../assets/fotos/logo3.png" alt="">
-        </div>
-        <ion-icon slot="end" name="notifications-outline" style="font-size: 30px;"></ion-icon>
-      </ion-toolbar>
-      
-    </ion-header>
+  <ion-header class="custom-header">
+    <ion-toolbar class="centrar2"  >
+      <div class="logo3">
+        <img src="../../../assets/fotos/logo3.png" height="40" alt="">
+      </div>      
+    </ion-toolbar>
+  </ion-header>
   
     <ion-content>
 
@@ -76,10 +74,11 @@
       </div>
 
       <div class="centra">
-        <ion-button  (click)="buscar()">
-        <ion-icon name="search-outline"></ion-icon>
-        Buscar
-      </ion-button>
+        <ion-button #buscarButton (click)="buscar()">
+          <ion-icon name="search-outline"></ion-icon>
+          Buscar
+        </ion-button>
+        
       </div>
       
       
@@ -94,12 +93,11 @@
                   </ion-label>                
                 </ion-item>
               </ion-list>
-        <!-- Manejo de casos donde no se encuentran resultados -->
-        <ion-card *ngIf="!productosEncontrados || productosEncontrados.length === 0">
-          <ion-card-content>
-            No se encontraron productos.
-          </ion-card-content>
-        </ion-card>
+       
+
+          
+
+
 
         <ion-list *ngIf="serviciosEncontrados && serviciosEncontrados.length > 0">
           <ion-item *ngFor="let servicio of serviciosEncontrados">
@@ -110,20 +108,16 @@
             </ion-label>                
           </ion-item>
         </ion-list>
-      
-        <!-- Manejo de casos donde no se encuentran resultados -->
-        <ion-card *ngIf="!serviciosEncontrados || serviciosEncontrados.length === 0">
-          <ion-card-content>
-            No se encontraron servicios.
-          </ion-card-content>
-        </ion-card>
         
+    
 
 
     <ion-card class="centrar">
       <h4>
         Sugerencias
       </h4>
+
+      <h5><i> Se recomienda hacer busquedas con solo una palabra para facilitar la busqueda </i>  </h5>
     </ion-card>
 
   

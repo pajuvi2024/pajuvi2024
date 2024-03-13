@@ -1,9 +1,8 @@
 #map {
-    width: 330px;
-    height: 300px;  
-    color: black;   
-    transition: opacity 150ms ease-in;  
-  }
+  height: 400px; /* Tamaño en píxeles */
+  width: 100%; /* Opcional: para ocupar todo el ancho disponible */
+}
+
 
   .text-center{
     text-align: center;    

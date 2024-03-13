@@ -134,3 +134,21 @@
     top: 25%;
     left: 3%;
   }
+
+  ion-segment-button {
+    --indicator-color: #000;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #000;
+    --color-checked: #000;
+    --indicator-height: 4px;
+  }
+  
+  /* iOS styles */
+  ion-segment-button.ios {
+    --color: #000;
+    --color-checked: #fff;
+    --border-radius: 20px;
+  }

@@ -133,10 +133,16 @@
     align-items: center;
   }
   .centrar ion-icon {
-    margin-right: 10px;
+    margin-right: 10%;
   }
 
   .centra  {
     position: relative;
     text-align: center;
+  }
+
+  .logo3{
+    position: absolute;
+    top: 25%;
+    left: 3%;
   }
