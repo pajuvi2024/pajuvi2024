@@ -79,23 +79,54 @@ export class UbicationPage implements OnInit {
   }
 
   obtenerUbicacionActual() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const ubicacionActual = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        // Llamar a la función para inicializar el mapa con la ubicación actual
-        this.map.setCenter(ubicacionActual);
-      }, (error) => {
-        console.error('Error al obtener la ubicación actual:', error);
-        // Manejar el error aquí
-      });
-    } else {
-      console.error('La geolocalización no está disponible en este dispositivo.');
-      // Manejar el caso en el que la geolocalización no está disponible
-    }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const ubicacionActual = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      // Llamar a la función para inicializar el mapa con la ubicación actual
+      this.map.setCenter(ubicacionActual);
+      
+      // Llamar a la función para agregar el marcador de ubicación actual
+      this.agregarMarcadorUbicacionActual(ubicacionActual);
+    }, (error) => {
+      console.error('Error al obtener la ubicación actual:', error);
+      // Manejar el error aquí
+    });
+  } else {
+    console.error('La geolocalización no está disponible en este dispositivo.');
+    // Manejar el caso en el que la geolocalización no está disponible
   }
+}
+
+
+
+agregarMarcadorUbicacionActual(ubicacionActual: any) {
+  // URL de la imagen del ícono personalizado almacenada en la carpeta 'assets'
+  const iconoUrl = 'assets/fotos/marcador.png';
+
+   // Tamaño personalizado del ícono (ancho x alto en píxeles)
+   const iconoTamaño = new google.maps.Size(30, 40);
+
+  // Crear un marcador en la ubicación actual del usuario
+  const marker = new google.maps.Marker({
+    position: ubicacionActual,
+    map: this.map,
+    title: 'Ubicación Actual',
+    icon: {
+      // Utilizar el ícono personalizado para el marcador de ubicación actual
+      url: iconoUrl,
+      scaledSize: iconoTamaño, // Tamaño personalizado del ícono
+      anchor: new google.maps.Point(20, 40) // Punto de anclaje (mitad del ancho, parte inferior)
+    
+    }
+  });
+
+  // Agregar el marcador a la lista de marcadores
+  this.markers.push(marker);
+}
+
 
   // Función para cerrar todos los infowindows
   closeAllInfoWindows() {
