@@ -8,12 +8,12 @@
   </ion-header>
 
   <ion-content class="content">
+    <script src="https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5&currency=USD"></script>
     <div class="logo-container">
       <img class="logo" src="assets/fotos/logo2.png" alt="Logo de la aplicación">
     </div>
     
-
-    <div class="info-container">
+    <div class="info-container"> 
       <div class="info-item">
         <label for="fechaTrial">Fecha Trial:</label>
         <input type="text" id="fechaTrial" placeholder="Ingrese Fecha">
@@ -25,15 +25,18 @@
       </div>
 
       <div class="info-item">
-        <label for="fechaComienzo">Fecha Comienzo<br>de Plan:</label>
+        <label for="fechaComienzo">Fecha Comienzo de Plan:</label>
         <input type="text" id="fechaComienzo" placeholder="Ingrese Fecha">
       </div>
 
       <div class="info-item">
-        <label for="fechaTermino">Fecha Término<br>de Plan:</label>
+        <label for="fechaTermino">Fecha Término de Plan:</label>
         <input type="text" id="fechaTermino" placeholder="Ingrese Fecha">
       </div>
     </div>
+
+    <!-- Contenedor para el botón de PayPal -->
+    <div id="paypal-button-container"></div>
 
     <div class="button-group">
       <button class="plan-button">PLAN MENSUAL<br>$690</button>
@@ -46,21 +49,21 @@
     <ion-toolbar color="dark" style="justify-content: space-between;">
       <ion-buttons slot="start">
         <ion-button (click)="navigateTo('/main')">
-          <ion-icon color="" name="home-outline" style="font-size: 30px;"></ion-icon>
+          <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
         </ion-button>
       </ion-buttons>
   
       <div style="display: flex; justify-content: center; align-items: center;">
         <ion-buttons slot="primary">
           <ion-button (click)="navigateTo('/buscar')">
-            <ion-icon color="" name="search-outline" style="font-size: 30px;"></ion-icon>
+            <ion-icon name="search-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
         </ion-buttons>
       </div>
   
       <ion-buttons slot="end">
         <ion-button (click)="navigateTo('/perfil')">
-          <ion-icon color="" name="person-outline" style="font-size: 30px;"></ion-icon>
+          <ion-icon name="person-outline" style="font-size: 30px;"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
