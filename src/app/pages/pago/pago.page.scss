@@ -56,28 +56,40 @@ ion-toolbar {
   }
 }
 
-.button-group {
+.payment-option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
-  padding: 20px 0;
-}
 
-.plan-button {
-  background-color: white;
-  color: black;
-  border: 1px solid #ddd;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 15px 30px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  input[type="radio"] {
+    accent-color: var(--ion-color-primary);
+    margin-bottom: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
 
-  &:hover {
-    background-color: #f8f8f8;
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+    &:checked {
+      background-color: var(--ion-color-primary);
+      border-color: var(--ion-color-primary);
+
+      &::after {
+        content: '';
+        display: block;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        background-color: white;
+      }
+    }
+  }
+
+  label {
+    text-align: center;
+    font-size: 0.95rem;
+    cursor: pointer;
   }
 }
 
@@ -89,6 +101,11 @@ ion-toolbar {
   width: 50%;
   max-width: 200px;
   margin: 20px auto;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .custom-header ion-title {
@@ -110,7 +127,6 @@ ion-toolbar {
   text-align: center;
   padding-top: 10px;
 }
-
 .card-selection {
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -121,19 +137,20 @@ ion-toolbar {
   margin: 30px auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; // Centra los elementos verticalmente
 }
 
 .card-selection-title {
   text-align: center;
-  font-size: 1.25rem;
-  margin-bottom: 20px;
+  font-size: 1.3rem; // Tamaño de fuente ajustado
+  margin-bottom: 20px; // Espacio ajustado entre el título y las opciones de plan
 }
 
 .plan-options {
   display: flex;
-  justify-content: space-around;
-  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px; // Espacio entre las opciones de plan
 }
 
 .option {
@@ -142,60 +159,65 @@ ion-toolbar {
   align-items: center;
 
   input[type="radio"] {
-    accent-color: var(--ion-color-primary);
-    margin-bottom: 5px;
-    background-color: white;
-    -webkit-appearance: none;
-    appearance: none;
+    background-color: white; // Asegura que el fondo de los botones de radio sea blanco
+    -webkit-appearance: none; // Necesario para estilizar botones de radio en WebKit browsers
+    appearance: none; // Estiliza los botones de radio en otros browsers
     border: 1px solid #ddd;
     border-radius: 50%;
     width: 20px;
     height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 5px; // Espacio entre el botón de radio y el texto
 
     &:checked {
       background-color: var(--ion-color-primary);
       border-color: var(--ion-color-primary);
-    }
 
-    &:checked::after {
-      content: '';
-      display: block;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      background-color: white;
+      &::after {
+        content: '';
+        display: block;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        background-color: white;
+      }
     }
   }
 
   label {
-    text-align: center;
-    font-size: 0.95rem;
     cursor: pointer;
+    text-align: center; // Asegura que el texto esté alineado con el botón de radio
+    font-size: 0.95rem; // Ajusta el tamaño de la fuente del texto si es necesario
   }
 }
 .payment-card {
-  background-color: white; // Fondo blanco para la tarjeta
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Sombra para el efecto 3D
-  border-radius: 10px; // Bordes redondeados
-  padding: 20px; // Espaciado interno
-  width: 80%; // Ancho de la tarjeta
-  max-width: 500px; // Ancho máximo para que no sea demasiado grande en pantallas grandes
-  margin: 30px auto; // Centra la tarjeta con márgenes automáticos y un margen superior para separación
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centra los elementos verticalmente
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .payment-card-title {
-  text-align: center; // Centra el texto del título
-  font-size: 1.25rem; // Tamaño de letra para el título
-  margin-bottom: 20px; // Margen inferior para separarlo de los elementos de la tarjeta
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 20px; // Espacio entre el título y las opciones de pago
 }
 
 .payment-options {
   display: flex;
-  justify-content: space-around; // Distribuye las opciones de pago uniformemente
-  width: 100%; // Utiliza todo el ancho disponible
+  flex-direction: row; // Alinea las opciones de pago horizontalmente
+  justify-content: center;
+  gap: 20px; // Espacio entre las opciones de pago
 }
 
 .payment-option {
@@ -204,38 +226,34 @@ ion-toolbar {
   align-items: center;
 
   input[type="radio"] {
-    accent-color: var(--ion-color-primary); // Color del radio button, elige uno que combine
-    margin-bottom: 10px; // Espacio entre el radio button y su contenido
-    -webkit-appearance: none; // Elimina la apariencia predeterminada para navegadores basados en WebKit
-    appearance: none; // Elimina la apariencia predeterminada para el resto de navegadores
-    width: 20px; // Ancho del radio button
-    height: 20px; // Alto del radio button
-    border-radius: 50%; // Radio buttons circulares
-    border: 1px solid #ccc; // Borde del radio button
-    background-color: white; // Fondo blanco para el radio button
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: white;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px; // Espacio entre el botón de radio y el texto
 
-    &:checked::before {
-      content: ''; // Contenido vacío para el pseudo-elemento ::before
-      display: block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: var(--ion-color-primary); // Color de fondo cuando está seleccionado
+    &:checked {
+      background-color: var(--ion-color-primary);
+      border-color: var(--ion-color-primary);
+
+      &::after {
+        content: '';
+        display: block;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        background-color: white;
+      }
     }
   }
 
   label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer; // Cambia el cursor para indicar que la etiqueta es seleccionable
-
-    p {
-      margin: 0; // Elimina márgenes por defecto de los párrafos
-    }
+    cursor: pointer;
+    text-align: center; // Asegura que el texto esté alineado con el botón de radio
   }
 }
+
 

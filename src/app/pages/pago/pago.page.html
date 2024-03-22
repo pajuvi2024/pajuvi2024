@@ -10,8 +10,7 @@
   <ion-content class="content">
     <script src="https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5&currency=USD"></script>
     
-    <!-- Tarjeta con los datos de suscripción -->
-    <div class="subscription-card">
+<div class="subscription-card">
       <div class="card-title">Datos de Suscripción</div>
       
       <div class="info-container"> 
@@ -41,51 +40,43 @@
 
       </div>
     </div>
-    <!-- Fin de la tarjeta de datos de suscripción -->
-
-
 
     <div class="card-selection">
       <div class="card-selection-title">Elige tu Plan</div>
       <div class="plan-options">
         <div class="option">
-          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly">
+          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('PLAN MENSUAL', 'monthly')">
           <label for="monthlyPlan">PLAN MENSUAL<br>$690</label>
         </div>
         <div class="option">
-          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester">
+          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('PLAN SEMESTRAL', 'semester')">
           <label for="semesterPlan">PLAN SEMESTRAL<br>$3.600</label>
         </div>
         <div class="option">
-          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual">
+          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('PLAN ANUAL', 'annual')">
           <label for="annualPlan">PLAN ANUAL<br>$6.500</label>
         </div>
       </div>
     </div>
     
-
-    <div class="payment-card">
-      <div class="payment-card-title">Valor</div>
+    
+    
+    <div class="payment-card" [class.disabled]="!isPaymentCardEnabled">
+      <div class="payment-card-title">{{ selectedPlanLabel }}</div>
       
       <div class="payment-options">
         <div class="payment-option">
-          <input type="radio" id="paypalOption" name="paymentMethod" value="Paypal">
+          <input type="radio" id="paypalOption" name="paymentMethod" value="Paypal" [disabled]="!isPaymentCardEnabled">
           <label for="paypalOption">
             <div id="paypal-button-container"></div>
           </label>
         </div>
-    
         <div class="payment-option">
-          <input type="radio" id="webpayOption" name="paymentMethod" value="Webpay">
-          <label for="webpayOption">
-            <p>Webpay</p>
-          </label>
+          <input type="radio" id="webpayOption" name="paymentMethod" value="Webpay" [disabled]="!isPaymentCardEnabled">
+          <label for="webpayOption">Webpay</label>
         </div>
       </div>
     </div>
-    
-
-
   </ion-content>
 
   <ion-footer>

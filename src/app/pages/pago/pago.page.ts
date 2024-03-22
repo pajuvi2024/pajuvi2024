@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-declare var paypal: any; // Declara la variable 'paypal' para que TypeScript no marque errores
+declare var paypal: any;
 
 @Component({
   selector: 'app-pago',
@@ -9,6 +9,9 @@ declare var paypal: any; // Declara la variable 'paypal' para que TypeScript no 
   styleUrls: ['./pago.page.scss'],
 })
 export class PagoPage implements OnInit {
+  isPaymentCardEnabled: boolean = false;
+  selectedPlanLabel: string = 'Valor';
+
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -19,29 +22,37 @@ export class PagoPage implements OnInit {
             purchase_units: [{
               amount: {
                 currency_code: 'USD',
-                value: '10.00' // Puedes modificar este valor según el monto a pagar
+                value: '10.00' // Este valor se puede ajustar según el plan seleccionado
               }
             }]
-          }); 
+          });
         },
         onApprove: (data, actions) => {
           return actions.order.capture().then((details) => {
             console.log('Pago realizado con éxito', details);
-            // Aquí puedes agregar lo que deseas hacer una vez que el pago se haya completado con éxito
+            // Aquí puedes implementar lo que sucede después de un pago exitoso
           });
         },
         onError: (err) => {
-          console.log(err);
-          // Manejo de errores
+          console.error('Error en el pago', err);
+          // Implementa tu manejo de errores aquí
         }
-      }).render('#paypal-button-container'); // Indica el contenedor donde se renderizará el botón de PayPal
+      }).render('#paypal-button-container');
     });
+  }
+
+  selectPlan(planLabel: string, planValue: string) {
+    this.selectedPlanLabel = planLabel; // Actualiza el título con el plan seleccionado
+    this.isPaymentCardEnabled = true; // Habilita la tarjeta de pago
+
+    // Opcional: Aquí puedes agregar lógica adicional basada en el planValue, como ajustar el precio
+    console.log(`Plan seleccionado: ${planLabel} con valor ${planValue}`);
   }
 
   loadPaypalScript(): Promise<any> {
     return new Promise((resolve, reject) => {
       const scriptElement = document.createElement('script');
-      scriptElement.src = 'https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5'; // Reemplaza 'TU_CLIENT_ID' con tu client ID real
+      scriptElement.src = 'https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5&currency=USD';
       scriptElement.onload = resolve;
       document.body.appendChild(scriptElement);
     });
