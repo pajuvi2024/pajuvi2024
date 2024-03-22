@@ -10,7 +10,7 @@ declare var paypal: any;
 })
 export class PagoPage implements OnInit {
   isPaymentCardEnabled: boolean = false;
-  selectedPlanLabel: string = 'Valor';
+  selectedPlanLabel: string = 'Sistemas de Pago';
 
   constructor(private router: Router) {}
 
