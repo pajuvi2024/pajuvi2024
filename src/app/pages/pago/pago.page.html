@@ -20,7 +20,7 @@
           <input type="text" id="fechaTrial" placeholder="">
         </div>
 
-        <div class="info-item">
+        <div class="info-item"> 
           <label for="tipoPlan">Tipo de Plan:</label>
           <input type="text" id="tipoPlan" placeholder="">
         </div>
@@ -34,18 +34,58 @@
           <label for="fechaTermino">Fecha Término de Plan:</label>
           <input type="text" id="fechaTermino" placeholder="">
         </div>
+
+        <div class="centrar">
+          <ion-button>Anular Suscripción</ion-button>
+        </div>
+
       </div>
     </div>
     <!-- Fin de la tarjeta de datos de suscripción -->
 
-    <!-- Contenedor para el botón de PayPal -->
-    <div id="paypal-button-container"></div>
 
-    <div class="button-group"> 
-      <button class="plan-button">PLAN MENSUAL<br>$690</button>
-      <button class="plan-button">PLAN SEMESTRAL<br>$3.600</button>
-      <button class="plan-button">PLAN ANUAL<br>$6.500</button>
-    </div> 
+
+    <div class="card-selection">
+      <div class="card-selection-title">Elige tu Plan</div>
+      <div class="plan-options">
+        <div class="option">
+          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly">
+          <label for="monthlyPlan">PLAN MENSUAL<br>$690</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester">
+          <label for="semesterPlan">PLAN SEMESTRAL<br>$3.600</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual">
+          <label for="annualPlan">PLAN ANUAL<br>$6.500</label>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="payment-card">
+      <div class="payment-card-title">Valor</div>
+      
+      <div class="payment-options">
+        <div class="payment-option">
+          <input type="radio" id="paypalOption" name="paymentMethod" value="Paypal">
+          <label for="paypalOption">
+            <div id="paypal-button-container"></div>
+          </label>
+        </div>
+    
+        <div class="payment-option">
+          <input type="radio" id="webpayOption" name="paymentMethod" value="Webpay">
+          <label for="webpayOption">
+            <p>Webpay</p>
+          </label>
+        </div>
+      </div>
+    </div>
+    
+
+
   </ion-content>
 
   <ion-footer>
