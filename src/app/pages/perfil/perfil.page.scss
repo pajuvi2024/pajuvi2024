@@ -110,18 +110,7 @@
   font-size: 16px; /* Reducir el tamaño del texto */
 }
 
-.logo3{
-  position: absolute;
-  top: 25%;
-  left: 3%;
-}
-.centrar2{
-  position: relative;
-  text-align: center;
-  padding-right: 40px;
-  padding-left: 20px;
-  color: black;
-}
+
 .button-group {
   display: flex;
   flex-direction: column;
@@ -144,4 +133,17 @@
     background-color: #f8f8f8; /* Cambio sutil de color al pasar el mouse */
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada para el efecto de hover */
   }
+}
+.custom-header ion-title {
+  color: white; /* Cambia "red" al color deseado, por ejemplo: #ff0000 para rojo */
+}
+.centrar2{
+  position: relative;
+  text-align: center;  
+ 
+}
+.logo3{
+  position: absolute;
+  top: 25%;
+  left: 8%;
 }

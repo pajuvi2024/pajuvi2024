@@ -2,16 +2,6 @@ ion-toolbar {
   background-color: var(--ion-color-primary);
 }
 
-.logo-container {
-  text-align: center;
-  margin-top: 60px; /* Aumentado para bajar el logo y dar más espacio con respecto al header */
-}
-
-.logo {
-  max-width: 100%;
-  max-height: 100%;
-}
- 
 .content {
   display: flex;
   flex-direction: column;
@@ -20,29 +10,50 @@ ion-toolbar {
   height: 100%;
 }
 
+.subscription-card {
+  background-color: white; // Fondo blanco para la tarjeta
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Sombra para el efecto 3D
+  border-radius: 10px; // Bordes redondeados
+  padding: 20px; // Espaciado interno
+  width: 80%; // Ancho de la tarjeta
+  max-width: 500px; // Ancho máximo para que no sea demasiado grande en pantallas grandes
+  margin: 30px auto; // Centra la tarjeta con márgenes automáticos y un margen superior para separación
+}
+
+.card-title {
+  text-align: center; // Centra el texto del título
+  font-size: 1.25rem; // Tamaño de letra reducido para el título
+  margin-bottom: 20px; // Margen inferior para separarlo de los elementos de la tarjeta
+}
+
 .info-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin: 30px 0;
+  gap: 10px;
 }
 
 .info-item {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between; // Asegura que los elementos se distribuyan a lo largo de toda la fila
+  align-items: center; // Alinea verticalmente los elementos dentro del item
+  width: 100%; // Establece el ancho del .info-item para llenar su contenedor
 
   label {
-    font-weight: normal; /* Labels sin negrita */
+    font-weight: normal; // Labels sin negrita
+    width: 30%; // Establece un ancho fijo para las etiquetas para una alineación uniforme
+    text-align: right; // Alinea el texto de las etiquetas a la derecha
+    padding-right: 10px; // Agrega un pequeño espacio entre la etiqueta y la caja de texto
   }
 
   input {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 10px;
-    background-color: white; /* Fondo blanco de las cajas de texto */
-    color: black; /* Color de texto negro para las cajas de texto */
+    background-color: white; // Fondo blanco para las cajas de texto
+    color: black; // Color de texto negro para las cajas de texto
+    width: 65%; // Aumenta el ancho de las cajas de texto para llenar el espacio restante
+    // Asegúrate de ajustar este ancho según sea necesario para mantener la alineación
   }
 }
 
@@ -70,14 +81,28 @@ ion-toolbar {
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
   }
 }
+
 #paypal-button-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
   margin-top: 20px;
   width: 50%; // Establece el ancho al 50% del contenedor padre
   max-width: 200px; // O establece un ancho máximo fijo para un mayor control
   margin: 20px auto; // Centra el contenedor con un margen superior de 20px
 }
 
+.custom-header ion-title {
+  color: white; /* Cambia "red" al color deseado, por ejemplo: #ff0000 para rojo */
+}
 
+.centrar2 {
+  position: relative;
+  text-align: center;  
+}
+
+.logo3 {
+  position: absolute;
+  top: 25%;
+  left: 8%;
+}

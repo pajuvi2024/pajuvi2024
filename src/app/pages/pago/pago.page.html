@@ -2,43 +2,46 @@
   <ion-header class="custom-header">
     <ion-toolbar class="centrar2">
       <div class="logo3">
-        <img src="../../../assets/fotos/logo3.png" alt="">
+        <img src="../../../assets/fotos/logo3.png" height="40" alt="">
       </div>
     </ion-toolbar>
   </ion-header>
 
   <ion-content class="content">
     <script src="https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5&currency=USD"></script>
-    <div class="logo-container">
-      <img class="logo" src="assets/fotos/logo2.png" alt="Logo de la aplicación">
-    </div>
     
-    <div class="info-container"> 
-      <div class="info-item">
-        <label for="fechaTrial">Fecha Trial:</label>
-        <input type="text" id="fechaTrial" placeholder="Ingrese Fecha">
-      </div>
+    <!-- Tarjeta con los datos de suscripción -->
+    <div class="subscription-card">
+      <div class="card-title">Datos de Suscripción</div>
+      
+      <div class="info-container"> 
+        <div class="info-item">
+          <label for="fechaTrial">Fecha Trial:</label>
+          <input type="text" id="fechaTrial" placeholder="">
+        </div>
 
-      <div class="info-item">
-        <label for="tipoPlan">Tipo de Plan:</label>
-        <input type="text" id="tipoPlan" placeholder="Ingrese Tipo de Plan">
-      </div>
+        <div class="info-item">
+          <label for="tipoPlan">Tipo de Plan:</label>
+          <input type="text" id="tipoPlan" placeholder="">
+        </div>
 
-      <div class="info-item">
-        <label for="fechaComienzo">Fecha Comienzo de Plan:</label>
-        <input type="text" id="fechaComienzo" placeholder="Ingrese Fecha">
-      </div>
+        <div class="info-item">
+          <label for="fechaComienzo">Fecha Comienzo de Plan:</label>
+          <input type="text" id="fechaComienzo" placeholder="">
+        </div>
 
-      <div class="info-item">
-        <label for="fechaTermino">Fecha Término de Plan:</label>
-        <input type="text" id="fechaTermino" placeholder="Ingrese Fecha">
+        <div class="info-item">
+          <label for="fechaTermino">Fecha Término de Plan:</label>
+          <input type="text" id="fechaTermino" placeholder="">
+        </div>
       </div>
     </div>
+    <!-- Fin de la tarjeta de datos de suscripción -->
 
     <!-- Contenedor para el botón de PayPal -->
     <div id="paypal-button-container"></div>
 
-    <div class="button-group">
+    <div class="button-group"> 
       <button class="plan-button">PLAN MENSUAL<br>$690</button>
       <button class="plan-button">PLAN SEMESTRAL<br>$3.600</button>
       <button class="plan-button">PLAN ANUAL<br>$6.500</button>

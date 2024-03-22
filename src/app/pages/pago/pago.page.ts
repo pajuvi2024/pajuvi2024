@@ -22,7 +22,7 @@ export class PagoPage implements OnInit {
                 value: '10.00' // Puedes modificar este valor según el monto a pagar
               }
             }]
-          });
+          }); 
         },
         onApprove: (data, actions) => {
           return actions.order.capture().then((details) => {
