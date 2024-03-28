@@ -52,7 +52,8 @@ export class SignUpPage implements OnInit {
     }
   ];
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private alertController: AlertController,
     private firebaseServ: FirebaseService,
     private utilsServ: UtilsService,

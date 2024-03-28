@@ -79,6 +79,10 @@ const routes: Routes = [
     path: 'geocoding',
     loadChildren: () => import('./pages/geocoding/geocoding.module').then( m => m.GeocodingPageModule)
   },
+  {
+    path: 'ubication-especifica',
+    loadChildren: () => import('./pages/ubication-especifica/ubication-especifica.module').then( m => m.UbicationEspecificaPageModule)
+  },
 
 
 
