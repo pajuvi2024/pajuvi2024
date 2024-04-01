@@ -95,7 +95,7 @@ export class PerfilPage implements OnInit {
     this.firestore.getDoc(path, id).subscribe(res => {
       if (res) {
         this.info = res;
-      }
+      } 
       console.log('datos ->', res);
     });
   }

@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { UtilsService } from 'src/app/services/utils.service';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/services/data-storage.service';
+import * as firebase from 'firebase/compat';
+import { Timestamp } from 'firebase/firestore';
 
 declare var google;
 
@@ -85,6 +87,18 @@ export class SignUpPage implements OnInit {
   }
   
   async registrarme2() {
+
+  // Definir los valores de los campos adicionales
+  const trialStart = new Date('2024-04-01T09:00:00'); // Definir la fecha de inicio del periodo de prueba
+  const expiryDate = new Date('2024-05-01T09:00:00'); // Definir la fecha de expiración del periodo de prueba
+  const planType = 'Gratis'; // Definir el tipo de plan
+
+  // Comprobar si la dirección es válida antes de continuar
+  if (!this.registroForm.get('direccion').valid) {
+    console.log('La dirección no es válida, por favor complete todos los campos obligatorios correctamente');
+    return;
+  }
+
     // Verificar si el formulario es válido
     if (this.registroForm.valid) {
       console.log('Formulario válido, procediendo al registro');
@@ -104,25 +118,37 @@ export class SignUpPage implements OnInit {
           console.log('La dirección no es válida, por favor complete todos los campos obligatorios correctamente');
           return;
         }
-  
-        // Crear un nuevo objeto con los datos del formulario y las coordenadas
-        const datos = {
-          ...this.registroForm.value,
-          uid: null, // Este valor se asignará después de registrar al usuario
-          password: null,
-          coordenadas: coordinates
-        };
-  
+        
         // Registrar al usuario
         const res = await this.utilsServ.registrarUser(this.registroForm.value).catch(error => {
           console.log('Error al registrar:', error);
         });
-  
+
         if (res) {
           console.log('Registro exitoso');
           const path = 'usuarios';
           const id = res.user.uid;
-  
+
+          // Usar la fecha actual para trialStartDate y startDate
+          const currentDate = new Date();
+
+          // Definir el planType
+          const planType = 'Gratis';
+
+          // Calcular la fecha de expiración sumando 1 mes a la fecha actual
+          const expiryDate = new Date(currentDate);
+          expiryDate.setMonth(currentDate.getMonth() + 1);
+
+          // Crear un nuevo objeto con los datos del formulario y las coordenadas
+          const datos = {
+          ...this.registroForm.value,
+          uid: id, // El UID del usuario
+          trialStartDate: Timestamp.fromDate(currentDate), // Convertir la fecha de inicio a Timestamp de Firestore
+          planType: planType, // El tipo de plan
+          startDate: Timestamp.fromDate(currentDate), // La fecha de inicio (igual a trialStartDate)
+          expiryDate: Timestamp.fromDate(expiryDate), // Convertir la fecha de expiración a Timestamp de Firestore
+          };
+    
           // Actualizar el UID en los datos del usuario
           datos.uid = id;
   

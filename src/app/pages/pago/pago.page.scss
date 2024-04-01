@@ -248,12 +248,15 @@ ion-toolbar {
         background-color: white;
       }
     }
-  }
+  } 
 
   label {
     cursor: pointer;
     text-align: center; // Asegura que el texto esté alineado con el botón de radio
   }
+}
+.label-title {
+  font-size: 1.5em; /* Ajusta el tamaño según necesites */
 }
 
 

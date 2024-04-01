@@ -11,28 +11,30 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5&currency=USD"></script>
     
 <div class="subscription-card">
-      <div class="card-title">Datos de Suscripción</div>
+      <div class="card-title">Datos de tu Plan</div>
       
       <div class="info-container"> 
         <div class="info-item">
-          <label for="fechaTrial">Fecha Trial:</label>
-          <input type="text" id="fechaTrial" placeholder="">
+          <ion-label class="label-title" position="stacked">Contador:</ion-label>
+          <ion-label class="ion-text-wrap">{{ formattedTrialStartDate }}</ion-label>
         </div>
-
-        <div class="info-item"> 
-          <label for="tipoPlan">Tipo de Plan:</label>
-          <input type="text" id="tipoPlan" placeholder="">
-        </div>
-
+        
+          <div class="info-item">
+            <ion-label class="label-title" position="stacked">Nombre:</ion-label>
+            <ion-label class="ion-text-wrap">{{ info?.planType }}</ion-label>
+          </div>
+        
         <div class="info-item">
-          <label for="fechaComienzo">Fecha Comienzo de Plan:</label>
-          <input type="text" id="fechaComienzo" placeholder="">
+          <ion-label class="label-title" position="stacked">Inicio:</ion-label>
+          <ion-label class="ion-text-wrap">{{ formattedstartDate }}</ion-label>
+        </div>
+        
+        <div class="info-item">
+          <ion-label class="label-title" position="stacked">Fin:</ion-label>
+          <ion-label class="ion-text-wrap">{{ formattedexpiryDate }}</ion-label>
         </div>
 
-        <div class="info-item">
-          <label for="fechaTermino">Fecha Término de Plan:</label>
-          <input type="text" id="fechaTermino" placeholder="">
-        </div>
+        
 
         <div class="centrar">
           <ion-button>Anular Suscripción</ion-button>
@@ -42,19 +44,19 @@
     </div>
 
     <div class="card-selection">
-      <div class="card-selection-title">Elige tu Plan</div>
+      <div class="card-selection-title">Elige la opción de pago mas cómoda para ti</div>
       <div class="plan-options">
         <div class="option">
           <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('PLAN MENSUAL', 'monthly')">
-          <label for="monthlyPlan">PLAN MENSUAL<br>$690</label>
+          <label for="monthlyPlan">MENSUAL<br>$690</label>
         </div>
         <div class="option">
           <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('PLAN SEMESTRAL', 'semester')">
-          <label for="semesterPlan">PLAN SEMESTRAL<br>$3.600</label>
+          <label for="semesterPlan">SEMESTRAL<br>$3.600</label>
         </div>
         <div class="option">
           <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('PLAN ANUAL', 'annual')">
-          <label for="annualPlan">PLAN ANUAL<br>$6.500</label>
+          <label for="annualPlan">ANUAL<br>$6.500</label>
         </div>
       </div>
     </div>
@@ -77,7 +79,7 @@
         </div>
       </div>
     </div>
-  </ion-content>
+  </ion-content> 
 
   <ion-footer>
     <ion-toolbar color="dark" style="justify-content: space-between;">
