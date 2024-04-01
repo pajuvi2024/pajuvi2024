@@ -1,0 +1,42 @@
+<div class="ion-page" id="main-content">
+  <ion-header class="custom-header">
+    <ion-toolbar class="centrar2" >
+      <div class="logo3">
+        <img src="../../../assets/fotos/logo3.png" alt="">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    
+
+     <!-- Asegúrate de que el contenedor tenga un tamaño fijo -->
+     <div id="map" style="width: 100%; height: 100%;"></div>
+
+
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar color="dark" style="justify-content: space-between;">
+      <ion-buttons slot="start">
+        <ion-button (click)="navigateTo('/main')">
+          <ion-icon color="" name="home-outline" style="font-size: 30px;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <ion-buttons slot="primary">
+          <ion-button (click)="navigateTo('/buscar')">
+            <ion-icon color="" name="search-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="navigateTo('/perfil')">
+          <ion-icon color="" name="person-outline" style="font-size: 30px;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>
+
