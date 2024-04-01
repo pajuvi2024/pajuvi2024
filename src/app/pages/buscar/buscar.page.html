@@ -62,18 +62,13 @@
     </ion-item>
   </div>
 
-  <div class="centra">
+  <div class="centrar">
     <ion-button (click)="buscar()">
       <ion-icon name="search-outline"></ion-icon>
       Buscar
     </ion-button>        
   </div>
-  <div class="centra">
-    <ion-button (click)="buscarEspecifica()">
-      <ion-icon name="search-outline"></ion-icon>
-      Buscar espeficifa 
-    </ion-button>        
-  </div>
+ 
 
   <!-- Mostrar los resultados de la búsqueda -->
   <ion-list *ngIf="productosEncontrados && productosEncontrados.length > 0">
