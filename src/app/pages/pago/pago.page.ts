@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { FirestoreService } from 'src/app/services/firestore.service'; // Importa tu servicio Firestore
-import { DatePipe } from '@angular/common'; // Importa DatePipe
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { DatePipe } from '@angular/common';
 import { Timestamp } from 'firebase/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth'; // Asegúrate de importar AngularFireAuth
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
 // Asegúrate de tener la interfaz Info definida o importada
@@ -23,19 +23,18 @@ declare var paypal: any;
   providers: [DatePipe]
 })
 
-
-export class PagoPage implements OnInit {
+export class PagoPage implements OnInit, AfterViewChecked {
   isPaymentCardEnabled: boolean = false;
   selectedPlanLabel: string = 'Sistemas de Pago';
-  info: Info | null = null; // Propiedad para almacenar los datos recuperados
+  info: Info | null = null;
   firestore: any;
   formattedTrialStartDate: string;
   formattedstartDate: string;
   formattedexpiryDate: string;
+  private paypalScriptLoaded: boolean = false; // Añadido para controlar la carga del script de PayPal
 
   constructor(private router: Router, private datePipe: DatePipe, private firestoreService: FirestoreService, private afAuth: AngularFireAuth) {
     this.firestore = firestoreService;
-    
   }
 
   ngOnInit() {
@@ -49,33 +48,37 @@ export class PagoPage implements OnInit {
         // El usuario no está autenticado, manejar según sea necesario
       }
     });
-    this.loadPaypalScript().then(() => {
-      paypal.Buttons({
-	      createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                currency_code: 'USD',
-                value: '10.00' // Este valor se puede ajustar según el plan seleccionado
-              }
-            }]
-          });
-        },
-
-        onApprove: (data, actions) => {
-          return actions.order.capture().then((details) => {
-            console.log('Pago realizado con éxito', details);
-            // Aquí puedes implementar lo que sucede después de un pago exitoso
-          });
-        },
-       onError: (err) => {
-          console.error('Error en el pago', err);
-          // Implementa tu manejo de errores aquí
-        }
-      }).render('#paypal-button-container');
-    });
   }
 
+  ngAfterViewChecked(): void {
+    if (!this.paypalScriptLoaded) {
+      this.loadPaypalScript().then(() => {
+        paypal.Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  currency_code: 'USD',
+                  value: '1.00' // Este valor se puede ajustar dinámicamente según el plan seleccionado
+                }
+              }]
+            });
+          },
+
+          onApprove: (data, actions) => {
+            return actions.order.capture().then(details => {
+              console.log('Pago realizado con éxito', details);
+              // Implementa lo que sucede después de un pago exitoso, como actualizar la base de datos o mostrar una confirmación al usuario
+            });
+          },
+          onError: (err) => {
+            console.error('Error en el pago', err);
+            // Implementa tu manejo de errores aquí
+          }
+        }).render('#paypal-button-container');
+      });
+    }
+  }
 
   cargarDatosDeFirestore(userId: string) {
     const path = 'usuarios';
@@ -94,13 +97,10 @@ export class PagoPage implements OnInit {
     });
   }
 
-
     formatDate(date: Date): string {
       return this.datePipe.transform(date, 'dd/MM/yyyy') || '';
     }
-  
-
-  
+    
   selectPlan(planLabel: string, planValue: string) {
     this.selectedPlanLabel = planLabel; // Actualiza el título con el plan seleccionado
     this.isPaymentCardEnabled = true; // Habilita la tarjeta de pago
@@ -110,9 +110,10 @@ export class PagoPage implements OnInit {
   }
 
   loadPaypalScript(): Promise<any> {
-    return new Promise((resolve, reject) => {
+    this.paypalScriptLoaded = true;
+    return new Promise(resolve => {
       const scriptElement = document.createElement('script');
-      scriptElement.src = 'https://www.paypal.com/sdk/js?client-id=AeHcD0RMUXJX5x0NpSuhBehcxjgHpBEuAdPzK5BJlrZI_3SRSznrXC32VVNNIr-LJUHfWTrlDFTxnAS5&currency=USD';
+      scriptElement.src = 'https://www.paypal.com/sdk/js?client-id=AYbtIBBzNywAhWQ91WXaFAfUpZthFdfnzHKf9SbFxoAUHLCHcfFv2GwmXsQC9QAIdo-ouj3Y6Yfem7nM';
       scriptElement.onload = resolve;
       document.body.appendChild(scriptElement);
     });
