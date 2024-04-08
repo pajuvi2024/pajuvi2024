@@ -34,12 +34,6 @@
           <ion-label class="ion-text-wrap">{{ formattedexpiryDate }}</ion-label>
         </div>
 
-        
-
-        <div class="centrar">
-          <ion-button>Anular Suscripción</ion-button>
-        </div>
-
       </div>
     </div>
 
@@ -47,22 +41,23 @@
       <div class="card-selection-title">Elige la opción de pago mas cómoda para ti</div>
       <div class="plan-options">
         <div class="option">
-          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('PLAN MENSUAL', 'monthly')">
+          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan mensual -->
+          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('MENSUAL', 'monthly', '1.00', 1)">
           <label for="monthlyPlan">MENSUAL<br>$690</label>
         </div>
         <div class="option">
-          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('PLAN SEMESTRAL', 'semester')">
+          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan semestral -->
+          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('SEMESTRAL', 'semester', '5.00', 6)">
           <label for="semesterPlan">SEMESTRAL<br>$3.600</label>
         </div>
         <div class="option">
-          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('PLAN ANUAL', 'annual')">
+          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan anual -->
+          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('ANUAL', 'annual', '10.00', 12)">
           <label for="annualPlan">ANUAL<br>$6.500</label>
         </div>
       </div>
     </div>
-    
-    
-    
+       
     <div class="payment-card" [class.disabled]="!isPaymentCardEnabled">
       <div class="payment-card-title">{{ selectedPlanLabel }}</div>
       

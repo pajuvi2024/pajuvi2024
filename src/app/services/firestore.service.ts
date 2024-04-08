@@ -49,9 +49,10 @@ getDoc2(path: string, id: string){
   this.firestore.collection(path).doc(id).valueChanges()
 }
 
-updateDoc(path: string, id: string, data: any){
-  return this.firestore.collection(path).doc(id).update(data)
+updateDoc(docPath: string, data: any): Promise<void> {
+  return this.firestore.doc(docPath).update(data);
 }
+
 
 buscarProductos(): Observable<any[]> {
   // Aquí reemplaza la ruta de la colección por la que tienes en tu base de datos
