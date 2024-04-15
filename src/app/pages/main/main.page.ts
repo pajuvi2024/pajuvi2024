@@ -80,4 +80,32 @@ export class MainPage implements OnInit {
   cambiarPagina(event) {
     this.paginaActual = event.detail.value;
   }
+
+  toggleGPS(event: any) {
+    // Aquí puedes implementar la lógica para activar o desactivar la geolocalización
+    if (event.detail.checked) {
+      // Si el toggle está activado
+      console.log('Geolocalización activada');
+      // Llamar a la función para obtener la ubicación
+      this.getLocation();
+    } else {
+      // Si el toggle está desactivado
+      console.log('Geolocalización desactivada');
+      // Aquí podrías detener la obtención de la ubicación o realizar otras acciones necesarias
+    }
+  }
+
+  getLocation() {
+    // Aquí puedes implementar la lógica para obtener la ubicación
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log('Latitude: ' + position.coords.latitude + ' Longitude: ' + position.coords.longitude);
+      });
+    } else {
+      console.log('Geolocation is not supported by this browser.');
+    }
+  }
+
+
+  
   }

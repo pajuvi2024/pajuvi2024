@@ -22,30 +22,54 @@ export class UbicationPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const nombreProducto = params['nombreProducto'];
-      const descripcionProducto = params['descripcionProducto'];
-      const nombreUsuario = params['nombreUsuario'];
-      const coordenadasUsuarioString = params['coordenadasUsuario'];
-  
-      if (coordenadasUsuarioString) { // Verificar si coordenadasUsuarioString no es undefined
-        try {
-          const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
-          // Llamar a la función para inicializar el mapa y agregar marcadores
-          this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario);
-        } catch (error) {
-          console.error('Error al analizar las coordenadas del usuario:', error);
-        }
-      } else {
-        console.error('Las coordenadas del usuario no están definidas.');
-      }
-    });
-  
-    // Obtener la ubicación actual del usuario al cargar la página
-    this.obtenerUbicacionActual();
-  }
+    // Verificar si el mapa ya está inicializado
+    if (!this.map) {
+      this.activatedRoute.queryParams.subscribe(params => {
+        const coordenadasEspecifica = params['coordenadasEspecifica'];
 
+        if (coordenadasEspecifica) {
+          try {
+            const coordenadas = JSON.parse(coordenadasEspecifica);
+            const lat = coordenadas['lat'];
+            const lng = coordenadas['lng'];
+            console.log('Coordenadas del buscar:', lat, lng);
+            this.centrarMapa(lat, lng);
+          } catch (error) {
+            console.error('Error al analizar las coordenadas:', error);
+          }
+        } else {
+          console.error('Los parámetros lat y lng no están presentes en la URL.');
+        }
+
+        const nombreProducto = params['nombreProducto'];
+        const descripcionProducto = params['descripcionProducto'];
+        const nombreUsuario = params['nombreUsuario'];
+        const coordenadasUsuarioString = params['coordenadasUsuario'];
+        if (coordenadasUsuarioString) {
+          try {
+            const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
+            this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario);
+          } catch (error) {
+            console.error('Error al analizar las coordenadas del usuario:', error);
+          }
+        } else {
+          console.error('Las coordenadas del usuario no están definidas.');
+        }
+      });
+
+      // Obtener la ubicación actual del usuario al cargar la página
+      this.obtenerUbicacionActual();
+    }
+  }
   
+  private mapInitialized: boolean = false;
+
+  centrarMapa(lat: number, lng: number) {
+    if (!this.map) {
+      return; // Mapa no inicializado aún
+    }
+    this.map.setCenter({ lat: lat, lng: lng });
+  }
 
   obtenerUbicacionActual() {
     if (navigator.geolocation) {
@@ -54,7 +78,7 @@ export class UbicationPage implements OnInit {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-  
+        console.log('mis coordenadas', ubicacionActual)
         if (ubicacionActual && ubicacionActual.lat !== undefined && ubicacionActual.lng !== undefined) {
           // Llamar a la función para inicializar el mapa con la ubicación actual
           if (this.map) {
@@ -76,19 +100,19 @@ export class UbicationPage implements OnInit {
       // Manejar el caso en el que la geolocalización no está disponible
     }
   }
-  
 
+  initMap(coordenadasUsuario: any, nombreProducto: string, descripcionProducto: string, nombreUsuario: string) {
+    if (!this.mapInitialized) {
+      this.mapInitialized = true;
   
-  initMap(coordenadasUsuario: any, nombreProducto: string, descripcionProducto: string, nombreUsuario: string, coordenadasEspecificas?: any) {
-    // Crear el mapa si aún no está creado
-    if (!this.map) {
-      const centerCoordinates = coordenadasEspecificas ? coordenadasEspecificas : coordenadasUsuario;
-      this.map = new google.maps.Map(document.getElementById('map'), {
-        center: centerCoordinates,
-        zoom: 12
-      });
+    const centerCoordinates = coordenadasUsuario;
+    console.log('Coordenadas del mapa:', centerCoordinates);
+    this.map = new google.maps.Map(document.getElementById('map'), {
+      center: centerCoordinates,
+      zoom: 12
+    });
     }
-
+  
     // Crear un marcador en las coordenadas recibidas
     const marker = new google.maps.Marker({
       position: coordenadasUsuario,
@@ -105,7 +129,7 @@ export class UbicationPage implements OnInit {
       <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56962810616" style="text-decoration: none;">Enviar mensaje</a></p>
     </div>
     `;
-
+  
     // Crear el infowindow del marcador
     const infowindow = new google.maps.InfoWindow({
       content: contentString
@@ -121,22 +145,15 @@ export class UbicationPage implements OnInit {
     this.markers.push(marker);
   }
 
-  
-
-  agregarMarcadorUbicacionEspecifica(coordenadasEspecificas: { lat: number, lng: number }) {
-    // Verificar si el mapa está inicializado
+  agregarMarcadorUbicacionActual(ubicacionActual: any) {
     if (this.map) {
-      // URL de la imagen del marcador personalizado (opcional)
       const iconoUrl = 'assets/fotos/circulo.png';
-      // Tamaño personalizado del ícono (opcional)
-      const iconoTamaño = new google.maps.Size(30, 40);
+      const iconoTamaño = new google.maps.Size(50, 50);
 
-      // Crear el marcador en las coordenadas especificadas
       const marker = new google.maps.Marker({
-        position: coordenadasEspecificas,
+        position: ubicacionActual,
         map: this.map,
-        title: 'Ubicación Específica',
-        // Opcional: establecer un ícono personalizado para el marcador
+        title: 'Ubicación Actual',
         icon: {
           url: iconoUrl,
           scaledSize: iconoTamaño,
@@ -144,51 +161,18 @@ export class UbicationPage implements OnInit {
         }
       });
 
-      // Agregar el marcador a la lista de marcadores
       this.markers.push(marker);
     } else {
       console.error('El mapa no está inicializado.');
     }
   }
 
-  agregarMarcadorUbicacionActual(ubicacionActual: any) {
-    // Verificar si el mapa está inicializado
-    if (this.map) {
-        // URL de la imagen del ícono personalizado almacenada en la carpeta 'assets'
-        const iconoUrl = 'assets/fotos/circulo.png';
-
-        // Tamaño personalizado del ícono (ancho x alto en píxeles)
-        const iconoTamaño = new google.maps.Size(50, 50);
-
-        // Crear un marcador en la ubicación actual del usuario
-        const marker = new google.maps.Marker({
-            position: ubicacionActual,
-            map: this.map,
-            title: 'Ubicación Actual',
-            icon: {
-                // Utilizar el ícono personalizado para el marcador de ubicación actual
-                url: iconoUrl,
-                scaledSize: iconoTamaño, // Tamaño personalizado del ícono
-                anchor: new google.maps.Point(20, 40) // Punto de anclaje (mitad del ancho, parte inferior)
-            }
-        });
-
-        // Agregar el marcador a la lista de marcadores
-        this.markers.push(marker);
-    } else {
-        console.error('El mapa no está inicializado.');
-    }
-}
-
-
-  // Función para cerrar todos los infowindows
   closeAllInfoWindows() {
     this.infoWindows.forEach(infoWindow => {
       infoWindow.close();
     });
   }
 
-  // Función para salir de sesión
   signOut() {
     this.router.navigate(['/']);
   }

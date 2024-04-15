@@ -58,6 +58,7 @@ export class BuscarPage implements OnInit {
 
   ngOnInit() {
     this.ubicacionSeleccionada = 'actual';
+    
   }
 
   navigateTo(route: string) {
@@ -113,101 +114,163 @@ export class BuscarPage implements OnInit {
 
   buscarProductos() {
     if (this.terminoDeBusqueda.trim() !== '') {
-      this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
-        .get().subscribe(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            const productoData = doc.data() as ProductoData;
-            const uidUsuario = doc.ref.parent.parent?.id;
-            productoData.uidUsuario = uidUsuario;
+        this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
+            .get().subscribe(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    const productoData = doc.data() as ProductoData;
+                    const uidUsuario = doc.ref.parent.parent?.id;
+                    productoData.uidUsuario = uidUsuario;
 
-            this.firestore.collection('usuarios').doc(uidUsuario).get()
-              .subscribe(usuarioDoc => {
-                if (usuarioDoc.exists) {
-                  const usuarioData = usuarioDoc.data() as UserData;
-                  const coordenadasUsuario = usuarioData.coordenadas;
+                    this.firestore.collection('usuarios').doc(uidUsuario).get()
+                        .subscribe(usuarioDoc => {
+                            if (usuarioDoc.exists) {
+                                const usuarioData = usuarioDoc.data() as UserData;
+                                const coordenadasUsuario = usuarioData.coordenadas;
+                                const nombreProducto = productoData.nombre;
+                                const descripcionProducto = productoData.descripcion;
+                                const nombreUsuario = usuarioData.name;
 
-                  const nombreProducto = productoData.nombre;
-                  const descripcionProducto = productoData.descripcion;
-                  const nombreUsuario = usuarioData.name;
+                                this.router.navigate(['/ubication'], {
+                                  queryParams: {
+                                    nombreProducto: nombreProducto,
+                                    descripcionProducto: descripcionProducto,
+                                    nombreUsuario: nombreUsuario,
+                                    coordenadasUsuario: JSON.stringify(coordenadasUsuario)
+                                  }
+                                });
+                              } else {
+                                console.error('No se encontró el usuario con el UID:', uidUsuario);
+                            }
+                        }, error => {
+                            console.error('Error al obtener el usuario:', error);
+                        });
+                });
+            }, (error) => {
+                console.error('Error al buscar productos:', error);
+                this.mostrarMensajeError();
+            });
+    } else {
+        console.log('El término de búsqueda está vacío');
+    }
+}
+buscarServiciosEspecifica(coordenadasEspecifica: any) {
+  if (this.terminoDeBusqueda.trim() !== '') {
+    this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
+      .get().subscribe(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const servicioData = doc.data() as ServicioData;
+          const uidUsuario = doc.ref.parent.parent?.id;
+          servicioData.uidUsuario = uidUsuario;
 
-                  this.router.navigate(['/ubication'], {
-                    queryParams: {
-                      nombreProducto: nombreProducto,
-                      descripcionProducto: descripcionProducto,
-                      nombreUsuario: nombreUsuario,
-                      coordenadasUsuario: JSON.stringify(coordenadasUsuario)
-                    }
-                  });
-                } else {
-                  console.error('No se encontró el usuario con el UID:', uidUsuario);
-                }
-              }, error => {
-                console.error('Error al obtener el usuario:', error);
-              });
-          });
-        }, (error) => {
-          console.error('Error al buscar productos:', error);
-          this.mostrarMensajeError();
+          this.firestore.collection('usuarios').doc(uidUsuario).get()
+            .subscribe(usuarioDoc => {
+              if (usuarioDoc.exists) {
+                const usuarioData = usuarioDoc.data() as UserData;
+                const coordenadasUsuario = usuarioData.coordenadas;
+                const nombreServicio = servicioData.nombre;
+                const descripcionServicio = servicioData.descripcion;
+                const nombreUsuario = usuarioData.name;
+
+                this.router.navigate(['/ubication-especifica'], {
+                  queryParams: {
+                    nombreProducto: nombreServicio,
+                    descripcionProducto: descripcionServicio,
+                    nombreUsuario: nombreUsuario,
+                    coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+                    coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
+                  }
+                });
+              } else {
+                console.error('No se encontró el usuario con el UID:', uidUsuario);
+              }
+            }, error => {
+              console.error('Error al obtener el usuario:', error);
+            });
         });
-    } else {
-      console.log('El término de búsqueda está vacío');
-    }
-  }
-
-  buscar() {
-    if (this.ubicacionSeleccionada === 'especifica') {
-      if (this.direccionIngresada.trim() !== '') {
-        this.realizarBusquedaConDireccion();
-      } else {
-        console.log('Debe ingresar una dirección');
-      }
-    } else {
-      // Si se selecciona la ubicación actual, iniciar la búsqueda directamente
-      if (this.tipoBusqueda === 'producto') {
-        this.buscarProductos();
-      } else if (this.tipoBusqueda === 'servicio') {
-        this.buscarServicios();
-      }
-    }
-  }
-
-
-  buscarEspecifica () {
-    if (this.ubicacionSeleccionada === 'especifica') {
-      if (this.direccionIngresada.trim() !== '') {
-        this.realizarBusquedaConDireccion();
-      } else {
-        console.log('Debe ingresar una dirección');
-      }
-    } else {
-      // Si se selecciona la ubicación actual, iniciar la búsqueda directamente
-      if (this.tipoBusqueda === 'producto') {
-        this.buscarProductos();
-      } else if (this.tipoBusqueda === 'servicio') {
-        this.buscarServicios();
-      }
-    }
-  }
-
-
-async realizarBusquedaConDireccion() {
-  try {
-    const coordenadas = await this.obtenerCoordenadas(this.direccionIngresada);
-    console.log('Coordenadas obtenidas:', coordenadas);
-    
-    // Navegar a la página de ubication-especifica y pasar las coordenadas como parámetros
-    this.router.navigate(['/ubication-especifica'], {
-      queryParams: {
-        lat: coordenadas.lat,
-        lng: coordenadas.lng
-      }
-    });
-  } catch (error) {
-    console.error('Error al obtener coordenadas:', error);
-    // Manejar el error y proporcionar retroalimentación al usuario si es necesario
+      }, (error) => {
+        console.error('Error al buscar servicios:', error);
+        this.mostrarMensajeError();
+      });
+  } else {
+    console.log('El término de búsqueda está vacío');
   }
 }
-  
+
+buscarProductosEspecifica(coordenadasEspecifica: any) {
+  if (this.terminoDeBusqueda.trim() !== '') {
+    this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
+      .get().subscribe(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const productoData = doc.data() as ProductoData;
+          const uidUsuario = doc.ref.parent.parent?.id;
+          productoData.uidUsuario = uidUsuario;
+
+          this.firestore.collection('usuarios').doc(uidUsuario).get()
+            .subscribe(usuarioDoc => {
+              if (usuarioDoc.exists) {
+                const usuarioData = usuarioDoc.data() as UserData;
+                const coordenadasUsuario = usuarioData.coordenadas;
+                const nombreProducto = productoData.nombre;
+                const descripcionProducto = productoData.descripcion;
+                const nombreUsuario = usuarioData.name;
+
+                this.router.navigate(['/ubication-especifica'], {
+                  queryParams: {
+                    nombreProducto: nombreProducto,
+                    descripcionProducto: descripcionProducto,
+                    nombreUsuario: nombreUsuario,
+                    coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+                    coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
+                  }
+                });
+              } else {
+                console.error('No se encontró el usuario con el UID:', uidUsuario);
+              }
+            }, error => {
+              console.error('Error al obtener el usuario:', error);
+            });
+        });
+      }, (error) => {
+        console.error('Error al buscar productos:', error);
+        this.mostrarMensajeError();
+      });
+  } else {
+    console.log('El término de búsqueda está vacío');
+  }
+}
+
+
+buscar() {
+  if (this.ubicacionSeleccionada === 'especifica') {
+    if (this.direccionIngresada.trim() !== '') {
+      this.obtenerCoordenadas(this.direccionIngresada.trim())
+        .then(coordenadasEspecifica  => {
+          console.log('Coordenadas obtenidas:', coordenadasEspecifica);   
+          if (this.tipoBusqueda === 'producto') {
+            this.buscarProductosEspecifica(coordenadasEspecifica); 
+          } else if (this.tipoBusqueda === 'servicio') {
+            this.buscarServiciosEspecifica(coordenadasEspecifica);
+          }       
+        })
+        .catch(error => {
+          console.error(error);
+          // Aquí puedes manejar el error, como mostrar un mensaje al usuario
+        });
+    } else {
+      console.log('Debe ingresar una dirección');
+    }
+  } else if (this.ubicacionSeleccionada === 'actual') {
+    // Si se selecciona la ubicación actual, iniciar la búsqueda directamente
+    if (this.tipoBusqueda === 'producto') {
+      this.buscarProductos(); // Pasar false para indicar que no se use ubicación específica
+    } else if (this.tipoBusqueda === 'servicio') {
+      this.buscarServicios();
+    }
+  } else {
+    console.error('Seleccione una opción de ubicación válida');
+  }
+}
+
 
   async obtenerCoordenadas(direccion: string): Promise<{ lat: number, lng: number }> {
     return new Promise<{ lat: number, lng: number }>((resolve, reject) => {
@@ -225,18 +288,16 @@ async realizarBusquedaConDireccion() {
     });
   }
 
-  async realizarBusquedaConCoordenadas(coordenadas: { lat: number, lng: number }) {
-    if (this.tipoBusqueda === 'producto') {
-      // Realiza la búsqueda de productos con las coordenadas proporcionadas
-      // Actualiza this.productosEncontrados con los resultados de la búsqueda
-    } else if (this.tipoBusqueda === 'servicio') {
-      // Realiza la búsqueda de servicios con las coordenadas proporcionadas
-      // Actualiza this.serviciosEncontrados con los resultados de la búsqueda
-    }
-  }
+
+  
 
   mostrarMensajeError() {
     // Implementa la lógica para mostrar un mensaje de error al usuario
   }
+
+
+
+
+  
 
 }
