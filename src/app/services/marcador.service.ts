@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarcadorService {
 
-  marcadores: any[] = [];
+  private coordinatesSource = new BehaviorSubject<{ lat: number, lng: number }>({ lat: 0, lng: 0 });
+  currentCoordinates = this.coordinatesSource.asObservable();
+
 
   constructor() { }
 
-  agregarMarcador(marcador: any) {
-    this.marcadores.push(marcador);
+
+  updateCoordinates(coordinates: { lat: number, lng: number }) {
+    this.coordinatesSource.next(coordinates);
   }
 
-  obtenerMarcadores() {
-    return this.marcadores;
-  }
+
+
 }

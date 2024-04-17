@@ -44,11 +44,13 @@ export class UbicationPage implements OnInit {
         const nombreProducto = params['nombreProducto'];
         const descripcionProducto = params['descripcionProducto'];
         const nombreUsuario = params['nombreUsuario'];
+        const numeroContacto = params['numeroContacto'];
         const coordenadasUsuarioString = params['coordenadasUsuario'];
+        console.log('numero', numeroContacto)
         if (coordenadasUsuarioString) {
           try {
             const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
-            this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario);
+            this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
           } catch (error) {
             console.error('Error al analizar las coordenadas del usuario:', error);
           }
@@ -101,7 +103,7 @@ export class UbicationPage implements OnInit {
     }
   }
 
-  initMap(coordenadasUsuario: any, nombreProducto: string, descripcionProducto: string, nombreUsuario: string) {
+  initMap(coordenadasUsuario: any, nombreProducto: string, descripcionProducto: string, nombreUsuario: string, numeroContacto: string) {
     if (!this.mapInitialized) {
       this.mapInitialized = true;
   
@@ -122,11 +124,11 @@ export class UbicationPage implements OnInit {
   
     // Crear el contenido del infowindow del marcador
     const contentString = `
-    <div style="font-size: 12px; max-width: 155px; padding: 5px; margin: 0;">
+    <div style="font-size: 13px; max-width: 167px;  padding: 5px; margin: 0;">
       <h6 style="margin: 0;">${nombreUsuario}</h6>
       <p style="margin: 0;"> ${nombreProducto}</p>
       <p style="margin: 0;"><strong>Descripción:</strong> ${descripcionProducto}</p>
-      <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56962810616" style="text-decoration: none;">Enviar mensaje</a></p>
+      <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56>${numeroContacto}<" style="text-decoration: none;">Enviar mensaje</a></p>
     </div>
     `;
   

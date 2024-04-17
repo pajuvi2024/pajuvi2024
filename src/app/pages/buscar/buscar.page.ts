@@ -13,6 +13,7 @@ interface ServicioData {
   descripcion: string;
   uid: string;
   coordenadas: { lat: number; lng: number; };
+  numContact: number;
 }
 
 // Define una interfaz para la estructura de tus documentos de producto
@@ -24,10 +25,12 @@ interface ProductoData {
   descripcion: string;
   uid: string;
   coordenadas: { lat: number; lng: number; };
+  numContact: number;
 }
 
 interface UserData {
   name: string;
+  numContact: number;
   coordenadas: { lat: number, lng: number }; // Suponiendo que las coordenadas son un objeto con las propiedades lat y lng
   // Otros campos si los tienes
 }
@@ -50,6 +53,7 @@ export class BuscarPage implements OnInit {
   nombre: any;
   descripcion: any;
   name: any;
+  numeroContacto: any
 
   constructor(
     private router: Router,
@@ -83,17 +87,19 @@ export class BuscarPage implements OnInit {
                 if (usuarioDoc.exists) {
                   const usuarioData = usuarioDoc.data() as UserData;
                   const coordenadasUsuario = usuarioData.coordenadas;
-
                   const nombreServicio = servicioData.nombre;
                   const descripcionServicio = servicioData.descripcion;
                   const nombreUsuario = usuarioData.name;
+                  const numeroContacto = usuarioData.numContact;
 
                   this.router.navigate(['/ubication'], {
                     queryParams: {
                       nombreProducto: nombreServicio,
                       descripcionProducto: descripcionServicio,
                       nombreUsuario: nombreUsuario,
+                      numContact: numeroContacto,
                       coordenadasUsuario: JSON.stringify(coordenadasUsuario)
+                      
                     }
                   });
                 } else {
@@ -129,12 +135,14 @@ export class BuscarPage implements OnInit {
                                 const nombreProducto = productoData.nombre;
                                 const descripcionProducto = productoData.descripcion;
                                 const nombreUsuario = usuarioData.name;
+                                const numeroContacto = usuarioData.numContact;
 
                                 this.router.navigate(['/ubication'], {
                                   queryParams: {
                                     nombreProducto: nombreProducto,
                                     descripcionProducto: descripcionProducto,
                                     nombreUsuario: nombreUsuario,
+                                    numeroContacto: numeroContacto,
                                     coordenadasUsuario: JSON.stringify(coordenadasUsuario)
                                   }
                                 });
@@ -170,6 +178,7 @@ buscarServiciosEspecifica(coordenadasEspecifica: any) {
                 const nombreServicio = servicioData.nombre;
                 const descripcionServicio = servicioData.descripcion;
                 const nombreUsuario = usuarioData.name;
+                const numeroContacto = usuarioData.numContact;
 
                 this.router.navigate(['/ubication-especifica'], {
                   queryParams: {
@@ -177,6 +186,7 @@ buscarServiciosEspecifica(coordenadasEspecifica: any) {
                     descripcionProducto: descripcionServicio,
                     nombreUsuario: nombreUsuario,
                     coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+                    numeroContacto: numeroContacto,
                     coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
                   }
                 });
@@ -213,6 +223,7 @@ buscarProductosEspecifica(coordenadasEspecifica: any) {
                 const nombreProducto = productoData.nombre;
                 const descripcionProducto = productoData.descripcion;
                 const nombreUsuario = usuarioData.name;
+                const numeroContacto = usuarioData.numContact;
 
                 this.router.navigate(['/ubication-especifica'], {
                   queryParams: {
@@ -220,6 +231,7 @@ buscarProductosEspecifica(coordenadasEspecifica: any) {
                     descripcionProducto: descripcionProducto,
                     nombreUsuario: nombreUsuario,
                     coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+                    numeroContacto: numeroContacto,
                     coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
                   }
                 });
