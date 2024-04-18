@@ -15,9 +15,10 @@ ion-toolbar {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 20px;
+  padding-bottom: 30px; /* Aumentar el padding inferior para dar espacio al final */
   width: 80%;
   max-width: 500px;
-  margin: 30px auto;
+  margin: 30px auto; 
 }
 
 .card-title {
@@ -26,87 +27,43 @@ ion-toolbar {
   margin-bottom: 20px;
 }
 
-.info-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .info-item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
-
-  label {
-    font-weight: normal;
-    width: 30%;
-    text-align: right;
-    padding-right: 10px;
-  }
-
-  input {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px 10px;
-    background-color: white;
-    color: black;
-    width: 65%;
-  }
+  margin-bottom: 20px; // Mantiene un margen en la parte inferior para cada item
 }
 
-.payment-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  input[type="radio"] {
-    accent-color: var(--ion-color-primary);
-    margin-bottom: 5px;
-    -webkit-appearance: none;
-    appearance: none;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-
-    &:checked {
-      background-color: var(--ion-color-primary);
-      border-color: var(--ion-color-primary);
-
-      &::after {
-        content: '';
-        display: block;
-        border-radius: 50%;
-        width: 12px;
-        height: 12px;
-        background-color: white;
-      }
-    }
-  }
-
-  label {
-    text-align: center;
-    font-size: 0.95rem;
-    cursor: pointer;
-  }
+.label-title, .ion-text-wrap {
+  white-space: nowrap; // Previene que los elementos se rompan en múltiples líneas
+  overflow: hidden; // Mantiene el contenido dentro de sus límites
+  text-overflow: ellipsis; // Añade puntos suspensivos si el texto es muy largo
 }
 
-#paypal-button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  width: 50%;
-  max-width: 200px;
-  margin: 20px auto;
+.label-title {
+  font-weight: normal;
+  text-align: left; // Alinea el texto a la izquierda
+  margin-right: 10px; // Añade margen a la derecha para separar de los valores
+  font-size: 1.5rem; // Tamaño de la fuente para las etiquetas
+  flex: 0 0 auto; // Evita que el elemento crezca o se encoja, y usa su contenido para definir su tamaño
 }
 
-.disabled {
-  opacity: 0.5;
-  pointer-events: none;
+.ion-text-wrap {
+  display: flex; // Habilita flexbox
+  justify-content: center; // Centra el contenido horizontalmente
+  align-items: center; // Centra el contenido verticalmente
+  padding: 10px;
+  background-color: #f9f6f6;
+  border-radius: 4px;
+  font-size: 1rem;
+  height: 50px; // Altura fija para todos los ion-text-wrap
+  margin-top: 20px; // 
+  flex-grow: 1; // Permite que los contenedores crezcan y se ajusten al mismo tamaño
+  
 }
+
+
 
 .custom-header ion-title {
   color: white;
@@ -123,11 +80,45 @@ ion-toolbar {
   left: 8%;
 }
 
-.centrar {
-  text-align: center;
-  padding-top: 10px;
+.metodos-card {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 30px; /* Aumentar el padding inferior para dar espacio al final */
+  width: 80%;
+  max-width: 500px;
+  margin: 30px auto;
 }
-.card-selection {
+
+.payment-buttons-container {
+  display: flex;
+  justify-content: space-around; // Esto separará los botones uniformemente
+  margin-top: 20px; // Espacio adicional arriba de los botones si es necesario
+
+  ion-button {
+    margin-right: 20px; // Espacio entre los botones
+
+    &:last-child {
+      margin-right: 0; // Asegurarse de que el último botón no tenga margen a la derecha
+    }
+  }
+}
+
+.infoplanes-card {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 30px; /* Aumentar el padding inferior para dar espacio al final */
+  width: 80%;
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+//... (resto del código SCSS)
+
+.infoplanes-card {
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -137,126 +128,22 @@ ion-toolbar {
   margin: 30px auto;
   display: flex;
   flex-direction: column;
-  align-items: center; // Centra los elementos verticalmente
-}
+  align-items: center; // Alinea los elementos hijos al centro
 
-.card-selection-title {
-  text-align: center;
-  font-size: 1.3rem; // Tamaño de fuente ajustado
-  margin-bottom: 20px; // Espacio ajustado entre el título y las opciones de plan
-}
+  .card-title {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
 
-.plan-options {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 20px; // Espacio entre las opciones de plan
-}
-
-.option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  input[type="radio"] {
-    background-color: white; // Asegura que el fondo de los botones de radio sea blanco
-    -webkit-appearance: none; // Necesario para estilizar botones de radio en WebKit browsers
-    appearance: none; // Estiliza los botones de radio en otros browsers
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin-bottom: 5px; // Espacio entre el botón de radio y el texto
-
-    &:checked {
-      background-color: var(--ion-color-primary);
-      border-color: var(--ion-color-primary);
-
-      &::after {
-        content: '';
-        display: block;
-        border-radius: 50%;
-        width: 12px;
-        height: 12px;
-        background-color: white;
-      }
+  ion-label {
+    font-size: 1.2rem; // Ajusta este valor según lo necesites
+    margin-bottom: 10px; // Añade un margen en la parte inferior para separar los elementos
+    font-style: italic; // Esto pondrá el texto en cursiva
+    &:last-child {
+      margin-bottom: 0; // Asegura que el último elemento no tenga margen extra en la parte inferior
     }
   }
-
-  label {
-    cursor: pointer;
-    text-align: center; // Asegura que el texto esté alineado con el botón de radio
-    font-size: 0.95rem; // Ajusta el tamaño de la fuente del texto si es necesario
-  }
-}
-.payment-card {
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 20px;
-  width: 80%;
-  max-width: 500px;
-  margin: 30px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center; // Centra los elementos verticalmente
-
-  &.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-
-.payment-card-title {
-  text-align: center;
-  font-size: 1.25rem;
-  margin-bottom: 20px; // Espacio entre el título y las opciones de pago
-}
-
-.payment-options {
-  display: flex;
-  flex-direction: row; // Alinea las opciones de pago horizontalmente
-  justify-content: center;
-  gap: 20px; // Espacio entre las opciones de pago
-}
-
-.payment-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  input[type="radio"] {
-    background-color: white;
-    -webkit-appearance: none;
-    appearance: none;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin-bottom: 5px; // Espacio entre el botón de radio y el texto
-
-    &:checked {
-      background-color: var(--ion-color-primary);
-      border-color: var(--ion-color-primary);
-
-      &::after {
-        content: '';
-        display: block;
-        border-radius: 50%;
-        width: 12px;
-        height: 12px;
-        background-color: white;
-      }
-    }
-  } 
-
-  label {
-    cursor: pointer;
-    text-align: center; // Asegura que el texto esté alineado con el botón de radio
-  }
-}
-.label-title {
-  font-size: 1.5em; /* Ajusta el tamaño según necesites */
 }
 
 

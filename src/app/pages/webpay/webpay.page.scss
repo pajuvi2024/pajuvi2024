@@ -1,0 +1,26 @@
+ion-toolbar {
+    background-color: var(--ion-color-primary);
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .custom-header ion-title {
+    color: white;
+  }
+  
+  .centrar2 {
+    position: relative;
+    text-align: center;
+  }
+  
+  .logo3 {
+    position: absolute;
+    top: 25%;
+    left: 8%;
+  }

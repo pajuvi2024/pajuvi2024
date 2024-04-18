@@ -39,7 +39,7 @@ const routes: Routes = [
     path: 'pago',
     loadChildren: () => import('./pages/pago/pago.module').then( m => m.PagoPageModule),canActivate:[AuthGuard]
   },
-  
+
   {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
@@ -75,14 +75,23 @@ const routes: Routes = [
   {
     path: 'geo-ref',
     loadChildren: () => import('./pages/geo-ref/geo-ref.module').then( m => m.GeoRefPageModule)
-  },  {
+  },
+  {
     path: 'geocoding',
     loadChildren: () => import('./pages/geocoding/geocoding.module').then( m => m.GeocodingPageModule)
   },
   {
     path: 'ubication-especifica',
     loadChildren: () => import('./pages/ubication-especifica/ubication-especifica.module').then( m => m.UbicationEspecificaPageModule)
+  },  {
+    path: 'paypal',
+    loadChildren: () => import('./pages/paypal/paypal.module').then( m => m.PaypalPageModule)
   },
+  {
+    path: 'webpay',
+    loadChildren: () => import('./pages/webpay/webpay.module').then( m => m.WebpayPageModule)
+  },
+
 
 
 

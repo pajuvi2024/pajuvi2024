@@ -8,72 +8,40 @@
   </ion-header>
 
   <ion-content class="content">
-   
-    
-<div class="subscription-card">
+    <div class="subscription-card">
       <div class="card-title">Datos de tu Plan</div>
       
-      <div class="info-container"> 
-        <div class="info-item">
-          <ion-label class="label-title" position="stacked">Contador:</ion-label>
-          <ion-label class="ion-text-wrap">{{ formattedTrialStartDate }}</ion-label>
-        </div>
-        
-          <div class="info-item">
-            <ion-label class="label-title" position="stacked">Nombre:</ion-label>
-            <ion-label class="ion-text-wrap">{{ info?.planType }}</ion-label>
-          </div>
-        
-        <div class="info-item">
-          <ion-label class="label-title" position="stacked">Inicio:</ion-label>
-          <ion-label class="ion-text-wrap">{{ formattedstartDate }}</ion-label>
-        </div>
-        
-        <div class="info-item">
-          <ion-label class="label-title" position="stacked">Fin:</ion-label>
-          <ion-label class="ion-text-wrap">{{ formattedexpiryDate }}</ion-label>
-        </div>
-
+      <div class="info-item">
+        <ion-label class="label-title" position="stacked">Tipo:</ion-label>
+         <ion-label class="ion-text-wrap">{{ info?.planType }}</ion-label> 
       </div>
-    </div>
-
-    <div class="card-selection">
-      <div class="card-selection-title">Elige la opción de pago mas cómoda para ti</div>
-      <div class="plan-options">
-        <div class="option">
-          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan mensual -->
-          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('MENSUAL', 'monthly', '1.00', 1)">
-          <label for="monthlyPlan">MENSUAL<br>$690</label>
-        </div>
-        <div class="option">
-          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan semestral -->
-          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('SEMESTRAL', 'semester', '5.00', 6)">
-          <label for="semesterPlan">SEMESTRAL<br>$3.600</label>
-        </div>
-        <div class="option">
-          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan anual -->
-          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('ANUAL', 'annual', '10.00', 12)">
-          <label for="annualPlan">ANUAL<br>$6.500</label>
-        </div>
-      </div>
-    </div>
-       
-    <div class="payment-card" [class.disabled]="!isPaymentCardEnabled">
-      <div class="payment-card-title">{{ selectedPlanLabel }}</div>
       
-      <div class="payment-options">
-        <div class="payment-option">
-          <input type="radio" id="paypalOption" name="paymentMethod" value="Paypal" [disabled]="!isPaymentCardEnabled">
-          <label for="paypalOption">
-            <div id="paypal-button-container"></div>
-          </label>
-        </div>
-        <div class="payment-option">
-          <input type="radio" id="webpayOption" name="paymentMethod" value="Webpay" [disabled]="!isPaymentCardEnabled">
-          <label for="webpayOption">Webpay</label>
-        </div>
+      <div class="info-item">
+        <ion-label class="label-title" position="stacked">Fecha Inicio:</ion-label>
+        <ion-label class="ion-text-wrap">{{ formattedstartDate }}</ion-label>
+      </div>
+      
+      <div class="info-item">
+        <ion-label class="label-title" position="stacked">Fecha Fin:</ion-label>
+        <ion-label class="ion-text-wrap">{{ formattedexpiryDate }}</ion-label>
+      </div>
+    </div> 
+
+    <div class="metodos-card">
+      <div class="card-title">Métodos de Pago</div>
+      <div class="payment-buttons-container">
+        <ion-button [routerLink]="['/paypal']">PAYPAL</ion-button> 
+        <ion-button [routerLink]="['/webpay']">WEBPAY</ion-button>
       </div>
     </div>
+
+    <div class="infoplanes-card">
+      <div class="card-title">Información de Nuestros Planes</div>
+      <ion-label>Mensual: $690</ion-label>
+      <ion-label>Semestral: $3.600</ion-label>
+      <ion-label>Anual: $6.500</ion-label>      
+    </div>
+
   </ion-content> 
 
   <ion-footer>

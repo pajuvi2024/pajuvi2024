@@ -1,0 +1,71 @@
+<div class="ion-page" id="main-content">
+  <ion-header class="custom-header">
+    <ion-toolbar class="centrar2">
+      <div class="logo3">
+        <img src="../../../assets/fotos/logo3.png" height="40" alt="">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="content">
+
+    <div class="card-selection">
+      <div class="card-selection-title">Elige la opción de pago más cómoda para ti</div>
+      <div class="plan-options">
+        <div class="option">
+          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan mensual -->
+          <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('MENSUAL', 'monthly', '1.00', 1)">
+          <label for="monthlyPlan">MENSUAL<br>$690</label>
+        </div>
+        <div class="option">
+          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan semestral -->
+          <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('SEMESTRAL', 'semester', '5.00', 6)">
+          <label for="semesterPlan">SEMESTRAL<br>$3.600</label>
+        </div>
+        <div class="option">
+          <!-- Actualización de la llamada a selectPlan para incluir el precio del plan anual -->
+          <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('ANUAL', 'annual', '10.00', 12)">
+          <label for="annualPlan">ANUAL<br>$6.500</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-card" [class.disabled]="!isPaymentCardEnabled">
+      <div class="payment-card-title">{{ selectedPlanLabel }}</div>
+      
+      <div class="payment-options">
+        <div class="payment-option">
+          <input type="radio" id="paypalOption" name="paymentMethod" value="Paypal" [disabled]="!isPaymentCardEnabled">
+          <label for="paypalOption">
+            <div id="paypal-button-container"></div>
+          </label>
+        </div>                   
+      </div>
+    </div>
+    
+  </ion-content> 
+
+  <ion-footer>
+    <ion-toolbar color="dark" style="justify-content: space-between;">
+      <ion-buttons slot="start">
+        <ion-button (click)="navigateTo('/main')">
+          <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <ion-buttons slot="primary">
+          <ion-button (click)="navigateTo('/buscar')">
+            <ion-icon name="search-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div> 
+  
+      <ion-buttons slot="end">
+        <ion-button (click)="navigateTo('/pago')">
+          <ion-icon name="person-outline" style="font-size: 30px;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>

@@ -1,0 +1,302 @@
+ion-toolbar {
+    background-color: var(--ion-color-primary);
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .custom-header ion-title {
+    color: white;
+  }
+  
+  .centrar2 {
+    position: relative;
+    text-align: center;
+  }
+  
+  .logo3 {
+    position: absolute;
+    top: 25%;
+    left: 8%;
+  }
+  
+  #paypal-button-container {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 40%;
+    max-width: 180px;
+    margin: 20px auto;
+  }
+  
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  .plan-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px; // Espacio entre las opciones de plan
+  }
+  
+  .option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    input[type="radio"] {
+      background-color: white;
+      -webkit-appearance: none;
+      appearance: none;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 5px;
+  
+      &:checked {
+        background-color: var(--ion-color-primary);
+        border-color: var(--ion-color-primary);
+  
+        &::after {
+          content: '';
+          display: block;
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          background-color: white;
+        }
+      }
+    }
+    label {
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+  }
+  
+  .payment-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    input[type="radio"] {
+      background-color: white;
+      -webkit-appearance: none;
+      appearance: none;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 5px;
+  
+      &:checked {
+        background-color: var(--ion-color-primary);
+        border-color: var(--ion-color-primary);
+  
+        &::after {
+          content: '';
+          display: block;
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          background-color: white;
+        }
+      }
+    } 
+  
+    label {
+      cursor: pointer;
+      text-align: center;
+    }
+  }
+  
+  .label-title {
+    font-size: 1.5em;
+  }
+  
+  .payment-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Media Queries for Responsive Design */
+  @media (max-width: 768px) {
+    .plan-options {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    #paypal-button-container {
+      width: 80%; // Ajusta el ancho del contenedor de PayPal para dispositivos más pequeños
+    }
+  
+    .logo3 {
+      left: 5%; // Ajusta la posición del logo para pantallas más pequeñas
+    }
+  } 
+  
+  @media (max-width: 480px) {
+    ion-toolbar {
+      flex-direction: column;
+    }
+  
+    .option {
+      padding: 10px; // Aumenta el padding para mejorar la accesibilidad en dispositivos móviles
+    }
+  
+    .payment-option, .option {
+      width: 100%; // Hace que las opciones ocupen todo el ancho disponible
+    }
+  
+    label {
+      font-size: 1.2rem; // Aumenta el tamaño de la fuente para facilitar la lectura en dispositivos pequeños
+    }
+  }
+  
+  .card-selection {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Centra los elementos verticalmente
+  }
+  
+  .card-selection-title {
+    text-align: center;
+    font-size: 1.3rem; // Tamaño de fuente ajustado
+    margin-bottom: 20px; // Espacio ajustado entre el título y las opciones de plan
+  }
+  
+  .plan-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px; // Espacio entre las opciones de plan
+  }
+  
+  .option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    input[type="radio"] {
+      background-color: white; // Asegura que el fondo de los botones de radio sea blanco
+      -webkit-appearance: none; // Necesario para estilizar botones de radio en WebKit browsers
+      appearance: none; // Estiliza los botones de radio en otros browsers
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 5px; // Espacio entre el botón de radio y el texto
+  
+      &:checked {
+        background-color: var(--ion-color-primary);
+        border-color: var(--ion-color-primary);
+  
+        &::after {
+          content: '';
+          display: block;
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          background-color: white;
+        }
+      }
+    }
+  
+    label {
+      cursor: pointer;
+      text-align: center; // Asegura que el texto esté alineado con el botón de radio
+      font-size: 0.95rem; // Ajusta el tamaño de la fuente del texto si es necesario
+    }
+  }
+  .payment-card {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Centra los elementos verticalmente
+  
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+  
+  .payment-card-title {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 20px; // Espacio entre el título y las opciones de pago
+  }
+  
+  .payment-options {
+    display: flex;
+    flex-direction: row; // Alinea las opciones de pago horizontalmente
+    justify-content: center;
+    gap: 20px; // Espacio entre las opciones de pago
+  }
+  
+  .payment-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    input[type="radio"] {
+      background-color: white;
+      -webkit-appearance: none;
+      appearance: none;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 5px; // Espacio entre el botón de radio y el texto
+  
+      &:checked {
+        background-color: var(--ion-color-primary);
+        border-color: var(--ion-color-primary);
+  
+        &::after {
+          content: '';
+          display: block;
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          background-color: white;
+        }
+      }
+    } 
+  
+    label {
+      cursor: pointer;
+      text-align: center; // Asegura que el texto esté alineado con el botón de radio
+    }
+  }
+  .label-title {
+    font-size: 1.5em; /* Ajusta el tamaño según necesites */
+  }
+  
+  .payment-option {
+    display: flex;
+    align-items: center; /* Alinea verticalmente el radio button y la etiqueta */
+    gap: 10px; /* Añade espacio entre el radio button y la etiqueta */
+  }

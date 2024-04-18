@@ -60,6 +60,8 @@
   max-width: 400px;
   margin: auto;
   padding: 20px;
+  margin-top: 20px;  // Mantenemos un pequeño margen superior después del contenido previo
+  margin-bottom: 40px;  // Elimina el margen inferior completamente para que el botón toque la tarjeta
 }
 
 .image-container {
@@ -111,29 +113,8 @@
 }
 
 
-.button-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px; /* Aumenta el espacio entre los botones */
-  padding: 20px 0; /* Espacio adicional arriba y abajo de los botones */
-}
-.plan-button {
-  background-color: white; /* Fondo blanco para los botones */
-  color: black; /* Letras de color negro */
-  border: 1px solid #ddd; /* Borde sutil */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto 3D */
-  padding: 15px 30px; /* Aumenta la altura y reduce el ancho de los botones */
-  font-size: 1rem; /* Tamaño de la fuente */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre los botones */
-  transition: all 0.3s ease; /* Transición suave para efectos de hover */
 
-  &:hover {
-    background-color: #f8f8f8; /* Cambio sutil de color al pasar el mouse */
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada para el efecto de hover */
-  }
-}
+
 .custom-header ion-title {
   color: white; /* Cambia "red" al color deseado, por ejemplo: #ff0000 para rojo */
 }
@@ -147,3 +128,26 @@
   top: 25%;
   left: 8%;
 }
+.div-plan-button {
+  display: flex;  // Usa flexbox para el alineamiento
+  justify-content: center;  // Centra el contenido horizontalmente
+  align-items: center;  // Centra el contenido verticalmente
+  margin-top: 0;  // Elimina el margen superior completamente
+  margin-bottom: 0; // Elimina el margen inferior completamente para que el botón toque el footer
+
+  ion-button {
+    font-size: 1.2rem;  // Mantiene el tamaño original del texto
+    padding: 10px 20px;  // Padding moderado para controlar el tamaño
+    width: 40%;  // Establece el ancho del botón a 40% de su contenedor
+    height: 80px;  // Establece una altura fija para el botón
+    --border-radius: 10px;  // Bordes más redondeados
+    --background: var(--ion-color-primary);  // Usa el color primario
+    --color: #ffffff;  // Color del texto (blanco)
+    display: flex;  // Añadido para permitir la alineación del contenido dentro del botón
+    justify-content: center;  // Centra el texto horizontalmente dentro del botón
+    align-items: center;  // Centra el texto verticalmente dentro del botón
+    box-sizing: border-box;  // Incluye padding y borde en la medida del width/height
+  }
+}
+
+
