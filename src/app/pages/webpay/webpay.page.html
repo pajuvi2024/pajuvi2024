@@ -8,7 +8,17 @@
   </ion-header>
 
   <ion-content class="content">
+    
+    <div class="image-container">
+      <img src="../../../assets/fotos/webpay.png" class="centered-image">
+    </div>
 
+    <div class="card">
+      <ion-button class="button-spacing" (click)="redirectToExternal('https://www.webpay.cl/form-pay/175107')">MENSUAL $690</ion-button>
+      <ion-button class="button-spacing" (click)="redirectToExternal('https://www.webpay.cl/form-pay/175951')">SEMESTRAL $3.600</ion-button>
+      <ion-button class="button-spacing" (click)="redirectToExternal('https://www.webpay.cl/form-pay/175952')">MENSUAL $6.500</ion-button> 
+    </div>
+    
 
   </ion-content> 
 
@@ -18,7 +28,7 @@
         <ion-button (click)="navigateTo('/main')">
           <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
         </ion-button>
-      </ion-buttons>
+      </ion-buttons> 
   
       <div style="display: flex; justify-content: center; align-items: center;">
         <ion-buttons slot="primary">

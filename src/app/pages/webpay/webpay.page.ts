@@ -8,7 +8,7 @@ import { Info } from 'src/app/models/models';
 
 @Component({ 
   selector: 'app-webpay',
-  templateUrl: './webpay.page.html',
+  templateUrl: './webpay.page.html', 
   styleUrls: ['./webpay.page.scss'],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush  // Activando ChangeDetectionStrategy.OnPush
@@ -26,6 +26,10 @@ export class WebpayPage implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  redirectToExternal(url: string) {
+    window.location.href = url; // Redirecciona al usuario a la URL dada.
+  }
 
   navigateTo(route: string) {
     this.router.navigateByUrl(route);

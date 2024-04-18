@@ -1,26 +1,60 @@
 ion-toolbar {
-    background-color: var(--ion-color-primary);
-  }
-  
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  
-  .custom-header ion-title {
-    color: white;
-  }
-  
-  .centrar2 {
-    position: relative;
-    text-align: center;
-  }
-  
-  .logo3 {
-    position: absolute;
-    top: 25%;
-    left: 8%;
-  }
+  background-color: var(--ion-color-primary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.custom-header ion-title {
+  color: white;
+} 
+
+.centrar2 {
+  position: relative;
+  text-align: center;
+}
+
+.logo3 {
+  position: absolute;
+  top: 25%;
+  left: 8%;
+}
+
+.image-container {
+  text-align: center;
+  width: 100%;
+  margin-top: 70px; /* Added space between the header and the image */
+}
+
+.centered-image {
+  max-width: 50%; /* Adjust this value as needed */
+  margin: auto;
+  display: block;
+}
+
+.card {
+  background-color: #fff; /* Color de fondo para la card */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 90%;
+  margin: 20px auto; /* Asegura margin auto para el centrado horizontal */
+  border-radius: 10px;
+  display: flex; /* Habilita flexbox para organizar los elementos internos */
+  flex-direction: column; /* Alinea los elementos en columna */
+  align-items: center; /* Centra los elementos horizontalmente */
+  justify-content: center; /* Centra los elementos verticalmente */
+  margin-top: 70px; /* Added space between the header and the image */
+}
+
+.button-spacing {
+  display: block;
+  width: 80%; /* Ajusta la anchura de los botones */
+  margin-bottom: 30px; /* Espacio entre botones */
+  text-align: center; /* Asegura que el texto dentro de los botones esté centrado */
+}
+
