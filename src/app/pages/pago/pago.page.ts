@@ -41,21 +41,27 @@ export class PagoPage implements OnInit {
   }
 
   cargarDatosDeFirestore(userId: string) {
-    const path = 'usuarios';
-    this.firestoreService.getDoc(path, userId).subscribe(res => {
-      const validData = this.validarDatosUsuario(res);
-      if (validData) {
-        this.info = validData;
-        this.formattedstartDate = this.formatDate(this.info.startDate.toDate());
-        this.formattedexpiryDate = this.formatDate(this.info.expiryDate.toDate());
-        this.cd.detectChanges();  // Detecta cambios manualmente después de actualizar los datos
+    const docRef = this.firestoreService.getDocWithRealtimeUpdate<Info>('usuarios', userId);
+    docRef.snapshotChanges().subscribe(action => {
+      const data = action.payload.data();
+      if (data) {
+        const validData = this.validarDatosUsuario(data);
+        if (validData) {
+          this.info = validData;
+          this.formattedstartDate = this.formatDate(this.info.startDate.toDate());
+          this.formattedexpiryDate = this.formatDate(this.info.expiryDate.toDate());
+          this.cd.detectChanges();  // Detecta cambios manualmente después de actualizar los datos
+        } else {
+          console.log('Documento no encontrado o datos inválidos');
+        }
       } else {
-        console.log('Documento no encontrado o datos inválidos');
+        console.error('Documento no encontrado');
       }
     }, error => {
-      console.error('Error al recuperar documento:', error);
+      console.error('Error al escuchar el documento:', error);
     });
   }
+  
 
   validarDatosUsuario(data: any): Info | null {
     if (data && typeof data.planType === 'string' && data.startDate && data.expiryDate) {

@@ -28,20 +28,15 @@
           <label for="annualPlan">ANUAL<br>$6.500</label>
         </div>
       </div>
-    </div>
+    </div> 
 
-    <div class="payment-card" [class.disabled]="!isPaymentCardEnabled">
-      <div class="payment-card-title">{{ selectedPlanLabel }}</div>
-      
-      <div class="payment-options">
-        <div class="payment-option">
-          <input type="radio" id="paypalOption" name="paymentMethod" value="Paypal" [disabled]="!isPaymentCardEnabled">
-          <label for="paypalOption">
-            <div id="paypal-button-container"></div>
-          </label>
-        </div>                   
-      </div>
+  <div class="payment-card" [class.disabled]="!isPaymentCardEnabled">
+    <div class="payment-card-title">{{ isPaymentCardEnabled ? selectedPlanLabel : 'PAYPAL' }}</div>
+    
+    <div class="payment-options">
+      <div id="paypal-button-container"></div>
     </div>
+  </div>
     
   </ion-content> 
 

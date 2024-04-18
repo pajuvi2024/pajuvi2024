@@ -4,13 +4,14 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { DatePipe } from '@angular/common';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Info } from 'src/app/models/models';
+import { Timestamp } from 'firebase/firestore';  // Importación correcta de Timestamp
 
 declare var paypal: any;
 
 @Component({
-  selector: 'app-paypal',
+  selector: 'app-payal',
   templateUrl: './paypal.page.html',
-  styleUrls: ['./paypal.page.scss'], 
+  styleUrls: ['./paypal.page.scss'],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -19,7 +20,6 @@ export class PaypalPage implements OnInit, AfterViewChecked {
   selectedPlanLabel: string = 'Sistemas de Pago';
   selectedPlanDuration: number = 0;
   info: Info | null = null;
-  firestore: any;
   formattedTrialStartDate: string;
   formattedstartDate: string;
   formattedexpiryDate: string;
@@ -51,7 +51,7 @@ export class PaypalPage implements OnInit, AfterViewChecked {
         console.error('Error loading PayPal script:', error);
         this.showConfirmation('Error al cargar PayPal. Por favor, intente más tarde.');
       });
-    }
+    } 
   }
 
   selectPlan(planLabel: string, planValue: string, planPrice: string, duration: number) {
@@ -61,7 +61,6 @@ export class PaypalPage implements OnInit, AfterViewChecked {
     this.selectedPlanDuration = duration;
     console.log(`Plan seleccionado: ${planLabel} con valor ${planValue} y precio ${planPrice}`);
   }
-  
 
   loadPaypalScript(): Promise<any> {
     this.paypalScriptLoaded = true;
@@ -76,43 +75,56 @@ export class PaypalPage implements OnInit, AfterViewChecked {
 
   initializePaypalButtons() {
     paypal.Buttons({
-      createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              currency_code: 'USD',
-              value: this.selectedPlanValue
-            }
-          }]
-        });
-      },
-      onApprove: (data, actions) => {
-        return actions.order.capture().then(async details => {
-          console.log('Pago realizado con éxito', details);
-          const userId = (await this.afAuth.currentUser).uid;
-          const expiryDate = new Date();
-          expiryDate.setMonth(expiryDate.getMonth() + this.selectedPlanDuration);
-          const subscriptionData = {
-            planType: this.selectedPlanLabel,
-            startDate: new Date(),
-            expiryDate: expiryDate,
-            lastPaymentDetails: details
-          };
-          this.firestore.updateDoc(`usuarios/${userId}`, subscriptionData).then(() => {
-            console.log('Datos de suscripción actualizados en Firestore');
-            this.showConfirmation('¡Suscripción actualizada con éxito!');
-          }).catch(error => {
-            console.error('Error al actualizar la suscripción en Firestore', error);
-            this.showConfirmation('Error al actualizar la suscripción en Firestore.');
-          });
-        });
-      },
-      onError: (err) => {
-        console.error('Error en el pago', err);
-        this.showConfirmation('Ocurrió un error durante el proceso de pago.');
-      }
+        style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'paypal'
+        },
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        currency_code: 'USD',
+                        value: this.selectedPlanValue
+                    }
+                }]
+            });
+        },
+        onApprove: async (data, actions) => {
+            const details = await actions.order.capture();
+            this.handlePaymentSuccess(details);
+        },
+        onError: err => {
+            console.error('Error en el pago', err);
+            this.showConfirmation('Ocurrió un error durante el proceso de pago.');
+        },
+        onInit: (data, actions) => {
+            actions.enable(); // Asegúrate de que los botones estén habilitados
+        }
     }).render('#paypal-button-container');
-  }
+}
+
+async handlePaymentSuccess(details) {
+  const userId = (await this.afAuth.currentUser).uid;
+  const expiryDate = new Date();
+  expiryDate.setMonth(expiryDate.getMonth() + this.selectedPlanDuration);
+  const subscriptionData = {
+      planType: this.selectedPlanLabel,
+      startDate: Timestamp.fromDate(new Date()),
+      expiryDate: Timestamp.fromDate(expiryDate),
+      lastPaymentDetails: details
+  };
+  this.firestoreService.updateDoc(`usuarios/${userId}`, subscriptionData)
+      .then(() => {
+          console.log('Datos de suscripción actualizados en Firestore');
+          this.showConfirmation('¡Suscripción actualizada con éxito!');
+      })
+      .catch(error => {
+          console.error('Error al actualizar la suscripción en Firestore', error);
+          this.showConfirmation('Error al actualizar la suscripción en Firestore.');
+      });
+}
 
   navigateTo(route: string) {
     this.router.navigateByUrl(route);
