@@ -1,11 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.models';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import { ApiService } from 'src/app/services/api.service';
-import { DataStorageService } from 'src/app/services/data-storage.service';
 import { UserI } from 'src/app/models/models';
 import { ToastController } from '@ionic/angular';
 
@@ -27,8 +24,6 @@ export class LoginPage implements OnInit {
     private firebaseServ: FirebaseService,
     private utilsServ: UtilsService,
     private router: Router,
-    private api: ApiService,
-    private dataStorageService: DataStorageService,
     private ToastController: ToastController,
   ) { }
 
@@ -37,7 +32,7 @@ export class LoginPage implements OnInit {
 
     localStorage.removeItem('userEmail');
 
-    this.dataStorageService.clearDataGym();
+    
   }
 
   async submit() {

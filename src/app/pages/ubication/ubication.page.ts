@@ -124,7 +124,7 @@ export class UbicationPage implements OnInit {
   
     // Crear el contenido del infowindow del marcador
     const contentString = `
-    <div style="font-size: 13px; max-width: 167px;  padding: 5px; margin: 0;">
+    <div style="font-size: 13px; max-width: 167px; padding: 5px; margin: 0;">
       <h6 style="margin: 0;">${nombreUsuario}</h6>
       <p style="margin: 0;"> ${nombreProducto}</p>
       <p style="margin: 0;"><strong>Descripción:</strong> ${descripcionProducto}</p>

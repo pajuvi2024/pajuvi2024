@@ -97,7 +97,7 @@ export class BuscarPage implements OnInit {
                       nombreProducto: nombreServicio,
                       descripcionProducto: descripcionServicio,
                       nombreUsuario: nombreUsuario,
-                      numContact: numeroContacto,
+                      numeroContacto: numeroContacto,
                       coordenadasUsuario: JSON.stringify(coordenadasUsuario)
                       
                     }
@@ -161,6 +161,7 @@ export class BuscarPage implements OnInit {
         console.log('El término de búsqueda está vacío');
     }
 }
+
 buscarServiciosEspecifica(coordenadasEspecifica: any) {
   if (this.terminoDeBusqueda.trim() !== '') {
     this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
@@ -178,7 +179,7 @@ buscarServiciosEspecifica(coordenadasEspecifica: any) {
                 const nombreServicio = servicioData.nombre;
                 const descripcionServicio = servicioData.descripcion;
                 const nombreUsuario = usuarioData.name;
-                const numeroContacto = usuarioData.numContact;
+                const numeroContacto = usuarioData.numContact; 
 
                 this.router.navigate(['/ubication-especifica'], {
                   queryParams: {
@@ -299,9 +300,6 @@ buscar() {
       });
     });
   }
-
-
-  
 
   mostrarMensajeError() {
     // Implementa la lógica para mostrar un mensaje de error al usuario

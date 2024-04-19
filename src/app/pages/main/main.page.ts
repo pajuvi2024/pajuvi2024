@@ -4,7 +4,6 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { DataStorageService } from 'src/app/services/data-storage.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -18,13 +17,10 @@ export class MainPage implements OnInit {
   safeVideoUrl: SafeResourceUrl;
 
   paginaActual: string;
-  constructor(private afAuth: AngularFireAuth,
-              private firebaseServ:FirebaseService,
-              private utilsServ: UtilsService,
-              private router: Router,
-              private api: ApiService,
+  constructor(private afAuth: AngularFireAuth,              
+              private router: Router,              
               private sanitizer: DomSanitizer,
-              private dataStorageService: DataStorageService){
+              ){
                 this.setVideoUrl('https://www.youtube.com/embed/06Btx0To5Dk?si=VCHegdQTOAMDSOCY');
                 this.router.events.subscribe((event) => {
                   if (event instanceof NavigationEnd) {
@@ -64,7 +60,7 @@ export class MainPage implements OnInit {
     // Eliminar el token de autenticación de localStorage
     localStorage.clear();
 
-    this.dataStorageService.clearDataGym();
+ 
     
     this.afAuth.signOut().then(() => {
       // Cierre de sesión exitoso

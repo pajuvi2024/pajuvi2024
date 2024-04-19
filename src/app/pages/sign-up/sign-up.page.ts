@@ -7,8 +7,6 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Router } from '@angular/router';
 import { UtilsService } from 'src/app/services/utils.service';
 import { HttpClient } from '@angular/common/http';
-import { DataStorageService } from 'src/app/services/data-storage.service';
-import * as firebase from 'firebase/compat';
 import { Timestamp } from 'firebase/firestore';
 
 declare var google;
@@ -57,13 +55,10 @@ export class SignUpPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertController: AlertController,
-    private firebaseServ: FirebaseService,
     private utilsServ: UtilsService,
     private router: Router,
     private firestore: FirestoreService,
-    private http: HttpClient,
-    private dataStorage: DataStorageService,
-              
+  
               
               
     

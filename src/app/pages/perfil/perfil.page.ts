@@ -10,7 +10,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Storage } from '@ionic/storage-angular';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { DataStorageService } from 'src/app/services/data-storage.service';
+
 
 
 @Component({
@@ -32,11 +32,8 @@ export class PerfilPage implements OnInit {
   storageIonic: Storage | null = null; // Declarar la propiedad
 
   constructor(
-    
-    private api: ApiService,
     private Auth: AngularFireAuth,
-    private alertController: AlertController,
-    private storage2: AngularFireStorage, // Cambia AngularFireStorage
+    private alertController: AlertController,    
     private firestore: FirestoreService,
     private utilsService: UtilsService,
     private sanitizer: DomSanitizer,
@@ -45,7 +42,7 @@ export class PerfilPage implements OnInit {
     private afStorage: AngularFireStorage,
     private router: Router,
     private afAuth: AngularFireAuth,
-    private dataStorageService: DataStorageService
+  
     
     
              
@@ -171,7 +168,7 @@ export class PerfilPage implements OnInit {
     // Eliminar el token de autenticación de localStorage
     localStorage.clear();
 
-    this.dataStorageService.clearDataGym();
+    
     
     this.afAuth.signOut().then(() => {
       // Cierre de sesión exitoso
