@@ -143,6 +143,7 @@ export class SignUpPage implements OnInit {
           planType: planType, // El tipo de plan
           startDate: Timestamp.fromDate(currentDate), // La fecha de inicio (igual a trialStartDate)
           expiryDate: Timestamp.fromDate(expiryDate), // Convertir la fecha de expiración a Timestamp de Firestore
+          coordenadas: coordinates // Agregar las coordenadas
           };
     
           // Actualizar el UID en los datos del usuario
@@ -179,7 +180,7 @@ export class SignUpPage implements OnInit {
     if (address) { // Verifica si la dirección está presente
       try {
         const coordinates = await this.obtenerCoordenadas(address);
-        console.log('Coordenadas válidas:', coordinates);
+        console.log('Coordenadas válidas1:', coordinates);
         this.mostrarMensaje('Dirección válida');
         // Habilitar el botón de registro si la dirección es válida
         this.registroForm.get('direccion').markAsTouched(); // Marcar la dirección como tocada para activar las validaciones
@@ -228,26 +229,7 @@ export class SignUpPage implements OnInit {
     });
   }
 
-  async geocodeAddress(address: string) {
-    const geocoder = new google.maps.Geocoder();
-    try {
-      const results = await geocoder.geocode({ 'address': address });
-      if (results && results.length > 0) {
-        const location = results[0].geometry.location;
-        this.datos.coordenadas.lat = location.lat();
-        this.datos.coordenadas.lng = location.lng();
-        
-        console.log('Coordenadas válidas:', this.datos.coordenadas);
-        // Realiza cualquier acción adicional necesaria con las coordenadas aquí
-      } else {
-        console.error('No se encontraron resultados para la dirección proporcionada.');
-        // Puedes mostrar un mensaje al usuario indicando que la dirección no es válida
-      }
-    } catch (error) {
-      console.error('Error al geocodificar la dirección:', error);
-      // Maneja el error según sea necesario, por ejemplo, mostrando un mensaje al usuario
-    }
-  }
+ 
 
 
   matchingFields(field1: string, field2: string, errorMessage: string) {
