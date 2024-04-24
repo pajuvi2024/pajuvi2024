@@ -14,8 +14,7 @@ import { Info } from 'src/app/models/models';
   changeDetection: ChangeDetectionStrategy.OnPush  // Activando ChangeDetectionStrategy.OnPush
 })
 export class WebpayPage implements OnInit {
-  info: Info | null = null;
-
+  info: Info | null = null; 
 
   constructor( 
     private router: Router,
@@ -35,5 +34,3 @@ export class WebpayPage implements OnInit {
     this.router.navigateByUrl(route);
   }
 }
-
- 

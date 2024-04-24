@@ -1,14 +1,15 @@
+import { Timestamp } from 'firebase/firestore';
 
-
-// Primero definimos la interfaz Info, ajusta las propiedades según tus necesidades
+// Definición actualizada de la interfaz Info
 export interface Info {
-  planType: string;
-  
+  startDate: Timestamp;
+  expiryDate: Timestamp;  // Asegurándonos de que el tipo sea Timestamp de Firestore
+  planType: string;  // Aquí puedes incluir otras propiedades relevantes
 }
 
 // Luego definimos la interfaz UserI
 export interface UserI {
-  // La función data ahora devuelve un tipo Info correctamente definido
+// La función data ahora devuelve un tipo Info correctamente definido
   data?: () => Info;
   exists?: boolean; // Asumiendo que 'exists' es un booleano para indicar si el documento existe
   uid: string | null;

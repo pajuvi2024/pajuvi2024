@@ -84,12 +84,7 @@ export class SignUpPage implements OnInit {
   
   async registrarme2() {
 
-  // Definir los valores de los campos adicionales
-  const trialStart = new Date('2024-04-01T09:00:00'); // Definir la fecha de inicio del periodo de prueba
-  const expiryDate = new Date('2024-05-01T09:00:00'); // Definir la fecha de expiración del periodo de prueba
-  const planType = 'Gratis'; // Definir el tipo de plan
-
-  // Comprobar si la dirección es válida antes de continuar
+ // Comprobar si la dirección es válida antes de continuar
   if (!this.registroForm.get('direccion').valid) {
     console.log('La dirección no es válida, por favor complete todos los campos obligatorios correctamente');
     return;
@@ -139,7 +134,6 @@ export class SignUpPage implements OnInit {
           const datos = {
           ...this.registroForm.value,
           uid: id, // El UID del usuario
-          trialStartDate: Timestamp.fromDate(currentDate), // Convertir la fecha de inicio a Timestamp de Firestore
           planType: planType, // El tipo de plan
           startDate: Timestamp.fromDate(currentDate), // La fecha de inicio (igual a trialStartDate)
           expiryDate: Timestamp.fromDate(expiryDate), // Convertir la fecha de expiración a Timestamp de Firestore

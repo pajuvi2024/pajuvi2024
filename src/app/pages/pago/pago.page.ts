@@ -68,7 +68,7 @@ export class PagoPage implements OnInit {
       return {
         planType: data.planType,
         startDate: data.startDate,
-        expiryDate: data.expiryDate
+        expiryDate: data.expiryDate  
       };
     } else {
       console.error('Datos de usuario inválidos:', data);

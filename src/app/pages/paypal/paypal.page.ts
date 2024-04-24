@@ -9,7 +9,7 @@ import { Timestamp } from 'firebase/firestore';  // Importación correcta de Tim
 declare var paypal: any;
 
 @Component({
-  selector: 'app-payal',
+  selector: 'app-paypal',
   templateUrl: './paypal.page.html',
   styleUrls: ['./paypal.page.scss'],
   providers: [DatePipe],
@@ -20,7 +20,6 @@ export class PaypalPage implements OnInit, AfterViewChecked {
   selectedPlanLabel: string = 'Sistemas de Pago';
   selectedPlanDuration: number = 0;
   info: Info | null = null;
-  formattedTrialStartDate: string;
   formattedstartDate: string;
   formattedexpiryDate: string;
   private paypalScriptLoaded: boolean = false;
@@ -100,31 +99,60 @@ export class PaypalPage implements OnInit, AfterViewChecked {
             this.showConfirmation('Ocurrió un error durante el proceso de pago.');
         },
         onInit: (data, actions) => {
-            actions.enable(); // Asegúrate de que los botones estén habilitados
+            actions.enable();
         }
     }).render('#paypal-button-container');
+  }
+
+  async handlePaymentSuccess(details) {
+    const userId = (await this.afAuth.currentUser).uid;
+    this.firestoreService.getDoc('usuarios', userId).subscribe((data: any) => {
+        const user = data as Info;
+        let newStartDate: Date;
+        let newExpiryDate: Date = new Date();
+
+        // Verificar si la fecha de inicio ya está establecida
+        if (user && user.startDate) {
+            newStartDate = user.startDate.toDate();  // Usar la fecha existente
+        } else {
+            newStartDate = new Date();  // Establecer la nueva fecha de inicio si no existe
+        }
+
+        // Configurar la nueva fecha de expiración
+        if (user && user.expiryDate) {
+            const currentExpiryDate = user.expiryDate.toDate();
+            if (currentExpiryDate > new Date()) {
+                // Si la expiración actual es futura, ajustar la nueva fecha de expiración en base a la actual
+                newExpiryDate = new Date(currentExpiryDate);
+            } else {
+                // Si la expiración ha pasado, establecer la nueva expiración en base a hoy
+                newExpiryDate = new Date(newStartDate);
+            }
+        }
+        newExpiryDate.setMonth(newExpiryDate.getMonth() + this.selectedPlanDuration);
+
+        const subscriptionData = {
+            planType: this.selectedPlanLabel,
+            startDate: Timestamp.fromDate(newStartDate), // Asegúrate de que solo se establezca en el primer pago
+            expiryDate: Timestamp.fromDate(newExpiryDate),
+            lastPaymentDetails: details
+        };
+
+        // Actualizar el documento del usuario con los nuevos valores
+        this.firestoreService.updateDoc(`usuarios/${userId}`, subscriptionData)
+            .then(() => {
+                console.log('Datos de suscripción actualizados en Firestore');
+                this.showConfirmation('¡Suscripción actualizada con éxito!');
+            })
+            .catch(error => {
+                console.error('Error al actualizar la suscripción en Firestore', error);
+                this.showConfirmation('Error al actualizar la suscripción en Firestore.');
+            });
+    }, error => {
+        console.error('Error al obtener los datos del usuario:', error);
+    });
 }
 
-async handlePaymentSuccess(details) {
-  const userId = (await this.afAuth.currentUser).uid;
-  const expiryDate = new Date();
-  expiryDate.setMonth(expiryDate.getMonth() + this.selectedPlanDuration);
-  const subscriptionData = {
-      planType: this.selectedPlanLabel,
-      startDate: Timestamp.fromDate(new Date()),
-      expiryDate: Timestamp.fromDate(expiryDate),
-      lastPaymentDetails: details
-  };
-  this.firestoreService.updateDoc(`usuarios/${userId}`, subscriptionData)
-      .then(() => {
-          console.log('Datos de suscripción actualizados en Firestore');
-          this.showConfirmation('¡Suscripción actualizada con éxito!');
-      })
-      .catch(error => {
-          console.error('Error al actualizar la suscripción en Firestore', error);
-          this.showConfirmation('Error al actualizar la suscripción en Firestore.');
-      });
-}
 
   navigateTo(route: string) {
     this.router.navigateByUrl(route);

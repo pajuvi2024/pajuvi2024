@@ -23,7 +23,7 @@ ion-toolbar {
 
 .card-title {
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1.25rem; 
   margin-bottom: 20px;
 }
 
@@ -98,11 +98,22 @@ ion-toolbar {
 
   ion-button {
     margin-right: 20px; // Espacio entre los botones
+    --background: none;
+    background-size: cover;
+    background-position: center;
 
     &:last-child {
       margin-right: 0; // Asegurarse de que el último botón no tenga margen a la derecha
     }
   }
+}
+
+.payment-buttons-container ion-button:nth-child(1) {
+  background-image: url('../../../assets/fotos/paypal1.png');
+}
+
+.payment-buttons-container ion-button:nth-child(2) {
+  background-image: url('../../../assets/fotos/webpay1.png');
 }
 
 .infoplanes-card {
