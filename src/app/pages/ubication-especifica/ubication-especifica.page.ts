@@ -31,7 +31,6 @@ export class UbicationEspecificaPage implements OnInit {
             const coordenadas = JSON.parse(coordenadasEspecifica);
             const lat = coordenadas['lat'];
             const lng = coordenadas['lng'];
-            console.log('Coordenadas del buscar:', lat, lng);
             this.centrarMapa(lat, lng);
           } catch (error) {
             console.error('Error al analizar las coordenadas:', error);
@@ -45,7 +44,6 @@ export class UbicationEspecificaPage implements OnInit {
         const nombreUsuario = params['nombreUsuario'];
         const numeroContacto = params['numeroContacto'];
         const coordenadasUsuarioString = params['coordenadasUsuario'];
-        console.log('numero', numeroContacto)
         if (coordenadasUsuarioString) {
           try {
             const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
@@ -78,7 +76,6 @@ export class UbicationEspecificaPage implements OnInit {
     this.mapInitialized = true;
 
     const centerCoordinates = coordenadasUsuario;
-    console.log('Coordenadas del mapa:', centerCoordinates);
     this.centrarMapa(centerCoordinates.lat, centerCoordinates.lng); // Centrar el mapa en las coordenadas proporcionadas
 
     this.map = new google.maps.Map(document.getElementById('map'), {

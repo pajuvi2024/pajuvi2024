@@ -126,6 +126,7 @@ export class BuscarPage implements OnInit {
                     const productoData = doc.data() as ProductoData;
                     const uidUsuario = doc.ref.parent.parent?.id;
                     productoData.uidUsuario = uidUsuario;
+                    console.log ('ID del usuario dueño',uidUsuario )
 
                     this.firestore.collection('usuarios').doc(uidUsuario).get()
                         .subscribe(usuarioDoc => {
@@ -215,6 +216,7 @@ buscarProductosEspecifica(coordenadasEspecifica: any) {
           const productoData = doc.data() as ProductoData;
           const uidUsuario = doc.ref.parent.parent?.id;
           productoData.uidUsuario = uidUsuario;
+          
 
           this.firestore.collection('usuarios').doc(uidUsuario).get()
             .subscribe(usuarioDoc => {
@@ -258,7 +260,6 @@ buscar() {
     if (this.direccionIngresada.trim() !== '') {
       this.obtenerCoordenadas(this.direccionIngresada.trim())
         .then(coordenadasEspecifica  => {
-          console.log('Coordenadas obtenidas:', coordenadasEspecifica);   
           if (this.tipoBusqueda === 'producto') {
             this.buscarProductosEspecifica(coordenadasEspecifica); 
           } else if (this.tipoBusqueda === 'servicio') {

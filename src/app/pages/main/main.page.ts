@@ -1,10 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FirebaseService } from 'src/app/services/firebase.service';
-import { UtilsService } from 'src/app/services/utils.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { ApiService } from 'src/app/services/api.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MarcadorService } from './../../services/marcador.service';
+import { GeoStateService } from 'src/app/services/geo-state.service';
+
+
+
 
 @Component({
   selector: 'app-main',
@@ -20,6 +22,8 @@ export class MainPage implements OnInit {
   constructor(private afAuth: AngularFireAuth,              
               private router: Router,              
               private sanitizer: DomSanitizer,
+              private marcadorService: MarcadorService,
+              public geoStateService: GeoStateService
               ){
                 this.setVideoUrl('https://www.youtube.com/embed/06Btx0To5Dk?si=VCHegdQTOAMDSOCY');
                 this.router.events.subscribe((event) => {
@@ -77,31 +81,34 @@ export class MainPage implements OnInit {
     this.paginaActual = event.detail.value;
   }
 
+
+
   toggleGPS(event: any) {
-    // Aquí puedes implementar la lógica para activar o desactivar la geolocalización
+    this.geoStateService.setGPSEnabled(event.detail.checked);
     if (event.detail.checked) {
-      // Si el toggle está activado
-      console.log('Geolocalización activada');
-      // Llamar a la función para obtener la ubicación
       this.getLocation();
     } else {
-      // Si el toggle está desactivado
       console.log('Geolocalización desactivada');
-      // Aquí podrías detener la obtención de la ubicación o realizar otras acciones necesarias
     }
   }
 
   getLocation() {
-    // Aquí puedes implementar la lógica para obtener la ubicación
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log('Latitude: ' + position.coords.latitude + ' Longitude: ' + position.coords.longitude);
+        console.log('Latitude: ', position.coords.latitude, ' Longitude: ', position.coords.longitude);
+        
+        // Enviar la ubicación al servicio MarcadorService
+        this.marcadorService.updateLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+      }, (error) => {
+        console.error('Error getting location:', error);
       });
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
   }
-
 
   
   }
