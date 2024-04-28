@@ -33,41 +33,30 @@ export class UbicationPage implements OnInit {
     }
   
     this.activatedRoute.queryParams.subscribe(params => {
-      const coordenadasEspecifica = params['coordenadasEspecifica'];
-      const coordenadasRealString = params['coordenadasReal'];
-  
-      if (coordenadasRealString) {
-        try {
-          const coordenadasReal = JSON.parse(coordenadasRealString);
-          // Llamar a la función markerReal con las coordenadas recibidas
-          this.markerReal(coordenadasReal);
-          console.log('Coordenadas reales recibidas:', coordenadasReal);
-        } catch (error) {
-          console.error('Error al analizar las coordenadas reales:', error);
-        }
-      }
-  
-      if (coordenadasEspecifica) {
-        try {
-          const coordenadas = JSON.parse(coordenadasEspecifica);
-          const lat = coordenadas['lat'];
-          const lng = coordenadas['lng'];
-          this.centrarMapa(lat, lng);
-        } catch (error) {
-          console.error('Error al analizar las coordenadas:', error);
-        }
-      }
-  
       const nombreProducto = params['nombreProducto'];
       const descripcionProducto = params['descripcionProducto'];
       const nombreUsuario = params['nombreUsuario'];
-      const numeroContacto = params['numeroContacto'];
-      const coordenadasUsuarioString = params['coordenadasUsuario'];    
-              
+      const numeroContacto = params['numeroContacto'];      
+      const coordenadasRealString = params['coordenadasReal'];
+      const coordenadasUsuarioString = params['coordenadasUsuario'];   
+
+      console.log('Datos1:', coordenadasRealString, descripcionProducto);
+
+      if (coordenadasRealString) {
+          try {
+              const coordenadasReal = JSON.parse(coordenadasRealString);
+              this.markerReal(coordenadasReal, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
+              console.log('Coordenadas reales recibidas:', coordenadasReal, descripcionProducto);
+          } catch (error) {
+              console.error('Error al analizar las coordenadas reales:', error);
+          }
+      }      
+       
       if (coordenadasUsuarioString) {
         try {
           const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
-          this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
+          this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto, );
+              
         } catch (error) {
           console.error('Error al analizar las coordenadas del usuario:', error);
         }
@@ -78,6 +67,7 @@ export class UbicationPage implements OnInit {
   
     // Obtener la ubicación actual del usuario al cargar la página
     this.obtenerUbicacionActual();
+  
   }
   
     
@@ -122,8 +112,10 @@ export class UbicationPage implements OnInit {
   }
 
   initMap(coordenadasUsuario: any, nombreProducto: string, descripcionProducto: string, nombreUsuario: string, numeroContacto: string) {
+    
     if (!this.mapInitialized) {
       this.mapInitialized = true;
+     
   
     const centerCoordinates = coordenadasUsuario;
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -179,11 +171,24 @@ export class UbicationPage implements OnInit {
           anchor: new google.maps.Point(20, 40)
         }
       });
+
+          // Crear el contenido del infowindow del marcador
+      const contentString = `
+      <div style="font-size: 13px; max-width: 167px; padding: 5px; margin: 0;">
+        <p style="margin: 0;">Tu</p>
+        </div>
+      `;
+
+// Crear el infowindow del marcador
+  const infowindow = new google.maps.InfoWindow({
+    content: contentString
+});
       
-      this.markers.push(marker);
-    } else {
-      console.error('El mapa no está inicializado.');
-    }
+       // Abrir el infowindow cuando se haga clic en el marcador
+    marker.addListener('click', () => {
+      infowindow.open(this.map, marker);
+    });
+    } 
   }
 
   
@@ -209,7 +214,6 @@ export class UbicationPage implements OnInit {
       animation: google.maps.Animation.DROP
     });
   
-    // Crear el contenido del infowindow del marcador
    // Crear el contenido del infowindow del marcador
 const contentString = `
 <div style="font-size: 13px; max-width: 167px; padding: 5px; margin: 0;">
@@ -218,9 +222,7 @@ const contentString = `
   <p style="margin: 0;"><strong>Descripción:</strong> ${descripcionProducto}</p>
   <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56>${numeroContacto}<" style="text-decoration: none;">Enviar mensaje</a></p>
 </div>
-`;
-
-  
+`;  
     // Crear el infowindow del marcador
     const infowindow = new google.maps.InfoWindow({
       content: contentString

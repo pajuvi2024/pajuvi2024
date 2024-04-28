@@ -123,70 +123,56 @@ export class BuscarPage implements OnInit {
     }
   }
 
-  buscarProductos() {
-    if (this.terminoDeBusqueda.trim() !== '') {
-      this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
-        .get().subscribe(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            const productoData = doc.data() as ProductoData;
-            const uidUsuario = doc.ref.parent.parent?.id;
-            productoData.uidUsuario = uidUsuario;
-            console.log('ID del usuario dueño', uidUsuario)
-  
-            this.firestore.collection('usuarios').doc(uidUsuario).get()
-              .subscribe(usuarioDoc => {
-                if (usuarioDoc.exists) {
-                  const usuarioData = usuarioDoc.data() as UserData;
-                  const coordenadasUsuario = usuarioData.coordenadas;
-                  const nombreProducto = productoData.nombre;
-                  const descripcionProducto = productoData.descripcion;
-                  const nombreUsuario = usuarioData.name;
-                  const numeroContacto = usuarioData.numContact;
-  
-                  // Redirigir a la página de ubicación y pasar los datos como parámetros de consulta
-                  this.router.navigate(['/ubication'], {
-                    queryParams: {
-                      nombreProducto: nombreProducto,
-                      descripcionProducto: descripcionProducto,
-                      nombreUsuario: nombreUsuario,
-                      numeroContacto: numeroContacto,
-                      coordenadasUsuario: JSON.stringify(coordenadasUsuario)
-                    }
-                  });  
-                 } else {
-                  console.error('No se encontró el usuario con el UID:', uidUsuario);
-                }
-              }, error => {
-                console.error('Error al obtener el usuario:', error);
-              });
-              // enviando las coordenadas reales 
-              this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get()
-              .subscribe(coordenadasSnapshot => {
-                  coordenadasSnapshot.forEach(coordenadasDoc => {
-                      const coordenadasReal = coordenadasDoc.data();
-                      console.log('Coordenadas reales1:', coordenadasReal);
-          
-                      // Redirigir a la página de ubicación y pasar los datos como parámetros de consulta
-                      this.router.navigate(['/ubication'], {
-                          queryParams: {                     
-                              coordenadasReal: JSON.stringify(coordenadasReal)
-                              
-                          }
-                      });
-                  });
-              }
-            );
-          });
-
-          
-        }, (error) => {
-          console.error('Error al buscar productos:', error);
-          this.mostrarMensajeError();
-        });
-    } else {
+  async buscarProductos() {
+    if (!this.terminoDeBusqueda.trim()) {
       console.log('El término de búsqueda está vacío');
+      return;
+    }
+  
+    try {
+      const querySnapshot = await this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda)).get().toPromise();
+      for (const doc of querySnapshot.docs) {
+        const productoData = doc.data() as ProductoData;
+        const uidUsuario = doc.ref.parent.parent?.id;
+        productoData.uidUsuario = uidUsuario;
+  
+        const usuarioDoc = await this.firestore.collection('usuarios').doc(uidUsuario).get().toPromise();
+        if (!usuarioDoc.exists) {
+          console.error('No se encontró el usuario con el UID:', uidUsuario);
+          continue;
+        }
+  
+        const usuarioData = usuarioDoc.data() as UserData;
+        const coordenadasUsuario = usuarioData.coordenadas;
+        const nombreProducto = productoData.nombre;
+        const descripcionProducto = productoData.descripcion;
+        const nombreUsuario = usuarioData.name;
+        const numeroContacto = usuarioData.numContact;
+  
+        const coordenadasRealSnapshot = await this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get().toPromise();
+        let coordenadasReal = null;
+        coordenadasRealSnapshot.forEach(doc => {
+          coordenadasReal = doc.data(); // Assume last one if multiple
+        });
+  
+        // Only redirect once, with all data
+        this.router.navigate(['/ubication'], {
+          queryParams: {
+            nombreProducto,
+            descripcionProducto,
+            nombreUsuario,
+            numeroContacto,
+            coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+            coordenadasReal: JSON.stringify(coordenadasReal)
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error al buscar productos:', error);
+      this.mostrarMensajeError();
     }
   }
+  
   
 
 buscarServiciosEspecifica(coordenadasEspecifica: any) {
