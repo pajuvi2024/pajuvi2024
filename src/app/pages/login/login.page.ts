@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
           const expiryDate = new Date(userDoc.expiryDate.seconds * 1000);
           const currentDate = new Date();
 
-          if (expiryDate >= currentDate) {
+          if (expiryDate <= currentDate) {
             // Show toast for expired subscription
             this.toastController.create({
               message: 'Suscripción expirada, elige tu mejor opción de pago',
@@ -60,9 +60,16 @@ export class LoginPage implements OnInit {
               });
             });
           } else {
+            this.utilsServ.presentToast({
+              message: 'Bienvenido: ' + user.email,
+              duration: 3000,
+              color: 'primary',
+              position: 'middle',
+              icon: 'alert-circle-sharp'
+            });
             setTimeout(() => {
-              this.router.navigate(['/main']);
-            }, 1000); // Redirect to main screen if subscription is still valid
+              this.router.navigate(['/main']); // Asumimos que 'main' es tu página principal
+            }, 1000); // Esperamos 1 segundo antes de navegar
           }
         }
       } catch (error) {
@@ -97,7 +104,7 @@ export class LoginPage implements OnInit {
   async copyLinkToClipboard() {
     const el = document.createElement('textarea');
     el.value = this.link;
-    document.body.appendChild(el);
+    document.body.appendChild(el); 
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
