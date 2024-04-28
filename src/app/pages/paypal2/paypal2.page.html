@@ -17,12 +17,12 @@
           <input type="radio" id="monthlyPlan" name="subscriptionPlan" value="monthly" (change)="selectPlan('MENSUAL', 'monthly', '1.00', 1)">
           <label for="monthlyPlan">MENSUAL<br>$690</label>
         </div>
-        <div class="option">
+        <div class="option"> 
           <!-- Actualización de la llamada a selectPlan para incluir el precio del plan semestral -->
           <input type="radio" id="semesterPlan" name="subscriptionPlan" value="semester" (change)="selectPlan('SEMESTRAL', 'semester', '5.00', 6)">
           <label for="semesterPlan">SEMESTRAL<br>$3.600</label>
         </div> 
-        <div class="option"> 
+        <div class="option">
           <!-- Actualización de la llamada a selectPlan para incluir el precio del plan anual -->
           <input type="radio" id="annualPlan" name="subscriptionPlan" value="annual" (change)="selectPlan('ANUAL', 'annual', '10.00', 12)">
           <label for="annualPlan">ANUAL<br>$6.500</label>
@@ -42,25 +42,15 @@
 
   <ion-footer>
     <ion-toolbar color="dark" style="justify-content: space-between;">
-      <ion-buttons slot="start">
-        <ion-button (click)="navigateTo('/main')">
-          <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-  
+
       <div style="display: flex; justify-content: center; align-items: center;">
-        <ion-buttons slot="primary">
-          <ion-button (click)="navigateTo('/buscar')">
-            <ion-icon name="search-outline" style="font-size: 30px;"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </div> 
-  
-      <ion-buttons slot="end">
-        <ion-button (click)="navigateTo('/pago')">
-          <ion-icon name="person-outline" style="font-size: 30px;"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+       <ion-buttons slot="start">
+         <ion-button (click)="navigateTo('/pago2')">
+           <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
+         </ion-button>
+       </ion-buttons>
+      </div>
+      
     </ion-toolbar>
   </ion-footer>
 </div>

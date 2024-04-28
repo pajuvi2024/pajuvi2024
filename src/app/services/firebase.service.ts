@@ -1,6 +1,7 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, getIdToken } from 'firebase/auth';
+import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore'; // Importa funciones adicionales necesarias para Firestore
 import { UserI } from '../models/models';
 import { Router } from '@angular/router';
 
@@ -8,17 +9,10 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class FirebaseService {
-  buscarProductos // Actualizar el perfil del usuario en Firebase
-    () {
-    throw new Error('Method not implemented.');
-  }
-
   private inactivityTimer: any;
-  private inactivityDuration: number = 600000; 
+  private inactivityDuration: number = 600000;
 
-
-  constructor(private auth: AngularFireAuth,
-             private router: Router) {
+  constructor(private auth: AngularFireAuth, private router: Router) {
     this.initializeInactivityTimer();
   }
 
@@ -36,11 +30,9 @@ export class FirebaseService {
       // Eliminar el token del localStorage
       localStorage.removeItem('userToken');
       // Redirigir al usuario al inicio de sesión
-      this.router.navigate(['/login']); // Cambia '/login' por la ruta de inicio de sesión
+      this.router.navigate(['/login']);
     }, this.inactivityDuration);
   }
-
-
 
   // Obtener la instancia de autenticación de Firebase
   getAuth() {
@@ -52,32 +44,48 @@ export class FirebaseService {
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
   }
 
-   // Iniciar sesión en Firebase
-   async signIn(user: UserI): Promise<void> {
+  // Iniciar sesión en Firebase
+  async signIn(user: UserI): Promise<UserI> {
     try {
       const result = await signInWithEmailAndPassword(getAuth(), user.email, user.password);
       if (result.user) {
-        // Inicio de sesión exitoso
-        // Accede al token JWT
         const userToken = await result.user.getIdToken();
-
-
-  
-        // Guarda el token en localStorage para su posterior uso
         localStorage.setItem('userToken', userToken);
 
-
-        
-        
-        // Navega nuevamente a la página 'main' para recargarla
-        this.router.navigateByUrl('/main');
-        
+        // Simulación de la obtención de datos adicionales
+        return {
+          uid: result.user.uid,
+          email: result.user.email,
+          name: 'Nombre simulado', // Deberás obtener esto de Firestore o similar
+          lastName: 'Apellido simulado',
+          rut: '12345678-9',
+          password: user.password,
+          age: 30,
+          numContact: 123456789,
+          direccion: {
+            calle: 'Calle simulada',
+            numeroCalle: '123',
+            ciudad: 'Ciudad simulada',
+            pais: 'País simulado'
+          },
+          perfil: 'usuario',
+          confirmaNumContact: 123456789,
+          confirmaEmail: 'email@simulado.com',
+          confirmaPassword: 'password',
+          coordenadas: {
+            lat: 123.456,
+            lng: 123.456
+          }
+        };
+      } else {
+        throw new Error('User not found');
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      throw error; // Lanza el error para que se maneje en el componente
+      throw error;
     }
   }
+
   // Actualizar el perfil del usuario en Firebase
   updateUser(displayName: string) {
     return updateProfile(getAuth().currentUser, { displayName });
@@ -89,13 +97,33 @@ export class FirebaseService {
   }
 
   // Cerrar sesión en Firebase
-  signOut(){
+  signOut() {
     getAuth().signOut();
     this.router.navigate(['/']);
   }
 
-registrarUser(datos: UserI){
-  return this.auth.createUserWithEmailAndPassword(datos.email, datos.password)
-}
+  registrarUser(datos: UserI) {
+    return this.auth.createUserWithEmailAndPassword(datos.email, datos.password);
+  }
 
+  // Obtener el documento del usuario de Firestore
+  async getUserDoc(uid: string): Promise<any> {
+    const db = getFirestore();
+    const docRef = doc(db, 'usuarios', uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      throw new Error('No such document!');
+    }
+  }
+
+  // Método para actualizar el planType en el documento del usuario
+  async updatePlanType(uid: string, planType: string): Promise<void> {
+    const db = getFirestore();
+    const userDocRef = doc(db, 'usuarios', uid);
+    return updateDoc(userDocRef, {
+      planType: planType
+    });
+  }
 }

@@ -15,7 +15,7 @@ export interface UserI {
   uid: string | null;
   name: string | null;
   lastName: string | null;
-  rut: number | null;
+  rut: string | null;
   email: string | null;
   password: string | null;
   age: number | null;

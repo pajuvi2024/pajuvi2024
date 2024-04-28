@@ -12,13 +12,13 @@ interface Info {
 }
 
 @Component({ 
-  selector: 'app-pago',
-  templateUrl: './pago.page.html',
-  styleUrls: ['./pago.page.scss'],
+  selector: 'app-pago2',
+  templateUrl: './pago2.page.html',
+  styleUrls: ['./pago2.page.scss'],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush  // Activando ChangeDetectionStrategy.OnPush
 })
-export class PagoPage implements OnInit {
+export class Pago2Page implements OnInit {
   info: Info | null = null;
   formattedstartDate: string;
   formattedexpiryDate: string;

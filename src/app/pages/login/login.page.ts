@@ -1,11 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { UserI } from 'src/app/models/models';
 import { ToastController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-login',
@@ -24,15 +23,12 @@ export class LoginPage implements OnInit {
     private firebaseServ: FirebaseService,
     private utilsServ: UtilsService,
     private router: Router,
-    private ToastController: ToastController,
+    private toastController: ToastController,
   ) { }
 
   ngOnInit() {
     localStorage.removeItem('userToken');
-
     localStorage.removeItem('userEmail');
-
-    
   }
 
   async submit() {
@@ -41,26 +37,37 @@ export class LoginPage implements OnInit {
       await loading.present();
 
       try {
-        await this.firebaseServ.signIn(this.form.value as UserI);
+        const user = await this.firebaseServ.signIn(this.form.value as UserI);
+        const userDoc = await this.firebaseServ.getUserDoc(user.uid);
+        if (userDoc && userDoc.expiryDate) {
+          const expiryDate = new Date(userDoc.expiryDate.seconds * 1000);
+          const currentDate = new Date();
 
-         // Introduce un retraso de 3 segundos antes de mostrar el Toast
-      setTimeout(() => {
-        this.utilsServ.presentToast({
-          message: 'Bienvenido: ' + this.form.value.email,
-          duration: 3000,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-sharp'
-        });
-
-        // Introduce un retraso adicional de 1 segundo (total de 4 segundos) antes de navegar a la página 'main'
-        setTimeout(() => {
-          
-        }, 1000);
-      }, 1000); // 3000 milisegundos (3 segundos)
+          if (expiryDate >= currentDate) {
+            // Show toast for expired subscription
+            this.toastController.create({
+              message: 'Suscripción expirada, elige tu mejor opción de pago',
+              duration: 4000,
+              color: 'primary',
+              position: 'middle'
+            }).then(toast => {
+              toast.present();
+              // Update planType to "Vencido" before navigating
+              this.firebaseServ.updatePlanType(user.uid, "Vencido").then(() => {
+                setTimeout(() => {
+                  this.router.navigate(['/pago2']); // Redirect to payment screen after update
+                }, 4000); // Wait for the toast message to complete before navigating
+              });
+            });
+          } else {
+            setTimeout(() => {
+              this.router.navigate(['/main']);
+            }, 1000); // Redirect to main screen if subscription is still valid
+          }
+        }
       } catch (error) {
-        console.log(error);
-        this.utilsServ.presentToast({
+        console.error(error);
+        await this.utilsServ.presentToast({
           message: 'Error en el usuario y/o contraseña',
           duration: 3000,
           color: "primary",
@@ -73,25 +80,19 @@ export class LoginPage implements OnInit {
     }
   }
 
-
-
-
-
-    
-    actionSheetButtons = [
-      {
-        text: 'Copiar enlace',
-        icon: 'link', 
-        handler: () => {
-          this.copyLinkToClipboard();
-        }
-      },
-      {
-        text: 'Cancelar',
-        role: 'cancel'
+  actionSheetButtons = [
+    {
+      text: 'Copiar enlace',
+      icon: 'link',
+      handler: () => {
+        this.copyLinkToClipboard();
       }
-    ];
-    
+    },
+    {
+      text: 'Cancelar',
+      role: 'cancel'
+    } 
+  ];
 
   async copyLinkToClipboard() {
     const el = document.createElement('textarea');
@@ -101,7 +102,7 @@ export class LoginPage implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(el);
 
-    const toast = await this.ToastController.create({
+    const toast = await this.toastController.create({
       message: 'Enlace copiado',
       duration: 2000
     });

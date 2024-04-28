@@ -9,13 +9,13 @@ import { Timestamp } from 'firebase/firestore';  // Importación correcta de Tim
 declare var paypal: any;
 
 @Component({
-  selector: 'app-paypal',
-  templateUrl: './paypal.page.html',
-  styleUrls: ['./paypal.page.scss'],
+  selector: 'app-paypal2',
+  templateUrl: './paypal2.page.html',
+  styleUrls: ['./paypal2.page.scss'],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaypalPage implements OnInit, AfterViewChecked {
+export class Paypal2Page implements OnInit, AfterViewChecked {
   isPaymentCardEnabled: boolean = false;
   selectedPlanLabel: string = 'Sistemas de Pago';
   selectedPlanDuration: number = 0;

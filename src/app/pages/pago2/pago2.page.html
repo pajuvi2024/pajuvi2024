@@ -30,10 +30,10 @@
     <div class="metodos-card">
       <div class="card-title">Métodos de Pago</div>
       <div class="payment-buttons-container">
-        <ion-button [routerLink]="['/paypal']">
+        <ion-button [routerLink]="['/paypal2']">
           <ion-img src="../../../assets/fotos/paypal1.png" alt="PayPal"></ion-img>
         </ion-button> 
-        <ion-button [routerLink]="['/webpay']">
+        <ion-button [routerLink]="['/webpay2']">
           <ion-img src="../../../assets/fotos/webpay1.png" alt="WebPay"></ion-img>
         </ion-button>
       </div>
@@ -49,26 +49,6 @@
   </ion-content>  
 
   <ion-footer>
-    <ion-toolbar color="dark" style="justify-content: space-between;">
-      <ion-buttons slot="start">
-        <ion-button (click)="navigateTo('/main')">
-          <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-  
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <ion-buttons slot="primary">
-          <ion-button (click)="navigateTo('/buscar')">
-            <ion-icon name="search-outline" style="font-size: 30px;"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </div>
-  
-      <ion-buttons slot="end">
-        <ion-button (click)="navigateTo('/perfil')">
-          <ion-icon name="person-outline" style="font-size: 30px;"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
+    <ion-toolbar color="dark" style="justify-content: space-between;"></ion-toolbar>
   </ion-footer>
 </div>

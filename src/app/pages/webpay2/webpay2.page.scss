@@ -1,0 +1,81 @@
+ion-toolbar {
+  background-color: var(--ion-color-primary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.custom-header ion-title {
+  color: white;
+}
+
+.centrar2 {
+  position: relative;
+  text-align: center;
+}
+
+.logo3 {
+  position: absolute;
+  top: 25%;
+  left: 8%;
+}
+
+.image-container {
+  text-align: center;
+  width: 100%;
+  margin-top: 70px; /* Added space between the header and the image */
+}
+
+.centered-image {
+  max-width: 50%; /* Adjust this value as needed */
+  margin: auto;
+  display: block;
+}
+
+.card, .infoplanes-card {
+  background-color: #fff;
+  width: 80%; /* Unificado el ancho de las tarjetas */
+  max-width: 500px; /* Unificado el ancho máximo de las tarjetas */
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Uniformizado el sombreado */
+  margin: 50px auto; /* Unificado los márgenes para alineación y espaciado */
+}
+
+.infoplanes-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más intensa para diferenciar */
+}
+
+.button-spacing {
+  display: block;
+  width: 60%; /* Ajusta la anchura de los botones */
+  margin-bottom: 30px; /* Espacio entre botones */
+  text-align: center; /* Asegura que el texto dentro de los botones esté centrado */
+}
+
+.card ion-button:first-child {
+  margin-top: 30px; /* Añade un margen superior al primer botón para bajarlos */
+}
+
+.infoplanes-card .card-title, .infoplanes-card ion-label {
+  text-align: center; /* Asegura que el texto está centrado en la tarjeta */
+  font-size: 1.25rem; /* Ajusta la fuente para el título */
+}
+
+.infoplanes-card ion-label {
+  font-size: 1.2rem; /* Ajusta este valor según lo necesites */
+  margin-bottom: 10px; /* Añade un margen en la parte inferior para separar los elementos */
+  font-style: italic; /* Esto pondrá el texto en cursiva */
+  &:last-child {
+    margin-bottom: 0; /* Asegura que el último elemento no tenga margen extra en la parte inferior */
+  }
+}

@@ -1,0 +1,46 @@
+<div class="ion-page" id="main-content">
+  <ion-header class="custom-header">
+    <ion-toolbar class="centrar2">
+      <div class="logo3">
+        <img src="../../../assets/fotos/logo3.png" height="40" alt="">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="content">
+    
+    <div class="image-container">
+      <img src="../../../assets/fotos/webpay.png" class="centered-image">
+    </div>
+
+    <div class="card">
+      <ion-button class="button-spacing" (click)="redirectToExternal('https://www.webpay.cl/form-pay/175107')">MENSUAL $690</ion-button>
+      <ion-button class="button-spacing" (click)="redirectToExternal('https://www.webpay.cl/form-pay/175951')">SEMESTRAL $3.600</ion-button>
+      <ion-button class="button-spacing" (click)="redirectToExternal('https://www.webpay.cl/form-pay/175952')">MENSUAL $6.500</ion-button> 
+    </div>
+
+    <div class="infoplanes-card">
+      <div class="card-title"></div>
+      <ion-label>
+        Después de procesar el pago exitosamente nuestro equipo de Soporte realizará un chequeo de la transacción 
+        y durante las próximas horas se actualizarán tus datos de tu nuevo plan escogido.
+      </ion-label>
+    </div>
+    
+
+  </ion-content>  
+
+  <ion-footer>
+    <ion-toolbar color="dark" style="justify-content: space-between;">
+
+      <div style="display: flex; justify-content: center; align-items: center;">
+       <ion-buttons slot="start">
+         <ion-button (click)="navigateTo('/pago2')">
+           <ion-icon name="home-outline" style="font-size: 30px;"></ion-icon>
+         </ion-button>
+       </ion-buttons>
+      </div>
+      
+    </ion-toolbar>   
+  </ion-footer>
+</div>

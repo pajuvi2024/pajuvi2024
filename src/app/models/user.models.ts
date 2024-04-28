@@ -9,7 +9,7 @@ export interface User{
     age: string;    
     numContact: string;
     fechaNacimiento: string;
-    direccion: string;
+    direccion: string; 
     direccionComercial: string;
     perfil: 'usuario'|'admin'
 }
