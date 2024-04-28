@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { MarcadorService } from './../../services/marcador.service';
+
 
 
 
@@ -21,87 +21,64 @@ export class UbicationPage implements OnInit {
 
   currentLocation: { latitude: number, longitude: number } | null = null;
 
-
-
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private marcadorService: MarcadorService
+    
   ) { }
 
   ngOnInit() {
     // Verificar si el mapa ya está inicializado
-    if (!this.map) {
-      this.marcadorService.currentLocation.subscribe(location => {
-        this.currentLocation = location;
-        console.log('recibi datos del servicio marcador', location)
-
-      });
-    }
-
-  this.marcadorService.currentLocation.subscribe(location2 => {
-    if (location2) {
-      // Obtener los datos adicionales necesarios del ActivatedRoute
-      this.activatedRoute.queryParams.subscribe(params => {
-        const nombreProducto = params['nombreProducto'];
-        const descripcionProducto = params['descripcionProducto'];
-        const nombreUsuario = params['nombreUsuario'];
-        const numeroContacto = params['numeroContacto'];
-        console.log('recibi datos del servicio marcador 2', location)
-
-        // Llamar a updateMarker con los datos obtenidos
-        this.updateMarker({
-          latitude: location2.latitude,
-          longitude: location2.longitude,
-          nombreProducto: nombreProducto,
-          descripcionProducto: descripcionProducto,
-          nombreUsuario: nombreUsuario,
-          numeroContacto: numeroContacto
-        });
-      });
-    }
-  });
-
-      this.activatedRoute.queryParams.subscribe(params => {
-        const coordenadasEspecifica = params['coordenadasEspecifica'];
-
-        if (coordenadasEspecifica) {
-          try {
-            const coordenadas = JSON.parse(coordenadasEspecifica);
-            const lat = coordenadas['lat'];
-            const lng = coordenadas['lng'];
-            this.centrarMapa(lat, lng);
-          } catch (error) {
-            console.error('Error al analizar las coordenadas:', error);
-          }
-        } else {
-          
-        }
-
-        const nombreProducto = params['nombreProducto'];
-        const descripcionProducto = params['descripcionProducto'];
-        const nombreUsuario = params['nombreUsuario'];
-        const numeroContacto = params['numeroContacto'];
-        const coordenadasUsuarioString = params['coordenadasUsuario'];
-        
-        
-        if (coordenadasUsuarioString) {
-          try {
-            const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
-            this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
-          } catch (error) {
-            console.error('Error al analizar las coordenadas del usuario:', error);
-          }
-        } else {
-          console.error('Las coordenadas del usuario no están definidas.');
-        }
-      });
-
-      // Obtener la ubicación actual del usuario al cargar la página
-      this.obtenerUbicacionActual();
+    if (!this.map) {      
     }
   
+    this.activatedRoute.queryParams.subscribe(params => {
+      const coordenadasEspecifica = params['coordenadasEspecifica'];
+      const coordenadasRealString = params['coordenadasReal'];
+  
+      if (coordenadasRealString) {
+        try {
+          const coordenadasReal = JSON.parse(coordenadasRealString);
+          // Llamar a la función markerReal con las coordenadas recibidas
+          this.markerReal(coordenadasReal);
+          console.log('Coordenadas reales recibidas:', coordenadasReal);
+        } catch (error) {
+          console.error('Error al analizar las coordenadas reales:', error);
+        }
+      }
+  
+      if (coordenadasEspecifica) {
+        try {
+          const coordenadas = JSON.parse(coordenadasEspecifica);
+          const lat = coordenadas['lat'];
+          const lng = coordenadas['lng'];
+          this.centrarMapa(lat, lng);
+        } catch (error) {
+          console.error('Error al analizar las coordenadas:', error);
+        }
+      }
+  
+      const nombreProducto = params['nombreProducto'];
+      const descripcionProducto = params['descripcionProducto'];
+      const nombreUsuario = params['nombreUsuario'];
+      const numeroContacto = params['numeroContacto'];
+      const coordenadasUsuarioString = params['coordenadasUsuario'];    
+              
+      if (coordenadasUsuarioString) {
+        try {
+          const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
+          this.initMap(coordenadasUsuario, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
+        } catch (error) {
+          console.error('Error al analizar las coordenadas del usuario:', error);
+        }
+      } else {
+        console.error('Las coordenadas del usuario no están definidas.');
+      }
+    });
+  
+    // Obtener la ubicación actual del usuario al cargar la página
+    this.obtenerUbicacionActual();
+  }
   
     
   
@@ -209,14 +186,18 @@ export class UbicationPage implements OnInit {
     }
   }
 
-  updateMarker(location2: { latitude: number, longitude: number, nombreProducto?: string, descripcionProducto?: string, nombreUsuario?: string, numeroContacto?: string }) {
-    const iconoUrl = 'assets/fotos/green_marker.png';  // Asegúrate de que el camino al icono es correcto
+  
+  markerReal(coordenadasReal: { latitude: number, longitude: number}, nombreProducto?: string, descripcionProducto?: string, nombreUsuario?: string, numeroContacto?: string ) {
+    const iconoUrl = 'assets/fotos/green_marker.png';
     const iconoTamaño = new google.maps.Size(80, 50);
+  
+    // Loguear los valores recibidos para asegurarse de que sean correctos
+    console.log('Valores del marker:', coordenadasReal, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
   
     const marker = new google.maps.Marker({
       position: {
-        lat: location2.latitude,
-        lng: location2.longitude
+        lat: coordenadasReal.latitude,
+        lng: coordenadasReal.longitude
       },
       map: this.map,
       title: 'Ubicación Actualizada',
@@ -229,14 +210,16 @@ export class UbicationPage implements OnInit {
     });
   
     // Crear el contenido del infowindow del marcador
-    const contentString = `
-    <div style="font-size: 13px; max-width: 167px; padding: 5px; margin: 0;">
-    <p style="margin: 0;"><strong>Ubicación tiempo real de:</strong> ${location2.nombreUsuario}</p>
-      <p style="margin: 0;"> <strong>Producto:</strong>${location2.nombreProducto}</p>
-      <p style="margin: 0;"><strong>Descripción:</strong> ${location2.descripcionProducto}</p>
-      <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56>${location2.numeroContacto}<" style="text-decoration: none;">Enviar mensaje</a></p>
-    </div>
-    `;
+   // Crear el contenido del infowindow del marcador
+const contentString = `
+<div style="font-size: 13px; max-width: 167px; padding: 5px; margin: 0;">
+  <p style="margin: 0;"><strong>Ubicación tiempo real de:</strong> ${nombreUsuario}</p>
+  <p style="margin: 0;"> <strong>Producto:</strong>${nombreProducto}</p>
+  <p style="margin: 0;"><strong>Descripción:</strong> ${descripcionProducto}</p>
+  <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56>${numeroContacto}<" style="text-decoration: none;">Enviar mensaje</a></p>
+</div>
+`;
+
   
     // Crear el infowindow del marcador
     const infowindow = new google.maps.InfoWindow({
@@ -252,6 +235,8 @@ export class UbicationPage implements OnInit {
     this.infoWindows.push(infowindow);  
     this.markers.push(marker);
   }
+
+
   
 
 

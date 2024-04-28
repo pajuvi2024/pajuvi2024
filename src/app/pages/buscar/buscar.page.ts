@@ -34,6 +34,10 @@ interface UserData {
   coordenadas: { lat: number, lng: number }; // Suponiendo que las coordenadas son un objeto con las propiedades lat y lng
   // Otros campos si los tienes
 }
+interface CoordenadasReal {
+  latitud: number;
+  longitud: number;
+}
 
 @Component({
   selector: 'app-buscar',
@@ -62,6 +66,7 @@ export class BuscarPage implements OnInit {
 
   ngOnInit() {
     this.ubicacionSeleccionada = 'actual';
+    
     
   }
 
@@ -120,48 +125,69 @@ export class BuscarPage implements OnInit {
 
   buscarProductos() {
     if (this.terminoDeBusqueda.trim() !== '') {
-        this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
-            .get().subscribe(querySnapshot => {
-                querySnapshot.forEach(doc => {
-                    const productoData = doc.data() as ProductoData;
-                    const uidUsuario = doc.ref.parent.parent?.id;
-                    productoData.uidUsuario = uidUsuario;
-                    console.log ('ID del usuario dueño',uidUsuario )
+      this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
+        .get().subscribe(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            const productoData = doc.data() as ProductoData;
+            const uidUsuario = doc.ref.parent.parent?.id;
+            productoData.uidUsuario = uidUsuario;
+            console.log('ID del usuario dueño', uidUsuario)
+  
+            this.firestore.collection('usuarios').doc(uidUsuario).get()
+              .subscribe(usuarioDoc => {
+                if (usuarioDoc.exists) {
+                  const usuarioData = usuarioDoc.data() as UserData;
+                  const coordenadasUsuario = usuarioData.coordenadas;
+                  const nombreProducto = productoData.nombre;
+                  const descripcionProducto = productoData.descripcion;
+                  const nombreUsuario = usuarioData.name;
+                  const numeroContacto = usuarioData.numContact;
+  
+                  // Redirigir a la página de ubicación y pasar los datos como parámetros de consulta
+                  this.router.navigate(['/ubication'], {
+                    queryParams: {
+                      nombreProducto: nombreProducto,
+                      descripcionProducto: descripcionProducto,
+                      nombreUsuario: nombreUsuario,
+                      numeroContacto: numeroContacto,
+                      coordenadasUsuario: JSON.stringify(coordenadasUsuario)
+                    }
+                  });  
+                 } else {
+                  console.error('No se encontró el usuario con el UID:', uidUsuario);
+                }
+              }, error => {
+                console.error('Error al obtener el usuario:', error);
+              });
+              // enviando las coordenadas reales 
+              this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get()
+              .subscribe(coordenadasSnapshot => {
+                  coordenadasSnapshot.forEach(coordenadasDoc => {
+                      const coordenadasReal = coordenadasDoc.data();
+                      console.log('Coordenadas reales1:', coordenadasReal);
+          
+                      // Redirigir a la página de ubicación y pasar los datos como parámetros de consulta
+                      this.router.navigate(['/ubication'], {
+                          queryParams: {                     
+                              coordenadasReal: JSON.stringify(coordenadasReal)
+                              
+                          }
+                      });
+                  });
+              }
+            );
+          });
 
-                    this.firestore.collection('usuarios').doc(uidUsuario).get()
-                        .subscribe(usuarioDoc => {
-                            if (usuarioDoc.exists) {
-                                const usuarioData = usuarioDoc.data() as UserData;
-                                const coordenadasUsuario = usuarioData.coordenadas;
-                                const nombreProducto = productoData.nombre;
-                                const descripcionProducto = productoData.descripcion;
-                                const nombreUsuario = usuarioData.name;
-                                const numeroContacto = usuarioData.numContact;
-
-                                this.router.navigate(['/ubication'], {
-                                  queryParams: {
-                                    nombreProducto: nombreProducto,
-                                    descripcionProducto: descripcionProducto,
-                                    nombreUsuario: nombreUsuario,
-                                    numeroContacto: numeroContacto,
-                                    coordenadasUsuario: JSON.stringify(coordenadasUsuario)
-                                  }
-                                });
-                              } else {
-                                console.error('No se encontró el usuario con el UID:', uidUsuario);
-                            }
-                        }, error => {
-                            console.error('Error al obtener el usuario:', error);
-                        });
-                });
-            }, (error) => {
-                console.error('Error al buscar productos:', error);
-                this.mostrarMensajeError();
-            });
+          
+        }, (error) => {
+          console.error('Error al buscar productos:', error);
+          this.mostrarMensajeError();
+        });
     } else {
-        console.log('El término de búsqueda está vacío');
+      console.log('El término de búsqueda está vacío');
     }
-}
+  }
+  
 
 buscarServiciosEspecifica(coordenadasEspecifica: any) {
   if (this.terminoDeBusqueda.trim() !== '') {
@@ -191,6 +217,7 @@ buscarServiciosEspecifica(coordenadasEspecifica: any) {
                     numeroContacto: numeroContacto,
                     coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
                   }
+                  
                 });
               } else {
                 console.error('No se encontró el usuario con el UID:', uidUsuario);
@@ -198,6 +225,7 @@ buscarServiciosEspecifica(coordenadasEspecifica: any) {
             }, error => {
               console.error('Error al obtener el usuario:', error);
             });
+            this.obtenerCoordenadasUsuarios();
         });
       }, (error) => {
         console.error('Error al buscar servicios:', error);
@@ -308,7 +336,25 @@ buscar() {
 
 
 
-
+  obtenerCoordenadasUsuarios() {
+    this.firestore.collection('usuarios').get().subscribe(querySnapshot => {
+      querySnapshot.forEach(usuarioDoc => {
+        const uidUsuario = usuarioDoc.id;
+        this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get()
+          .subscribe(coordenadasSnapshot => {
+            coordenadasSnapshot.forEach(coordenadasDoc => {
+              const coordenadas = coordenadasDoc.data();
+              console.log('Coordenadas para el usuario con UID', uidUsuario, ':', coordenadas);
+              // Aquí puedes hacer lo que necesites con las coordenadas
+            });
+          }, error => {
+            console.error('Error al obtener las coordenadas para el usuario con UID', uidUsuario, ':', error);
+          });
+      });
+    }, error => {
+      console.error('Error al obtener los usuarios:', error);
+    });
+  }
   
 
 }
