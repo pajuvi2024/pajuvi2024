@@ -78,51 +78,6 @@ export class BuscarPage implements OnInit {
     this.paginaActual = event.detail.value;
   }
 
-  buscarServicios() {
-    if (this.terminoDeBusqueda.trim() !== '') {
-      this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
-        .get().subscribe(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            const servicioData = doc.data() as ServicioData;
-            const uidUsuario = doc.ref.parent.parent?.id;
-            servicioData.uidUsuario = uidUsuario;
-
-            this.firestore.collection('usuarios').doc(uidUsuario).get()
-              .subscribe(usuarioDoc => {
-                if (usuarioDoc.exists) {
-                  const usuarioData = usuarioDoc.data() as UserData;
-                  const coordenadasUsuario = usuarioData.coordenadas;
-                  const nombreServicio = servicioData.nombre;
-                  const descripcionServicio = servicioData.descripcion;
-                  const nombreUsuario = usuarioData.name;
-                  const numeroContacto = usuarioData.numContact;
-
-                  this.router.navigate(['/ubication'], {
-                    queryParams: {
-                      nombreProducto: nombreServicio,
-                      descripcionProducto: descripcionServicio,
-                      nombreUsuario: nombreUsuario,
-                      numeroContacto: numeroContacto,
-                      coordenadasUsuario: JSON.stringify(coordenadasUsuario)
-                      
-                    }
-                  });
-                } else {
-                  console.error('No se encontró el usuario con el UID:', uidUsuario);
-                }
-              }, error => {
-                console.error('Error al obtener el usuario:', error);
-              });
-          });
-        }, (error) => {
-          console.error('Error al buscar servicios:', error);
-          this.mostrarMensajeError();
-        });
-    } else {
-      console.log('El término de búsqueda está vacío');
-    }
-  }
-
   async buscarProductos() {
     if (!this.terminoDeBusqueda.trim()) {
       console.log('El término de búsqueda está vacío');
@@ -173,103 +128,161 @@ export class BuscarPage implements OnInit {
     }
   }
   
+  async buscarServicios() {
+    if (!this.terminoDeBusqueda.trim()) {
+      console.log('El término de búsqueda está vacío');
+      return;
+    }
+  
+    try {
+      const querySnapshot = await this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda)).get().toPromise();
+      for (const doc of querySnapshot.docs) {
+        const servicioData = doc.data() as ServicioData;
+        const uidUsuario = doc.ref.parent.parent?.id;
+        servicioData.uidUsuario = uidUsuario;
+  
+        const usuarioDoc = await this.firestore.collection('usuarios').doc(uidUsuario).get().toPromise();
+        if (!usuarioDoc.exists) {
+          console.error('No se encontró el usuario con el UID:', uidUsuario);
+          continue;
+        }
+  
+        const usuarioData = usuarioDoc.data() as UserData;
+        const coordenadasUsuario = usuarioData.coordenadas;
+        const nombreServicio = servicioData.nombre;
+        const descripcionServicio = servicioData.descripcion;
+        const nombreUsuario = usuarioData.name;
+        const numeroContacto = usuarioData.numContact;
+  
+        const coordenadasRealSnapshot = await this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get().toPromise();
+        let coordenadasReal = null;
+        coordenadasRealSnapshot.forEach(doc => {
+          coordenadasReal = doc.data(); // Assume last one if multiple
+        });
+  
+        // Only redirect once, with all data
+        this.router.navigate(['/ubication'], {
+          queryParams: {
+            nombreProducto: nombreServicio,
+            descripcionProducto: descripcionServicio,
+            nombreUsuario: nombreUsuario,
+            numeroContacto: numeroContacto,
+            coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+            coordenadasReal: JSON.stringify(coordenadasReal)
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error al buscar servicios:', error);
+      this.mostrarMensajeError();
+    }
+  }
+
+  async buscarProductosEspecifica(coordenadasEspecifica: any) {
+    if (!this.terminoDeBusqueda.trim()) {
+      console.log('El término de búsqueda está vacío');
+      return;
+    }
+  
+    try {
+      const querySnapshot = await this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda)).get().toPromise();
+      
+      for (const doc of querySnapshot.docs) {
+        const productoData = doc.data() as ProductoData;
+        const uidUsuario = doc.ref.parent.parent?.id;
+        productoData.uidUsuario = uidUsuario;
+  
+        const usuarioDoc = await this.firestore.collection('usuarios').doc(uidUsuario).get().toPromise();
+        
+        if (usuarioDoc.exists) {
+          const usuarioData = usuarioDoc.data() as UserData;
+          const coordenadasUsuario = usuarioData.coordenadas;
+          const nombreProducto = productoData.nombre;
+          const descripcionProducto = productoData.descripcion;
+          const nombreUsuario = usuarioData.name;
+          const numeroContacto = usuarioData.numContact;
+  
+          // Obtener coordenadas reales
+          const coordenadasRealSnapshot = await this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get().toPromise();
+          let coordenadasReal = null;
+          coordenadasRealSnapshot.forEach(doc => {
+            coordenadasReal = doc.data(); // Assume last one if multiple
+          });
+  
+          this.router.navigate(['/ubication-especifica'], {
+            queryParams: {
+              nombreProducto: nombreProducto,
+              descripcionProducto: descripcionProducto,
+              nombreUsuario: nombreUsuario,
+              coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+              numeroContacto: numeroContacto,
+              coordenadasEspecifica: JSON.stringify(coordenadasEspecifica),
+              coordenadasReal: JSON.stringify(coordenadasReal) // Agregar coordenadas reales
+            }
+          });
+        } else {
+          console.error('No se encontró el usuario con el UID:', uidUsuario);
+        }
+      }
+    } catch (error) {
+      console.error('Error al buscar productos:', error);
+      this.mostrarMensajeError();
+    }
+  }
   
 
-buscarServiciosEspecifica(coordenadasEspecifica: any) {
-  if (this.terminoDeBusqueda.trim() !== '') {
-    this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
-      .get().subscribe(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const servicioData = doc.data() as ServicioData;
-          const uidUsuario = doc.ref.parent.parent?.id;
-          servicioData.uidUsuario = uidUsuario;
-
-          this.firestore.collection('usuarios').doc(uidUsuario).get()
-            .subscribe(usuarioDoc => {
-              if (usuarioDoc.exists) {
-                const usuarioData = usuarioDoc.data() as UserData;
-                const coordenadasUsuario = usuarioData.coordenadas;
-                const nombreServicio = servicioData.nombre;
-                const descripcionServicio = servicioData.descripcion;
-                const nombreUsuario = usuarioData.name;
-                const numeroContacto = usuarioData.numContact; 
-
-                this.router.navigate(['/ubication-especifica'], {
-                  queryParams: {
-                    nombreProducto: nombreServicio,
-                    descripcionProducto: descripcionServicio,
-                    nombreUsuario: nombreUsuario,
-                    coordenadasUsuario: JSON.stringify(coordenadasUsuario),
-                    numeroContacto: numeroContacto,
-                    coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
-                  }
-                  
-                });
-              } else {
-                console.error('No se encontró el usuario con el UID:', uidUsuario);
-              }
-            }, error => {
-              console.error('Error al obtener el usuario:', error);
-            });
-            this.obtenerCoordenadasUsuarios();
-        });
-      }, (error) => {
-        console.error('Error al buscar servicios:', error);
-        this.mostrarMensajeError();
-      });
-  } else {
-    console.log('El término de búsqueda está vacío');
+  async buscarServiciosEspecifica(coordenadasEspecifica: any) {
+    if (!this.terminoDeBusqueda.trim()) {
+      console.log('El término de búsqueda está vacío');
+      return;
+    }
+  
+    try {
+      const querySnapshot = await this.firestore.collectionGroup('servicios', ref => ref.where('nombre', '==', this.terminoDeBusqueda)).get().toPromise();
+      
+      for (const doc of querySnapshot.docs) {
+        const servicioData = doc.data() as ServicioData;
+        const uidUsuario = doc.ref.parent.parent?.id;
+        servicioData.uidUsuario = uidUsuario;
+  
+        const usuarioDoc = await this.firestore.collection('usuarios').doc(uidUsuario).get().toPromise();
+        
+        if (usuarioDoc.exists) {
+          const usuarioData = usuarioDoc.data() as UserData;
+          const coordenadasUsuario = usuarioData.coordenadas;
+          const nombreServicio = servicioData.nombre;
+          const descripcionServicio = servicioData.descripcion;
+          const nombreUsuario = usuarioData.name;
+          const numeroContacto = usuarioData.numContact;
+  
+          const coordenadasRealSnapshot = await this.firestore.collection(`usuarios/${uidUsuario}/coordenadasReal`).get().toPromise();
+          let coordenadasReal = null;
+          coordenadasRealSnapshot.forEach(doc => {
+            coordenadasReal = doc.data(); // Assume last one if multiple
+          });
+  
+          this.router.navigate(['/ubication-especifica'], {
+            queryParams: {
+              nombreProducto: nombreServicio,
+              descripcionProducto: descripcionServicio,
+              nombreUsuario: nombreUsuario,
+              coordenadasUsuario: JSON.stringify(coordenadasUsuario),
+              numeroContacto: numeroContacto,
+              coordenadasEspecifica: JSON.stringify(coordenadasEspecifica),
+              coordenadasReal: JSON.stringify(coordenadasReal)
+            }
+          });
+        } else {
+          console.error('No se encontró el usuario con el UID:', uidUsuario);
+        }
+      }
+    } catch (error) {
+      console.error('Error al buscar servicios:', error);
+      this.mostrarMensajeError();
+    }
   }
-}
-
-buscarProductosEspecifica(coordenadasEspecifica: any) {
-  if (this.terminoDeBusqueda.trim() !== '') {
-    this.firestore.collectionGroup('productos', ref => ref.where('nombre', '==', this.terminoDeBusqueda))
-      .get().subscribe(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const productoData = doc.data() as ProductoData;
-          const uidUsuario = doc.ref.parent.parent?.id;
-          productoData.uidUsuario = uidUsuario;
-          
-
-          this.firestore.collection('usuarios').doc(uidUsuario).get()
-            .subscribe(usuarioDoc => {
-              if (usuarioDoc.exists) {
-                const usuarioData = usuarioDoc.data() as UserData;
-                const coordenadasUsuario = usuarioData.coordenadas;
-                const nombreProducto = productoData.nombre;
-                const descripcionProducto = productoData.descripcion;
-                const nombreUsuario = usuarioData.name;
-                const numeroContacto = usuarioData.numContact;
-
-                this.router.navigate(['/ubication-especifica'], {
-                  queryParams: {
-                    nombreProducto: nombreProducto,
-                    descripcionProducto: descripcionProducto,
-                    nombreUsuario: nombreUsuario,
-                    coordenadasUsuario: JSON.stringify(coordenadasUsuario),
-                    numeroContacto: numeroContacto,
-                    coordenadasEspecifica: JSON.stringify(coordenadasEspecifica)
-                  }
-                });
-              } else {
-                console.error('No se encontró el usuario con el UID:', uidUsuario);
-              }
-            }, error => {
-              console.error('Error al obtener el usuario:', error);
-            });
-        });
-      }, (error) => {
-        console.error('Error al buscar productos:', error);
-        this.mostrarMensajeError();
-      });
-  } else {
-    console.log('El término de búsqueda está vacío');
-  }
-}
-
-
-buscar() {
+  
+  buscar() {
   if (this.ubicacionSeleccionada === 'especifica') {
     if (this.direccionIngresada.trim() !== '') {
       this.obtenerCoordenadas(this.direccionIngresada.trim())
@@ -299,7 +312,6 @@ buscar() {
   }
 }
 
-
   async obtenerCoordenadas(direccion: string): Promise<{ lat: number, lng: number }> {
     return new Promise<{ lat: number, lng: number }>((resolve, reject) => {
       const geocoder = new google.maps.Geocoder
@@ -315,12 +327,6 @@ buscar() {
       });
     });
   }
-
-  mostrarMensajeError() {
-    // Implementa la lógica para mostrar un mensaje de error al usuario
-  }
-
-
 
   obtenerCoordenadasUsuarios() {
     this.firestore.collection('usuarios').get().subscribe(querySnapshot => {
@@ -342,5 +348,8 @@ buscar() {
     });
   }
   
+  mostrarMensajeError() {
+    // Implementa la lógica para mostrar un mensaje de error al usuario
+  }
 
 }

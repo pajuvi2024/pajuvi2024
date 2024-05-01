@@ -8,9 +8,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastController } from '@ionic/angular';
 
 
-
-
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -24,7 +21,6 @@ export class MainPage implements OnInit {
   intervalId: any; // Aquí se declara la propiedad intervalId
   obtenerCoordenadasHabilitado: boolean = false; // Bandera para indicar si la obtención de coordenadas está habilitada
 
-
   paginaActual: string;
   constructor(private afAuth: AngularFireAuth,              
               private router: Router,              
@@ -33,9 +29,6 @@ export class MainPage implements OnInit {
               public geoStateService: GeoStateService,
               private firestore: AngularFirestore,
               private toastController: ToastController,
-               
-              
-              
               ){
                 this.intervalId = null;
                 this.setVideoUrl('https://www.youtube.com/embed/06Btx0To5Dk?si=VCHegdQTOAMDSOCY');
@@ -49,8 +42,6 @@ export class MainPage implements OnInit {
               }
 
   marcador: any[];
-
-
 
   async ngOnInit() {
 
@@ -98,14 +89,11 @@ export class MainPage implements OnInit {
     });
   }
  
-
   cambiarPagina(event) {
     this.paginaActual = event.detail.value;
   }
 
-
-
-  async toggleGPS(event: any) {
+async toggleGPS(event: any) {
     this.geoStateService.setGPSEnabled(event.detail.checked);
     if (event.detail.checked) {
       this.obtenerCoordenadasHabilitado = true; // Habilita la obtención de coordenadas

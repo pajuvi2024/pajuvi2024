@@ -22,10 +22,16 @@ export class UbicationEspecificaPage implements OnInit {
 
   ngOnInit() {
     // Verificar si el mapa ya está inicializado
-    if (!this.map) {
+   
       this.activatedRoute.queryParams.subscribe(params => {
+        const nombreProducto = params['nombreProducto'];
+        const descripcionProducto = params['descripcionProducto'];
+        const nombreUsuario = params['nombreUsuario'];
+        const numeroContacto = params['numeroContacto'];
+        const coordenadasUsuarioString = params['coordenadasUsuario'];
         const coordenadasEspecifica = params['coordenadasEspecifica'];
-
+        const coordenadasRealString = params['coordenadasReal'];
+                
         if (coordenadasEspecifica) {
           try {
             const coordenadas = JSON.parse(coordenadasEspecifica);
@@ -39,11 +45,7 @@ export class UbicationEspecificaPage implements OnInit {
           console.error('Los parámetros lat y lng no están presentes en la URL.');
         }
 
-        const nombreProducto = params['nombreProducto'];
-        const descripcionProducto = params['descripcionProducto'];
-        const nombreUsuario = params['nombreUsuario'];
-        const numeroContacto = params['numeroContacto'];
-        const coordenadasUsuarioString = params['coordenadasUsuario'];
+        
         if (coordenadasUsuarioString) {
           try {
             const coordenadasUsuario = JSON.parse(coordenadasUsuarioString);
@@ -54,10 +56,21 @@ export class UbicationEspecificaPage implements OnInit {
         } else {
           console.error('Las coordenadas del usuario no están definidas.');
         }
-      });
 
+        if (coordenadasRealString) {
+          try {
+            const coordenadasReal = JSON.parse(coordenadasRealString);
+            // Llama a la función para agregar el marcador de coordenadas reales
+            this.markerReal(coordenadasReal, nombreProducto, descripcionProducto, nombreUsuario, numeroContacto);
+            console.log('coordenadas dentro del if ', coordenadasReal, nombreUsuario)
+          } catch (error) {
+            console.error('Error al analizar las coordenadas reales:', error);
+          }
+        } else if (!coordenadasUsuarioString) {
+          console.warn('No se proporcionaron coordenadas para mostrar en el mapa.');
+        }
+      });
      
-    }
   }
   
   private mapInitialized: boolean = false;
@@ -68,8 +81,6 @@ export class UbicationEspecificaPage implements OnInit {
     }
     this.map.setCenter({ lat: lat, lng: lng });
   }
-
-  
 
  initMap(coordenadasUsuario: any, nombreProducto: string, descripcionProducto: string, nombreUsuario: string, numeroContacto: string)   {
   if (!this.mapInitialized) {
@@ -116,26 +127,53 @@ export class UbicationEspecificaPage implements OnInit {
     this.markers.push(marker);
   }
 
-  agregarMarcadorUbicacionActual(ubicacionActual: any) {
+  markerReal(coordenadasReal: { latitude: number, longitude: number}, nombreProducto?: string, descripcionProducto?: string, nombreUsuario?: string, numeroContacto?: string ) {
     if (this.map) {
-      const iconoUrl = 'assets/fotos/circulo.png';
-      const iconoTamaño = new google.maps.Size(50, 50);
-
-      const marker = new google.maps.Marker({
-        position: ubicacionActual,
-        map: this.map,
-        title: 'Ubicación Actual',
-        icon: {
-          url: iconoUrl,
-          scaledSize: iconoTamaño,
-          anchor: new google.maps.Point(20, 40)
-        }
-      });
-
-      this.markers.push(marker);
-    } else {
-      console.error('El mapa no está inicializado.');
+    const iconoUrl = 'assets/fotos/green_marker.png';
+    const iconoTamaño = new google.maps.Size(80, 50);   
+      console.log('datos del marker real', coordenadasReal, nombreUsuario)
+    try {
+        const marker = new google.maps.Marker({
+            position: {
+                lat: coordenadasReal.latitude,
+                lng: coordenadasReal.longitude
+            },
+            map: this.map,
+            title: 'Ubicación Real',
+            icon: {
+                url: iconoUrl,
+                scaledSize: iconoTamaño,
+                anchor: new google.maps.Point(16, 32)
+            },
+            animation: google.maps.Animation.DROP
+        });
+      
+        // Crear el contenido del infowindow del marcador
+        const contentString = `
+        <div style="font-size: 13px; max-width: 167px; padding: 5px; margin: 0;">
+          <p style="margin: 0;"><strong>Ubicación tiempo real de:</strong> ${nombreUsuario}</p>
+          <p style="margin: 0;"> <strong>Producto:</strong>${nombreProducto}</p>
+          <p style="margin: 0;"><strong>Descripción:</strong> ${descripcionProducto}</p>
+          <p style="margin: 0;"><strong>WhatsApp:</strong> <a href="https://api.whatsapp.com/send?phone=+56>${numeroContacto}<" style="text-decoration: none;">Enviar mensaje</a></p>
+        </div>
+        `;  
+        // Crear el infowindow del marcador
+        const infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+      
+        // Abrir el infowindow cuando se haga clic en el marcador
+        marker.addListener('click', () => {
+            infowindow.open(this.map, marker);
+        });
+      
+        // Agregar el infowindow y el marcador a las listas correspondientes
+        this.infoWindows.push(infowindow);  
+        this.markers.push(marker);
+    } catch (error) {
+        console.error("Error al crear el marcador: ", error);
     }
+  }
   }
 
   closeAllInfoWindows() {
